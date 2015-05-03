@@ -7,9 +7,10 @@
   sudo: true
   apt:  pkg={{item}} state=latest install_recommends=no
   with_items:
-    - hostapd
-    - udhcpd
-    - iw
+    - hostapd    # access point demon
+    - udhcpd     # dhcp demon
+    - bmon       # in-console bandwidth monitor
+    - iw         # wifi configurator
 
 - name: configure /etc/udhcpd.conf
   lineinfile: 
