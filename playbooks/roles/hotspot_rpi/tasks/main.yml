@@ -20,6 +20,13 @@
     dest: /usr/sbin/hostapd
     mode: "a+rx"
 
+- name: fix an error in /etc/init.d/hostapd
+  sudo: true
+  lineinfile:
+    dest: /etc/init.d/hostapd
+    line: "DAEMON_CONF=/etc/hostapd/hostapd.conf"
+    regexp: "^DAEMON_CONF="
+
 - name: configure /etc/udhcpd.conf
   lineinfile: 
     dest:        /etc/udhcpd.conf
