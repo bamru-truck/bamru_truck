@@ -1,1 +1,1 @@
-ansible-playbook -i ./inventory/hosts.ini rpi.yml
+ansible-playbook -i ./inventory/hosts.ini rpi.yml --ask-pass
