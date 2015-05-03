@@ -12,6 +12,7 @@
     - bmon         # in-console bandwidth monitor
     - iw           # wifi configurator
     - bridge-utils # bridge-utils
+    - iptables-persistent
 
 - name: install a bug-fix version of hostapd
   sudo: true
@@ -46,15 +47,15 @@
   sudo: true
   lineinfile:
     dest:   /etc/default/udhcpd
-    line:   '^#DHCPD_ENABLED'
-    regexp: 'DHCPD_ENABLED="yes"'
+    regexp: '^#DHCPD_ENABLED'
+    line:   'DHCPD_ENABLED="yes"'
 
 - name: configure /etc/default/hostapd
   sudo: true
   lineinfile:
     dest:   /etc/default/hostapd
-    line:   '^DAEMON_CONF'
-    regexp: 'DAEMON_CONF="/etc/hostapd/hostapd.conf'
+    regexp: '^DAEMON_CONF'
+    line:   'DAEMON_CONF="/etc/hostapd/hostapd.conf'
 
 - name: setup network interfaces
   sudo: true
