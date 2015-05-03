@@ -1,0 +1,24 @@
+---
+# TO BRING UP A NEW MACHINE
+# first: install raspian onto new - make sure sshd is enabled!
+# then: ansible_playbook rpi.yml --ask-pass
+#
+# this sets up SSH keys 
+# subsequent runs don't require `--ask-pass`
+#
+
+- hosts:      rpi   
+  vars:
+    - lcl_user:  aleak      # EDIT THIS - your userid
+    - rem_user:  pi         # default password: raspberry
+  remote_user: "{{rem_user}}"
+  sudo: true
+  roles:
+    - { role: roles/setup_ssh , rem_user: "pi"     }      
+    - { role: roles/cli_user  , rem_user: "aleak"  } 
+    - { role: roles/cli_user  , rem_user: "mgregg" } 
+    - roles/cli_tzone
+    - roles/cli_base_rpi
+    - roles/pips
+    - roles/tmux_rpi
+    - roles/hotspot_rpi

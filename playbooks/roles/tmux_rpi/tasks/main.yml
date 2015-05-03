@@ -1,0 +1,11 @@
+---
+
+# tmux_rpi
+
+- name: copy tmux executable
+  sudo: true
+  copy:
+    src: tmux
+    dest: /usr/local/bin/tmux
+    mode: 'a+rx'
+

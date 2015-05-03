@@ -1,0 +1,10 @@
+---
+
+# pips - install pip modules
+
+- name: install pip modules
+  sudo: true
+  pip: name="{{item}}" state=latest
+  with_items:
+    - httpie
+

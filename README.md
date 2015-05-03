@@ -1,2 +1,3 @@
 # bamru_truck
-Development repo for the BAMRU gateway
+
+Development repo for the BAMRU_TRUCK wifi gateway
