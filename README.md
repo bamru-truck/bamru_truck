@@ -17,6 +17,10 @@ https://www.raspberrypi.org/documentation/installation/installing-images/README.
 
 5) choose a unique hostname & setup DNS or /etc/hosts with the RPi name/address
 
+6) plug in the USB-WIFI and an ethernet cable
+
+7) now you should be able to `ssh pi@<hostname>`
+
 ## Ansible Configuration
 
 1) install latest version of Ansible to your Ubuntu laptop
@@ -25,9 +29,20 @@ http://docs.ansible.com/intro_installation.html#latest-releases-via-apt-ubuntu
 
 2) clone the repo and CD to the `playbooks` directory
 
-3) edit `inventory/hosts-<your_username>.ini` - add the RPi hostname
+3) edit `inventory/hosts-<your_username>.ini` - add the RPi hostname and SSID
 
-4) run ansible: `./config`
+4) run `./config` to load a bunch of software and configure the hotspot
 
 Notes:
 - user-account passwords will be set to 'BamruTruck'
+
+## Using the RPi hotspot
+
+1) You should see the RPi SSID on your laptop network chooser
+
+2) RPi Wifi Passwd is `werescue`
+
+3) You should connect and get a IP address (view with `ifconfig`)
+
+4) Your wifi connection speed should be as good as a commercial hotspot
+
