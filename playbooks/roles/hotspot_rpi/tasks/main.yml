@@ -55,7 +55,7 @@
   lineinfile:
     dest:   /etc/default/hostapd
     regexp: '^DAEMON_CONF'
-    line:   'DAEMON_CONF="/etc/hostapd/hostapd.conf'
+    line:   'DAEMON_CONF="/etc/hostapd/hostapd.conf"'
 
 - name: setup network interfaces
   sudo: true
