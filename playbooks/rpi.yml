@@ -1,11 +1,5 @@
 ---
-# TO BRING UP A NEW MACHINE
-# first: install raspian onto new - make sure sshd is enabled!
-# then: ansible_playbook rpi.yml --ask-pass
-#
-# this sets up SSH keys 
-# subsequent runs don't require `--ask-pass`
-#
+# USE THE CONFIG SCRIPT TO BRING UP A NEW MACHINE
 
 - hosts:      rpi   
   vars:
