@@ -1,1 +1,29 @@
-ansible-playbook -i ./inventory/hosts.ini rpi.yml --ask-pass
+#!/bin/bash
+
+# optional: use a user-specific host file.
+# this option is provided so different users
+# can perform tests independently.
+base_hosts="./inventory/hosts.ini"
+user_hosts="./inventory/hosts_$USER.ini"
+
+hosts=$base_hosts
+[ -f $user_hosts ] && hosts=$user_hosts
+
+echo using host file $hosts
+
+# by default, ansible will ask for the remote
+# user password using the '--ask-pass' option.
+# after ssh keys are provisioned, passwords
+# are no longer required.  The 'nopass' command
+# line option skips the password prompt.
+arg=" --ask-pass"
+
+[[ "$1" == "nopass" ]] && arg=""
+
+cmd="ansible-playbook -i $hosts rpi.yml$arg"
+
+echo running \'$cmd\'
+
+# execute the command
+$cmd
+
