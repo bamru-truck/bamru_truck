@@ -9,7 +9,8 @@
 
 - hosts:      rpi   
   vars:
-    - lcl_user:  aleak      # EDIT THIS - your userid
+    # - lcl_user:  aleak      # EDIT THIS - your userid
+    - lcl_user:  "{{ ansible_ssh_user }}"
     - rem_user:  pi         # default password: raspberry
   remote_user: "{{rem_user}}"
   sudo: true
