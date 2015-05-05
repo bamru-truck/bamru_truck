@@ -32,6 +32,10 @@ Hacker News discussion: https://news.ycombinator.com/item?id=9482696
 
 http://wiki.openwrt.org/doc/howto/bwmon 
 
+## Network Configuration Reference
+
+http://www.computerhope.com/unix/ifup.htm
+
 ## 3g signal booster
 
 http://www.amazon.com/Wilson-460109-Booster-Antenna-Formerly/dp/B00R1SLB02
