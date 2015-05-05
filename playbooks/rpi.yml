@@ -3,7 +3,7 @@
 
 - hosts:      rpi   
   vars:
-    - lcl_user:  "{{ ansible_ssh_user }}"
+    - lcl_user:  "{{ lookup('env', 'USER') }}"
     - rem_user:  pi                
   remote_user: "{{rem_user}}"
   sudo: true

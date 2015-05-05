@@ -43,10 +43,10 @@
     - ruby1.9.3                  # ruby
     - exuberant-ctags            # vim file navigation
     - vim-gnome                  # vim!
-    - redis-server               # redis
-    - postgresql-9.1             # postgres
-    - pgadmin3                   # pgadmin
-    - collectd                   # stats collector
+    # - redis-server               # redis
+    # - postgresql-9.1             # postgres
+    # - pgadmin3                   # pgadmin
+    # - collectd                   # stats collector
 
 - name: remove packages
   sudo: true
