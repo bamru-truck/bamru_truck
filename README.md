@@ -3,6 +3,8 @@
 This guide assumes you've got an Ubuntu laptop with an SD card reader/writer,
 and a RPi2 with a USB-WIFI device that runs in master mode.
 
+Github Repo: `https://github.com/cinchcircuits/bamru_truck.git`
+
 ## New RPi Setup
 
 1) load Raspian onto a SD card
