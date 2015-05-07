@@ -92,7 +92,11 @@
 
 - name: save IPTABLES settings
   sudo:  true
-  shell: "sh -c 'iptables-save > /etc/iptables.ipv4.nat'"
+  shell: "{{item}}"
+  with_items:
+    - "sh -c 'iptables-save > /etc/iptables/rules.v4'"
+    - "sh -c 'rm -f /etc/iptables.ipv4.nat'"
+    - "sh -c 'ln -s /etc/iptables/rules.v4 /etc/iptables.ipv4.nat'"
 
 - name: start the access point
   sudo:  true
