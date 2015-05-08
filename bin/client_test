@@ -1,0 +1,7 @@
+# This script will run on a client machine to determine if it can connect
+# to the RPi wifi hotspot.
+#
+# UNDER CONSTRUCTION!
+#
+# to list the visible wifi hotspots:
+# sudo iwlist wlan0 scan | grep ESSID
