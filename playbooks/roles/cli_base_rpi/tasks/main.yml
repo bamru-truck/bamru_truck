@@ -43,6 +43,12 @@
     - ruby1.9.3                  # ruby
     - exuberant-ctags            # vim file navigation
     - vim-gnome                  # vim!
+    - mlocate                    # For locating files on the RPI
+    - iptraf                     # IP traffic monitor
+    - subversion                 # Alternate scm software
+    - strace                     # Util for diagnosing binary problems
+    - tcpdump                    # Util for watching ip traffic
+    - ntpdate                    # NTP util to suppliment ntpd
     # - redis-server               # redis
     # - postgresql-9.1             # postgres
     # - pgadmin3                   # pgadmin
