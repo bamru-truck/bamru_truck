@@ -1,0 +1,5 @@
+failed: [dog3] => (item=iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE) => {"changed": true, "cmd": "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", "delta": "0:00:00.026647", "end": "2015-05-12 03:33:19.664446", "item": "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE", "rc": 3, "start": "2015-05-12 03:33:19.637799"}
+stderr: libkmod: ERROR ../libkmod/libkmod.c:554 kmod_search_moddep: could not open moddep file '/lib/modules/3.18.7-v7+/modules.dep.bin'
+iptables v1.4.14: can't initialize iptables table `nat': Table does not exist (do you need to insmod?)
+Perhaps iptables or your kernel needs to be upgraded.
+

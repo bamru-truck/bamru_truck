@@ -14,7 +14,7 @@
     - bridge-utils # bridge-utils
     - iptables-persistent
 
-- name: Backup hostapd binary
+- name: backup hostapd binary
   sudo: true
   shell: if [ ! -f /usr/sbin/hostapd.backup ]; then cp -a /usr/sbin/hostapd /usr/sbin/hostapd.backup; fi
   
@@ -25,7 +25,7 @@
     dest: /usr/sbin/hostapd
     mode: "a+rx"
 
-- name: Revert verison of hostapd if using a rt2x00usb card
+- name: revert verison of hostapd if using a rt2x00usb card
   sudo: true
   shell: lsmod | grep rt2x00usb; if [ $? -eq 0 ]; then cp -a /usr/sbin/hostapd /usr/sbin/hostapd.alternate; rm -f /usr/sbin/hostapd; cp -a /usr/sbin/hostapd.backup /usr/sbin/hostapd; fi 
 
@@ -91,6 +91,16 @@
 - name: turn on IP forwarding
   sudo: true
   shell: sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+
+- name: modprobe ip_tables
+  sudo: true
+  command: modprobe ip_tables
+
+- name: enable ip_tables on reboot
+  sudo: true
+  lineinfile:
+    dest: /etc/modules
+    line: "ip_tables"
 
 - name: enable NAT in the kernel 
   sudo: true
