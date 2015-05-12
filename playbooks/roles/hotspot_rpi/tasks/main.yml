@@ -14,12 +14,20 @@
     - bridge-utils # bridge-utils
     - iptables-persistent
 
+- name: Backup hostapd binary
+  sudo: true
+  shell: if [ ! -f /usr/sbin/hostapd.backup ]; then cp -a /usr/sbin/hostapd /usr/sbin/hostapd.backup; fi
+  
 - name: install a bug-fix version of hostapd
   sudo: true
   copy: 
     src: hostapd
     dest: /usr/sbin/hostapd
     mode: "a+rx"
+
+- name: Revert verison of hostapd if using a rt2x00usb card
+  sudo: true
+  shell: lsmod | grep rt2x00usb; if [ $? -eq 0 ]; then cp -a /usr/sbin/hostapd /usr/sbin/hostapd.alternate; rm -f /usr/sbin/hostapd; cp -a /usr/sbin/hostapd.backup /usr/sbin/hostapd; fi 
 
 - name: fix an error in /etc/init.d/hostapd
   sudo: true
@@ -56,6 +64,14 @@
     dest:   /etc/default/hostapd
     regexp: '^DAEMON_CONF'
     line:   'DAEMON_CONF="/etc/hostapd/hostapd.conf"'
+
+- name: update udhcpd init to bring up wlan0 before starting
+  sudo: true
+  shell: sudo sed -i s=^set\ -e=set\ -e'\n'ifup\ wlan0=g /etc/init.d/udhcpd
+
+- name: update udhcpd init to touch leases file
+  sudo: true
+  shell: sudo sed -i s=^set\ -e=set\ -e'\n'touch\ /var/lib/misc/udhcpd.leases=g /etc/init.d/udhcpd   
 
 - name: setup network interfaces
   sudo: true
