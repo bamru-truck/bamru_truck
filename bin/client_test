@@ -3,5 +3,6 @@
 #
 # UNDER CONSTRUCTION!
 #
-# to list the visible wifi hotspots:
-# sudo iwlist wlan0 scan | grep ESSID
+# list the visible wifi hotspots:
+echo Visible Hotspots:
+sudo iwlist wlan0 scan | grep ESSID
