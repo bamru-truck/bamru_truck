@@ -69,3 +69,7 @@ at+cgdcont=1,"IP","truphone.com"
 ## Page on setting up a sierra pppd device with lockout
 
 https://wiki.ubuntu.com/SierraMC8775
+
+## Page with driver links for hp version of mc8775
+http://www.3g-modem-wiki.com/page/Sierra+Wireless+MC8775+%26+MC8775v
+ftp://ftp.hp.com/pub/softpaq/sp36501-37000/sp36889.exe
