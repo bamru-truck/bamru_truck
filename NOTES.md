@@ -66,4 +66,6 @@ at+cgdcont=1,"IP","truphone.com"
 
 `pi@raspberrypi ~ $ sudo ./sakis3g connect --console --nostorage --pppd CUSTOM_APN=truphone.com APN=truphone.com BAUD=115200 CUSTOM_TTY="/dev/ttyAMA0" MODEM="/dev/ttyAMA0" TTY="/dev/ttyAMA0" OTHER="CUSTOM_TTY" APN_USER=' ' APN_PASS=' '`
 
+## Page on setting up a sierra pppd device with lockout
 
+https://wiki.ubuntu.com/SierraMC8775
