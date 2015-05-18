@@ -66,4 +66,10 @@ at+cgdcont=1,"IP","truphone.com"
 
 `pi@raspberrypi ~ $ sudo ./sakis3g connect --console --nostorage --pppd CUSTOM_APN=truphone.com APN=truphone.com BAUD=115200 CUSTOM_TTY="/dev/ttyAMA0" MODEM="/dev/ttyAMA0" TTY="/dev/ttyAMA0" OTHER="CUSTOM_TTY" APN_USER=' ' APN_PASS=' '`
 
+## Page on setting up a sierra pppd device with lockout
 
+https://wiki.ubuntu.com/SierraMC8775
+
+## Page with driver links for hp version of mc8775
+http://www.3g-modem-wiki.com/page/Sierra+Wireless+MC8775+%26+MC8775v
+ftp://ftp.hp.com/pub/softpaq/sp36501-37000/sp36889.exe
