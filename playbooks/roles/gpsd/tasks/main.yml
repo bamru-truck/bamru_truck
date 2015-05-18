@@ -10,6 +10,7 @@
     - usbutils     # Utilities to examine usb devices
     - gpsd         # Main gpsd server
     - gpsd-clients # Supporting client packages
+    - minicom      # Tool useful to diagnose what is going on with a tty device
   
 - name: install shell script to alter ttyUSBGPS link
   sudo: true
@@ -18,12 +19,13 @@
     dest: /bin/setup-usb-gps.bash
     mode: "a+rx"
 
-- name: Populate DEVICES in /etc/default/gpsd
-  sudo: true
-  lineinfile:
-    dest:   /etc/init.d/hostapd
-    line:   "DEVICES=\"\""
-    regexp: "^DEVICES=\"/dev/ttyUSBGPS\""
+- name: configure /etc/default/gpsd
+  lineinfile: 
+    dest:    /etc/default/gpsd
+    line:    "{{ item.line }}" 
+    regexp:  "{{ item.reg }}"
+  with_items:
+    - {reg: "^DEVICES=\"\""                 , line: "DEVICES=\"/dev/ttyUSBGPS\""      }
 
 - name: auto-start gpsd point on Boot
   sudo:  true

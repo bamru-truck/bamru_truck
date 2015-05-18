@@ -21,5 +21,7 @@ This will also work with a generic NMEA output gps with a ftdi hooked to them.
     sudo minicom  -b 9600 -D /dev/ttyUSBGPS
     or:
     sudo minicom  -b 57600 -D /dev/ttyUSBGPS
-8. Restart gpsd
+8. Otherwise, as any user run "gpspipe -w"
+    if it's working, you should see a bunch of gps sort of data going by.
+9. Restart gpsd
     sudo /etc/init.d/gpsd restart
