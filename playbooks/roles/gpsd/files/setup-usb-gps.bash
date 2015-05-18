@@ -56,11 +56,21 @@ write_udev_rules()
 	echo $newUdev >> $rulesFile
 }
 
+# Restart gpsd service
+restart_gpsd()
+{
+	echo "Restarting gpsd"
+	/usr/sbin/service gpsd restart
+	/etc/init.d/gpsd restart
+}
+
 # Restart udev service
 restart_udev()
 {
 	echo "Restarting Udev"
 	/usr/sbin/service udev restart
+	/etc/init.d/udev restart
+	restart_gpsd
 }
 
 # Prompt user to unplug the GPS device

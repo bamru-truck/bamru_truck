@@ -48,3 +48,6 @@ Notes:
 
 4) Your wifi connection speed should be as good as a commercial hotspot
 
+## Adding a GPS to your hotspot
+
+1) Readplaybooks/roles/gpsd/README.md
