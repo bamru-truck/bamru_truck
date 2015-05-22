@@ -16,3 +16,4 @@
     - roles/pips
     - roles/tmux_rpi
     - roles/hotspot_rpi
+    - roles/gpsd

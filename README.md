@@ -48,3 +48,6 @@ Notes:
 
 4) Your wifi connection speed should be as good as a commercial hotspot
 
+## Adding a GPS to your hotspot
+
+1) https://github.com/cinchcircuits/bamru_truck/blob/gpsd/playbooks/roles/gpsd/README.md
