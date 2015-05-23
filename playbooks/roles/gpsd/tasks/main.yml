@@ -1,7 +1,6 @@
 ---
 
-# rpi_hotspot
-# see http://elinux.org/RPI-Wireless-Hotspot
+# gpsd
 
 - name: install support packages
   sudo: true
