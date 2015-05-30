@@ -29,6 +29,10 @@
   sudo: true
   shell: lsmod | grep rt2x00usb; if [ $? -eq 0 ]; then cp -a /usr/sbin/hostapd /usr/sbin/hostapd.alternate; rm -f /usr/sbin/hostapd; cp -a /usr/sbin/hostapd.backup /usr/sbin/hostapd; fi 
 
+- name: revert verison of hostapd if using atheros usb card www.amazon.com/gp/product/B00IZ5GNSA
+  sudo: true
+  shell: lsmod | grep IMC\ Networks; if [ $? -eq 0 ]; then cp -a /usr/sbin/hostapd /usr/sbin/hostapd.alternate; rm -f /usr/sbin/hostapd; cp -a /usr/sbin/hostapd.backup /usr/sbin/hostapd; fi 
+
 - name: fix an error in /etc/init.d/hostapd
   sudo: true
   lineinfile:
