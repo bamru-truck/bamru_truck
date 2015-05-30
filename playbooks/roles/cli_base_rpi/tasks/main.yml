@@ -49,6 +49,9 @@
     - strace                     # Util for diagnosing binary problems
     - tcpdump                    # Util for watching ip traffic
     - ntpdate                    # NTP util to suppliment ntpd
+    - nmap                       # Utility for probing ip's on the network
+    - traceroute                 # For diagnosing issues with routes
+    - vim                        # Console editor that I like 
     # - redis-server               # redis
     # - postgresql-9.1             # postgres
     # - pgadmin3                   # pgadmin
