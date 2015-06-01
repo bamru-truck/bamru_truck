@@ -50,4 +50,4 @@ Notes:
 
 ## Adding a GPS to your hotspot
 
-1) https://github.com/cinchcircuits/bamru_truck/blob/gpsd/playbooks/roles/gpsd/README.md
+1) https://github.com/cinchcircuits/bamru_truck/blob/master/playbooks/roles/gpsd/README.md
