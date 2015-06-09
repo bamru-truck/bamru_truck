@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo Running Development Server
+
+rerun app.rb
+

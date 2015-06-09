@@ -1,0 +1,18 @@
+---
+
+# web_admin
+
+- name: install support software
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=no
+  with_items:
+    - ruby              # interpreter for ruby language
+
+- name: install ruby gems
+
+- name: install web_admin application
+
+- name: setup inittab process
+
+- name: start the server
+

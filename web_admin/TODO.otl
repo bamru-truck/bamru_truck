@@ -1,0 +1,6 @@
+TODO
+	[_] finish install script (ansible)
+	[_] finish deploy script (bash -> ansible)
+	[_] add some styling
+	[_] add 'ls' example
+	[_] add example to call script

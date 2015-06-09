@@ -1,0 +1,15 @@
+<html>
+  <body>
+    <h1>
+      RPi Hotspot Admin
+    </h1>
+    <div id='header_nav'>
+    <%= hdrs.map {|el| link_to_unless_current(*el.split(':'))}.join(' | ') %>
+    </div>
+    <hr>
+    <div id='content'>
+      <%= yield %>
+    </div>
+  </body>
+</html>
+
