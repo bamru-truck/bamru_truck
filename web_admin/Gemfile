@@ -3,3 +3,5 @@ source "https://rubygems.org"
 gem "sinatra"  # webapp framework
 
 gem "foreman"  # manage init scripts
+
+gem "rerun"    # dev server - auto-reloads changed files 

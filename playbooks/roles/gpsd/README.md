@@ -1,6 +1,6 @@
 # Installing and configuring gpsd 
 
-This moule is tested to work with this sort of reciever:
+This module is tested to work with this sort of reciever:
 
 http://www.amazon.com/GlobalSat-BU-353-S4-USB-Receiver-Black/dp/B008200LHW
 
