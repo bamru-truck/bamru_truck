@@ -6,8 +6,14 @@ helpers do
     "<a href='#{path}'>#{label}</a>"
   end
 
-  def hdrs
+  def navdata
     %w(/:Home /erb:ERB_TEST /time:Time /ls:LS)
+  end
+
+  def navbar
+    navdata.map do |el|
+      link_to_unless_current(*el.split(':'))
+    end.join(' | ')
   end
 end
 
