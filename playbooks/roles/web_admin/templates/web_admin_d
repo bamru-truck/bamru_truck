@@ -1,0 +1,32 @@
+#!/bin/bash
+# /etc/init.d/web_admin_d
+
+### BEGIN INIT INFO
+# Provides:          web_admin_d
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: web admin demon
+# Description:       used to manage server 
+### END INIT INFO
+
+case "$1" in 
+  start)
+    echo "Starting web_admin_d"
+    cd /home/{{deploy_user}}/apps/web_admin
+    mkdir -p log
+    RACK_ENV=production ruby app.rb -o 0.0.0.0 > log/output.txt 2>1 &
+    ;;
+  stop)
+    echo "Stopping web_admin_d"
+    killall ruby
+    ;;
+  *)
+    echo "Usage: /etc/init.d/web_admin_d start|stop"
+    exit 1
+    ;;
+esac
+
+exit 0
+

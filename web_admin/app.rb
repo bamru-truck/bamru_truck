@@ -1,5 +1,8 @@
 require 'sinatra'
 
+set :bind   , '0.0.0.0'  # listen on any interface
+set :logging, true       # apache-style 1-line log output
+
 helpers do
   def link_to_unless_current(path, label)
     return label if path == request.path_info

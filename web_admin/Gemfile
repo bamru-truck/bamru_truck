@@ -1,5 +1,8 @@
 source "https://rubygems.org"
 
+# for development only
+# on production, install gems with ansible
+
 gem "sinatra"  # webapp framework
 
 gem "foreman"  # manage init scripts

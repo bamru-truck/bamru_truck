@@ -9,10 +9,45 @@
     - ruby              # interpreter for ruby language
 
 - name: install ruby gems
+  sudo: true
+  gem: name={{item}} state=latest
+  with_items:
+    - bundler
+    - sinatra
 
-- name: install web_admin application
+- name: install github repo
+  git:
+    repo:   "https://github.com/cinchcircuits/bamru_truck"
+    dest:   "/home/{{deploy_user}}/apps"
+    depth:  1
+    force:  true
+    update: true
 
-- name: setup inittab process
+- name: remove extra files
+  sudo: true
+  file:
+    path: "/home/{{deploy_user}}/apps/{{item}}"
+    state: "absent"
+  with_items:
+    - "README.md"
+    - "NOTES.md"
+    - "bin"
+    - "playbooks"
+  changed_when: false
 
-- name: start the server
+- name: set file ownership
+  file:
+    state: directory
+    path:  "/home/{{deploy_user}}/apps"
+    owner: "{{deploy_user}}"
+    group: "{{deploy_user}}"
+    recurse: true
+
+- name: setup init script
+  template: 
+    src:  web_admin_d
+    dest: /etc/init.d
+    mode: o+rwx
+
+# - name: start the server
 
