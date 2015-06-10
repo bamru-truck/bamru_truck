@@ -19,16 +19,17 @@ http://blog.daviddollar.org/2011/05/06/introducing-foreman.html
 
 To set up a local development environment on Ubuntu:
 
-+--------------------+-----------------------------+-----------------------------+
-| Step               | Command                     | Comment                     |
-+--------------------+-----------------------------+-----------------------------+
-| 1) Install Ruby    | > sudo apt-get install ruby | installs Ruby 1.9.3         |
-| 2) Install Bundler | > sudo gem install bundler  | note [1]                    |
-| 3) Install Gems    | > bundle install            | loads everything in Gemfile |
-| 4) Run the app     | > bin/run                   | runs the app on port 4567   |
-+--------------------+-----------------------------+-----------------------------+
++--------------------+-------------------------------------+-----------------------------+
+| Step               | Command                             | Comment                     |
++--------------------+-------------------------------------+-----------------------------+
+| 1) Install Ruby    | > sudo apt-get install ruby         | installs Ruby 1.9.3         |
+| 2) Install Bundler | > sudo apt-get install ruby-bundler | note [1]                    |
+| 3) Install Gems    | > bundle install                    | loads everything in Gemfile |
+| 4) Run the app     | > bin/run                           | runs the app on port 4567   |
++--------------------+-------------------------------------+-----------------------------+
 
 note [1]
+- May be accomplished with "sudo gem install bundler" instead, but this is discouraged.
 - might run this without `sudo`
 - this installs all the support software in the `Gemfile`
 
