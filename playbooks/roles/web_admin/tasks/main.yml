@@ -4,7 +4,7 @@
 
 - name: install support software
   sudo: true
-  apt:  pkg={{item}} state=latest install_recommends=no
+  apt:  pkg={{item}} state=present install_recommends=no
   with_items:
     - ruby              # interpreter for ruby language
 
@@ -49,5 +49,11 @@
     dest: /etc/init.d
     mode: o+rwx
 
-# - name: start the server
+- name: auto-start the server on reboot
+  sudo: true
+  shell: "update-rc.d web_admin_d defaults"
+
+- name: start the server
+  sudo: true
+  service: name=web_admin_d state=started
 

@@ -16,7 +16,7 @@ case "$1" in
     echo "Starting web_admin_d"
     cd /home/{{deploy_user}}/apps/web_admin
     mkdir -p log
-    RACK_ENV=production ruby app.rb -o 0.0.0.0 > log/output.txt 2>1 &
+    RACK_ENV=production ruby app.rb > log/output.txt 2>&1 &
     ;;
   stop)
     echo "Stopping web_admin_d"

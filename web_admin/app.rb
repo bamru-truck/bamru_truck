@@ -1,7 +1,7 @@
 require 'sinatra'
 
-set :bind   , '0.0.0.0'  # listen on any interface
-set :logging, true       # apache-style 1-line log output
+$PROGRAM_NAME = 'web_admin_d'  # set the process name
+set :bind, '0.0.0.0'           # listen on any interface
 
 helpers do
   def link_to_unless_current(path, label)
