@@ -3,8 +3,8 @@ source "https://rubygems.org"
 # for development only
 # on production, install gems with ansible
 
-gem "sinatra"  # webapp framework
+gem "thin"     # web server
 
-gem "foreman"  # manage init scripts
+gem "sinatra"  # webapp framework
 
 gem "rerun"    # dev server - auto-reloads changed files 

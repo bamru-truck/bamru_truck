@@ -14,6 +14,7 @@
   with_items:
     - bundler
     - sinatra
+    - thin
 
 - name: install github repo
   git:

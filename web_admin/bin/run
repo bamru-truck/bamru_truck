@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-echo Running Development Server
-
-rerun app.rb
+if [ "$RACK_ENV" == "production"]; then
+  thin --rackup config.ru start
+else
+  rerun "thin --rackup config.ru start"
+fi
 

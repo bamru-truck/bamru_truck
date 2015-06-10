@@ -16,11 +16,11 @@ case "$1" in
     echo "Starting web_admin_d"
     cd /home/{{deploy_user}}/apps/web_admin
     mkdir -p log
-    RACK_ENV=production ruby app.rb > log/output.txt 2>&1 &
+    RACK_ENV=production bin/run > log/output.txt 2>&1 &
     ;;
   stop)
     echo "Stopping web_admin_d"
-    killall ruby
+    pkill -f web_admin_d
     ;;
   *)
     echo "Usage: /etc/init.d/web_admin_d start|stop"
