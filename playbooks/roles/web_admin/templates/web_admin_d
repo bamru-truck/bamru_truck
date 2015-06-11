@@ -11,24 +11,57 @@
 # Description:       used to manage server 
 ### END INIT INFO
 
+LOGFILE="log/output.txt"
+
+divider () {
+  echo "---------------------------------------------" >> $LOGFILE
+}
+
+header () {
+  divider
+  echo $1 >> $LOGFILE
+  date >> $LOGFILE
+  divider
+}
+
+set_env () {
+  export GEM_PATH=/root/.gem/ruby/1.9.1:/var/lib/gems/1.9.1
+  cd /home/{{deploy_user}}/apps/web_admin
+  mkdir -p log
+}
+
+show_env () {
+  date >> $LOGFILE
+  whoami >> $LOGFILE
+  echo $PATH >> $LOGFILE
+  which ruby >> $LOGFILE
+  which thin >> $LOGFILE
+  which gem  >> $LOGFILE
+  gem list   >> $LOGFILE
+  divider
+}
+
+start_service () {
+  header "Starting web_admin_d" 
+  set_env
+  show_env
+  RACK_ENV=production bin/run > $LOGFILE 2>&1 &
+}
+
+stop_service () {
+  header "Stopping web_admin_d" 
+  pkill -f web_admin_d
+}
+
 case "$1" in 
-  start)
-    LOGFILE="log/output.txt"
-    cd /home/{{deploy_user}}/apps/web_admin
-    mkdir -p log
-    echo "Starting web_admin_d" > $LOGFILE
-    date >> $LOGFILE
-    whoami >> $LOGFILE
-    echo $PATH >> $LOGFILE
-    which ruby >> $LOGFILE
-    which thin >> $LOGFILE
-    which gem  >> $LOGFILE
-    gem list   >> $LOGFILE
-    RACK_ENV=production bin/run > $LOGFILE 2>&1 &
+  start) start_service
     ;;
-  stop)
-    echo "Stopping web_admin_d"
-    pkill -f web_admin_d
+  stop) stop_service
+    ;;
+  restart)
+    stop_service
+    sleep 1
+    start_service
     ;;
   *)
     echo "Usage: /etc/init.d/web_admin_d start|stop"
