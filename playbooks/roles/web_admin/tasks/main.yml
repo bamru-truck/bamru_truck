@@ -7,6 +7,7 @@
   apt:  pkg={{item}} state=present install_recommends=no
   with_items:
     - ruby              # interpreter for ruby language
+    - ruby-dev
 
 - name: install ruby gems
   sudo: true
@@ -15,6 +16,21 @@
     - bundler
     - sinatra
     - thin
+    - rerun
+
+- name: update default path for root and normal user
+  sudo: true
+  lineinfile:
+    dest: /etc/login.defs
+    state: present
+    backrefs: true
+    regexp: 'PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
+    regexp: '^({{ item }}(?:(?!:\/root\/.gem).)*)'
+    line:   '\1:/root/.gem/ruby/1.9.1/bin' 
+  with_items:
+    - "ENV_SUPATH"
+    - "ENV_PATH"
+  changed_when: false
 
 - name: install github repo
   git:
@@ -48,11 +64,11 @@
   template: 
     src:  web_admin_d
     dest: /etc/init.d
-    mode: o+rwx
+    mode: a+rx
 
 - name: auto-start the server on reboot
   sudo: true
-  shell: "update-rc.d web_admin_d defaults"
+  shell: "update-rc.d web_admin_d enable"
 
 - name: start the server
   sudo: true

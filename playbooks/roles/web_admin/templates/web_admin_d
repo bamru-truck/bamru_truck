@@ -13,10 +13,18 @@
 
 case "$1" in 
   start)
-    echo "Starting web_admin_d"
+    LOGFILE="log/output.txt"
     cd /home/{{deploy_user}}/apps/web_admin
     mkdir -p log
-    RACK_ENV=production bin/run > log/output.txt 2>&1 &
+    echo "Starting web_admin_d" > $LOGFILE
+    date >> $LOGFILE
+    whoami >> $LOGFILE
+    echo $PATH >> $LOGFILE
+    which ruby >> $LOGFILE
+    which thin >> $LOGFILE
+    which gem  >> $LOGFILE
+    gem list   >> $LOGFILE
+    RACK_ENV=production bin/run > $LOGFILE 2>&1 &
     ;;
   stop)
     echo "Stopping web_admin_d"
