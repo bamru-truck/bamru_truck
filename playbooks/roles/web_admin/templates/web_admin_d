@@ -21,7 +21,6 @@ header () {
   divider
   echo $1 >> $LOGFILE
   date >> $LOGFILE
-  divider
 }
 
 set_env () {
@@ -31,6 +30,7 @@ set_env () {
 }
 
 show_env () {
+  divider
   date >> $LOGFILE
   whoami >> $LOGFILE
   echo $PATH >> $LOGFILE
@@ -38,17 +38,18 @@ show_env () {
   which thin >> $LOGFILE
   which gem  >> $LOGFILE
   gem list   >> $LOGFILE
-  divider
 }
 
 start_service () {
   header "Starting web_admin_d" 
   set_env
   show_env
+  divider
   RACK_ENV=production bin/run > $LOGFILE 2>&1 &
 }
 
 stop_service () {
+  set_env
   header "Stopping web_admin_d" 
   pkill -f web_admin_d
 }
@@ -64,7 +65,7 @@ case "$1" in
     start_service
     ;;
   *)
-    echo "Usage: /etc/init.d/web_admin_d start|stop"
+    echo "Usage: /etc/init.d/web_admin_d start|stop|restart"
     exit 1
     ;;
 esac
