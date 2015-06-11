@@ -31,13 +31,13 @@ set_env () {
 
 show_env () {
   divider
-  date >> $LOGFILE
-  whoami >> $LOGFILE
+  whoami     >> $LOGFILE
   echo $PATH >> $LOGFILE
   which ruby >> $LOGFILE
   which thin >> $LOGFILE
   which gem  >> $LOGFILE
   gem list   >> $LOGFILE
+  gem env    >> $LOGFILE
 }
 
 start_service () {
@@ -55,9 +55,11 @@ stop_service () {
 }
 
 case "$1" in 
-  start) start_service
+  start) 
+    start_service
     ;;
-  stop) stop_service
+  stop) 
+    stop_service
     ;;
   restart)
     stop_service
