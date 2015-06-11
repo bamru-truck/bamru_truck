@@ -11,7 +11,7 @@
 # Description:       used to manage server 
 ### END INIT INFO
 
-LOGFILE="log/output.txt"
+LOGFILE="log/production"
 
 divider () {
   echo "---------------------------------------------" >> $LOGFILE
@@ -45,7 +45,7 @@ start_service () {
   header "Starting web_admin_d" 
   show_env
   divider
-  RACK_ENV=production bin/run >> $LOGFILE 2>&1 &
+  RACK_ENV=production bin/run >> $LOGFILE 2>&1 & 
 }
 
 stop_service () {
