@@ -68,7 +68,7 @@
 
 - name: auto-start the server on reboot
   sudo: true
-  shell: "update-rc.d web_admin_d enable"
+  shell: "update-rc.d web_admin_d defaults"
 
 - name: start the server
   sudo: true

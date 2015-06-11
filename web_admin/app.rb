@@ -5,7 +5,7 @@ require 'sinatra/base'
 class WebAdmin < Sinatra::Base
   enable :logging
   set :bind, '0.0.0.0'           # listen on any interface
-  set :port, 4567                # force port 4567
+
   helpers do
     def link_to_unless_current(path, label)
       return label if path == request.path_info
