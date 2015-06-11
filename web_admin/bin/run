@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$RACK_ENV" == "production" ]; then
-  thin --rackup config.ru start
+  /usr/local/sbin/thin --rackup config.ru start
 else
   rerun "thin --rackup config.ru start"
 fi
