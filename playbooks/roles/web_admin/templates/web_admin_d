@@ -36,7 +36,6 @@ show_env () {
   which ruby >> $LOGFILE
   which thin >> $LOGFILE
   which gem  >> $LOGFILE
-  gem list   >> $LOGFILE
   gem env    >> $LOGFILE
 }
 
