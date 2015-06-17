@@ -58,6 +58,12 @@
     dest: /etc/init.d
     mode: a+rx
 
+- name: configure log rotation
+  sudo: true
+  template:
+    src: logrotate
+    dest: /etc/logrotate.d/web_admin
+
 - name: auto-start the server on reboot
   sudo: true
   shell: "update-rc.d web_admin_d defaults"

@@ -1,3 +1,4 @@
-# managed by Ansible - do not edit 
+# {{ansible_managed}}
+# {{template_path}}
 ---
 gem: --bindir /usr/local/sbin --no-ri --no-rdoc

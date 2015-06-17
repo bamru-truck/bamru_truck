@@ -1,7 +1,8 @@
 #!/bin/bash
 # /etc/init.d/web_admin_d
 
-# managed by Ansible - do not edit
+# {{ansible_managed}}
+# {{template_path}}
 
 ### BEGIN INIT INFO
 # Provides:          web_admin_d
@@ -13,7 +14,7 @@
 # Description:       used to manage server 
 ### END INIT INFO
 
-LOGFILE="log/production"
+LOGFILE="log/production.log"
 
 divider () {
   echo "---------------------------------------------" >> $LOGFILE

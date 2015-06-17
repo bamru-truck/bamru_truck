@@ -1,0 +1,14 @@
+# {{ansible_managed}}
+# {{template_path}}
+
+/home/{{ deploy_user}}/apps/web_admin/log/*.log {
+  rotate 4
+  daily
+  compress
+  missingok
+  notifempty
+  size 1M
+  postrotate
+    /etc/init.d/web_admin_d restart > /dev/null 2> /dev/null || true
+  endscript
+}
