@@ -1,0 +1,33 @@
+---
+
+# gpsd
+
+- name: install support packages
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - usbutils      # Utilities to examine usb devices
+    - minicom       # Tool useful to diagnose what is going on with a tty device
+    - python-serial # Python serial lib
+  
+- name: install shell script to alter ttyUSBGPS link
+  sudo: true
+  copy: 
+    src: setup-usb-gps.bash
+    dest: /bin/setup-usb-gps.bash
+    mode: "a+rx"
+
+- name: configure /etc/default/gpsd
+  lineinfile: 
+    dest:    /etc/default/gpsd
+    line:    "{{ item.line }}" 
+    regexp:  "{{ item.reg }}"
+  with_items:
+    - {reg: "^DEVICES=\"\""                 , line: "DEVICES=\"/dev/ttyUSBGPS\""      }
+
+- name: auto-start gpsd point on Boot
+  sudo:  true
+  shell: "{{item}}" 
+  with_items:
+    - "update-rc.d gpsd enable"
+
