@@ -9,6 +9,12 @@
     - ruby              # interpreter for ruby language
     - ruby-dev
 
+- name: setup gemrc 
+  sudo: true
+  template:
+    src: gemrc
+    dest: /root/.gemrc
+
 - name: install ruby gems
   sudo: true
   gem: name={{item}} state=latest
@@ -17,20 +23,6 @@
     - sinatra
     - thin
     - rerun
-
-- name: update default path for root and normal user
-  sudo: true
-  lineinfile:
-    dest: /etc/login.defs
-    state: present
-    backrefs: true
-    regexp: 'PATH=(["]*)((?!.*?{{extra_path}}).*?)(["]*)$'
-    regexp: '^({{ item }}(?:(?!:\/root\/.gem).)*)'
-    line:   '\1:/root/.gem/ruby/1.9.1/bin' 
-  with_items:
-    - "ENV_SUPATH"
-    - "ENV_PATH"
-  changed_when: false
 
 - name: install github repo
   git:

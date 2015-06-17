@@ -11,7 +11,7 @@ Learn more about Sinatra at http://www.sinatrarb.com/
 
 ## Webapp Init/Start/Stop/Reset
 
-Check the Ansible role `web_admin` to see the install procesure and the
+Check the Ansible role `web_admin` to see the install procedure and the
 start/stop script.
 
 ## Local Development and Testing

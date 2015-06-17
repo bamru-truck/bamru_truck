@@ -1,6 +1,8 @@
 #!/bin/bash
 # /etc/init.d/web_admin_d
 
+# managed by Ansible - do not edit
+
 ### BEGIN INIT INFO
 # Provides:          web_admin_d
 # Required-Start:    $remote_fs $syslog

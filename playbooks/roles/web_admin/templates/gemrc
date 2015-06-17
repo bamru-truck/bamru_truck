@@ -1,2 +1,3 @@
+# managed by Ansible - do not edit 
 ---
 gem: --bindir /usr/local/sbin --no-ri --no-rdoc
