@@ -10,24 +10,11 @@
     - minicom       # Tool useful to diagnose what is going on with a tty device
     - python-serial # Python serial lib
   
-- name: install shell script to alter ttyUSBGPS link
+- name: install modem status shell file.
   sudo: true
   copy: 
-    src: setup-usb-gps.bash
-    dest: /bin/setup-usb-gps.bash
+    src: get-modem-status.py
+    dest: /bin/get-modem-status.py
     mode: "a+rx"
 
-- name: configure /etc/default/gpsd
-  lineinfile: 
-    dest:    /etc/default/gpsd
-    line:    "{{ item.line }}" 
-    regexp:  "{{ item.reg }}"
-  with_items:
-    - {reg: "^DEVICES=\"\""                 , line: "DEVICES=\"/dev/ttyUSBGPS\""      }
-
-- name: auto-start gpsd point on Boot
-  sudo:  true
-  shell: "{{item}}" 
-  with_items:
-    - "update-rc.d gpsd enable"
 

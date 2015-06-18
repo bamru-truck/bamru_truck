@@ -13,7 +13,7 @@ class WebAdmin < Sinatra::Base
     end
 
     def navdata
-      %w(/:Home /erb:ERB_TEST /time:Time /ls:LS /gps_packets:20_GPS_Packets)
+      %w(/:Home /erb:ERB_TEST /time:Time /ls:LS /gps_packets:20_GPS_Packets /cell_modem_status:Cell_Modem_Status)
     end
 
     def navbar
@@ -41,6 +41,10 @@ class WebAdmin < Sinatra::Base
 
   get '/gps_packets' do
     erb `gpspipe -r -n 10`.gsub("\n","<br/>")
+  end
+
+  get '/cell_modem_status' do
+    erb `/bin/get-modem-status.py`.gsub("\n","<br/>")
   end
 
 end

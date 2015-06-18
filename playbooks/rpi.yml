@@ -19,4 +19,5 @@
     # - roles/tmux_rpi
     # - roles/hotspot_rpi
     # - roles/gpsd
+    - roles/cell_modem_support
     - { role: roles/web_admin, deploy_user: "deploy" }
