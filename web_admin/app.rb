@@ -44,7 +44,7 @@ class WebAdmin < Sinatra::Base
   end
 
   get '/cell_modem_status' do
-    erb `/bin/get-modem-status.py`.gsub("\n","<br/>")
+    erb `/usr/bin/sudo /bin/get-modem-status.py --html`.gsub("\n","<br/>")
   end
 
 end
