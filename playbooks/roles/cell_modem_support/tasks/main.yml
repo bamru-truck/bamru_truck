@@ -19,6 +19,6 @@
 
 - name: Add sudo rule for web admin operation
   sudo: true
-  shell: grep 'deploy ALL=(ALL) NOPASSWD: /bin/get-modem-status.py' /etc/sudoers; if [ $? -ne 0 ]; then echo  'deploy ALL=(ALL) NOPASSWD: /bin/get-modem-status.py' >> /etc/sudoers; fi;
+  shell: "grep 'deploy ALL=(ALL) NOPASSWD: /bin/get-modem-status.py' /etc/sudoers; if [ $? -ne 0 ]; then echo  'deploy ALL=(ALL) NOPASSWD: /bin/get-modem-status.py' >> /etc/sudoers; fi;"
 
 
