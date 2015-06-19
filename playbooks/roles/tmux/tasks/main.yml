@@ -1,0 +1,25 @@
+---
+
+# tmux
+
+- name: add PPA (ubuntu 1404)
+  sudo: true
+  when: is_ubuntu_1404
+  apt_repository: repo="ppa:pi-rho/dev" 
+
+- name: install (ubuntu)
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  when: is_ubuntu
+  with_items:
+    - tmux
+
+- name: copy tmux executable (rpi)
+  sudo: true
+  when: is_rpi
+  copy:
+    src: rpi/tmux
+    dest: /usr/local/bin/tmux
+    mode: 'a+rx'
+
+

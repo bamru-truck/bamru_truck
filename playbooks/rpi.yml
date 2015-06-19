@@ -9,14 +9,14 @@
   sudo: true
   roles:
     - roles/check_env
-    # - { role: roles/setup_ssh , rem_user: "pi"     }
-    # - { role: roles/cli_user  , rem_user: "deploy" }
-    # - { role: roles/cli_user  , rem_user: "aleak"  }
-    # - { role: roles/cli_user  , rem_user: "mgregg" }
-    # - roles/cli_tzone
-    # - roles/cli_base_rpi
-    # - roles/pips
-    # - roles/tmux_rpi
-    # - roles/hotspot_rpi
-    # - roles/gpsd
+    - { role: roles/setup_ssh , rem_user: "pi"     }
+    - { role: roles/cli_user  , rem_user: "deploy" }
+    - { role: roles/cli_user  , rem_user: "aleak"  }
+    - { role: roles/cli_user  , rem_user: "mgregg" }
+    - roles/cli_tzone
+    - roles/cli_base
+    - roles/pips
+    - roles/tmux
+    - roles/hotspot_rpi
+    - roles/gpsd
     - { role: roles/web_admin, deploy_user: "deploy" }

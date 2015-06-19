@@ -1,8 +1,8 @@
 ---
 
-# cli_base_rpi
+# cli_base
 
-- name: install base packages
+- name: install common packages
   sudo: true
   apt:  pkg={{item}} state=latest install_recommends=no
   with_items:
@@ -16,6 +16,10 @@
     - aptitude                   # package manager
     - cmake                      # required by libgit2/rugged
     - libicu-dev                 # development lib
+    - libmagickcore-dev          # image processing
+    - libmagickwand-dev          # image processing
+    - imagemagick                # image processing
+    - graphviz                   # diagram generation
     - htop                       # monitoring utility
     - atop                       # monitoring utility
     - ncdu                       # monitoring utility
@@ -25,6 +29,7 @@
     - iotop                      # monitoring utility
     - nload                      # monitoring utility
     - sysstat                    # monitoring utility
+    - libsqlite3-dev             # sqlite database
     - libcurl4-openssl-dev       # development lib
     - libevent-dev               # development lib
     - libncurses5-dev            # development lib
@@ -33,29 +38,23 @@
     - libssl-dev                 # development lib
     - libxslt1-dev               # development lib
     - zlib1g-dev                 # development lib
+    - wkhtmltopdf                # pdf generation
     - multitail                  # log file monitoring
+    - unison                     # file sync
+    - encfs                      # file system encryption
+    - sshfs                      # file system encryption
+    - xvfb                       # X-windows utility tool
     - tree                       # cli utility
     - curl                       # cli utility
+    - httpie                     # cli utility
     - wget                       # cli utility
     - unzip                      # cli utility
     - zip                        # cli utility
     - debian-archive-keyring     # ssh util
-    - ruby1.9.3                  # ruby
     - exuberant-ctags            # vim file navigation
     - vim-gnome                  # vim!
-    - mlocate                    # For locating files on the RPI
-    - iptraf                     # IP traffic monitor
-    - subversion                 # Alternate scm software
-    - strace                     # Util for diagnosing binary problems
-    - tcpdump                    # Util for watching ip traffic
-    - ntpdate                    # NTP util to suppliment ntpd
-    - nmap                       # Utility for probing ip's on the network
-    - traceroute                 # For diagnosing issues with routes
-    - vim                        # Console editor that I like 
-    # - redis-server               # redis
-    # - postgresql-9.1             # postgres
-    # - pgadmin3                   # pgadmin
-    # - collectd                   # stats collector
+    - ruby                       # system ruby
+    - ruby-dev                   # compile tools
 
 - name: remove packages
   sudo: true
@@ -63,11 +62,30 @@
   with_items:
     - whoopsie        # ubuntu bug reporter
 
-# - name: upload lang.sh
-#   copy: src=lang.sh dest=/etc/profile.d/lang.sh
-#   sudo: true
-
-- name: install jq 
+- name: upload lang.sh on rpi
   sudo: true
-  copy: src=jq dest=/usr/local/bin/jq mode="a+rx"
+  when: is_rpi
+  template:
+    src: lang_rpi.sh
+    dest: /etc/profile.d/lang.sh
+    mode: "a+rx"
 
+- name: upload lang.sh on ubuntu
+  sudo: true
+  when: is_ubuntu
+  template:
+    src: lang_ubu.sh
+    dest: /etc/profile.d/lang.sh
+    mode: "a+rx"
+
+- name: install jq on ubuntu
+  sudo: true
+  get_url: 
+    url: http://stedolan.github.io/jq/download/linux64/jq
+    dest: /usr/local/bin/jq mode="a+rx"
+  when: is_ubuntu
+
+- name: install jq on rpi
+  sudo: true
+  copy: src=rpi/jq dest=/usr/local/bin/jq mode="a+rx"
+  when: is_rpi

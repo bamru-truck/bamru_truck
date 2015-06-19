@@ -1,0 +1,4 @@
+---
+is_ubuntu:      "'{{ansible_distribution}}' == 'Ubuntu'"
+is_ubuntu_1404: "'{{ansible_distribution_version}}' == '14.04' and {{is_ubuntu|bool}}"
+is_rpi:         "'{{ansible_architecture}}' == 'armv7l'"
