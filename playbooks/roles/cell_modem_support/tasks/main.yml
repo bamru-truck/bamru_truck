@@ -1,0 +1,24 @@
+---
+
+# gpsd
+
+- name: install support packages
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - usbutils      # Utilities to examine usb devices
+    - minicom       # Tool useful to diagnose what is going on with a tty device
+    - python-serial # Python serial lib
+  
+- name: install modem status shell file.
+  sudo: true
+  copy: 
+    src: get-modem-status.py
+    dest: /bin/get-modem-status.py
+    mode: "a+rx"
+
+- name: Add sudo rule for web admin operation
+  sudo: true
+  shell: grep 'deploy ALL=(ALL) NOPASSWD: /bin/get-modem-status.py' /etc/sudoers; if [ $? -ne 0 ]; then echo  'deploy ALL=(ALL) NOPASSWD: /bin/get-modem-status.py' >> /etc/sudoers; fi;
+
+

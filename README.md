@@ -62,4 +62,8 @@ Notes:
 
 ## Adding a GPS to your hotspot
 
-1) https://github.com/cinchcircuits/bamru_truck/blob/master/playbooks/roles/gpsd/README.md
+1) https://github.com/cinchcircuits/bamru_truck/blob/master/playbooks/roles/gpsd
+
+## Adding and using a 2g/3g/4g cell modem to your device
+
+1) https://github.com/cinchcircuits/bamru_truck/tree/master/playbooks/roles/cell_modem_support

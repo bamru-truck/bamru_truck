@@ -1,4 +1,4 @@
-# BAMRU TRUCK WIFI HOTSPOT - HACKING NOTES
+# BAMRU TRUCK WIFI HOTSPOT / HACKING NOTES
 
 Github Repo: `https://github.com/cinchcircuits/bamru_truck.git`
 
