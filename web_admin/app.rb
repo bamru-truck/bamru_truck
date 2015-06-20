@@ -24,7 +24,7 @@ class WebAdmin < Sinatra::Base
   end
 
   get '/' do
-    erb "Hello World"
+    erb "Hello World Fish!"
   end
 
   get '/erb' do
