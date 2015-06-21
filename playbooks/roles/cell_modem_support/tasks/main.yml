@@ -9,6 +9,7 @@
     - usbutils      # Utilities to examine usb devices
     - minicom       # Tool useful to diagnose what is going on with a tty device
     - python-serial # Python serial lib
+    - gobi-loader   # For loading firmware onto Gobi modems
   
 - name: install modem status shell file.
   sudo: true
@@ -21,4 +22,41 @@
   sudo: true
   shell: "grep 'deploy ALL=(ALL) NOPASSWD: /bin/get-modem-status.py' /etc/sudoers; if [ $? -ne 0 ]; then echo  'deploy ALL=(ALL) NOPASSWD: /bin/get-modem-status.py' >> /etc/sudoers; fi;"
 
+- name: Create /lib/firmware/gobi
+  sudo: true
+  shell: mkdir -p /lib/firmware/gobi;chmod 755 /lib/firmware/gobi
+
+- name: install gobi 2000 firmware part 1 
+  sudo: true
+  copy: 
+    src: gobi-2000/6.tar.bz
+    dest: /lib/firmware/gobi/6.tar.bz
+    mode: "a+rx"
+
+- name: install gobi 2000 firmware part 2 
+  sudo: true
+  copy: 
+    src: gobi-2000/UTMS.tar.bz
+    dest: /lib/firmware/gobi/UMTS.tar.bz
+    mode: "a+rx"
+
+- name: extract firmware in /lib/firmware/gobi
+  sudo: true
+  shell: cd /lib/firmware/gobi; tar xvfj 6.tar.bz;tar xvfj UMTS.tar.bz;chmod 755 *; rm -f *.bz
+
+- name: Link Gobi loader
+  sudo: true
+  file: src=/lib/udev/gobi_loader dest=/bin/gobi_loader owner=root group=root state=link
+
+- name: Create Gobi udev rules
+  sudo: true
+  shell: cat /lib/udev/rules.d/60-gobi-loader.rules > /etc/udev/rules.d/60-gobi.rules
+ 
+- name: Restart udev to take on new rules
+  sudo: true
+  shell: /etc/init.d/udev restart
+
+- name: reload qcserial module
+  sudo: true
+  shell: lsmod | grep qcserial; if [ $? -eq 0 ]; then rmmod qcserial; modprobe qcserial; fi
 
