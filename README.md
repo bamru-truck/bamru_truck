@@ -6,6 +6,7 @@ and a RPi2 with a USB-WIFI device that runs in master mode.
 Github Repo: `https://github.com/cinchcircuits/bamru_truck.git`
 
 The key tools we use to build and maintain the Hotspot:
+```
 +-------------------+-------------------------------+
 | Function          | Tool                          |
 +-------------------+-------------------------------+
@@ -16,6 +17,7 @@ The key tools we use to build and maintain the Hotspot:
 | Metrics           | Collectd / InfluxDB / Grafana |
 | Remote pairing    | Tmux / Vim / Wemux            |
 +-------------------+-------------------------------+
+```
 
 ## New RPi Setup
 
