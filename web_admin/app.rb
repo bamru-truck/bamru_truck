@@ -6,6 +6,8 @@ class WebAdmin < Sinatra::Base
   enable :logging
   set :bind, '0.0.0.0'           # listen on any interface
 
+  TFILE = "/tmp/token.txt"
+
   helpers do
     def link_to_unless_current(path, label)
       return label if path == request.path_info
@@ -13,7 +15,7 @@ class WebAdmin < Sinatra::Base
     end
 
     def navdata
-      %w(/:Home /erb:ERB_TEST /time:Time /ls:LS /gps_packets:20_GPS_Packets /cell_modem_status:Cell_Modem_Status)
+      %w(/:Home /erb:Token /time:Time /ls:LS /gps_packets:20_GPS_Packets /cell_modem_status:Cell_Modem_Status)
     end
 
     def navbar
@@ -24,11 +26,19 @@ class WebAdmin < Sinatra::Base
   end
 
   get '/' do
-    erb "Hello World"
+    erb "Hello World Dog2!"
   end
 
   get '/erb' do
-    erb :erb_test
+    @token = File.exist?(TFILE) ? File.read(TFILE) : "Undefined"
+    erb :token_form
+  end
+
+  post '/token' do
+    @token = params["new_token"]
+    puts params
+    File.write(TFILE, @token) 
+    redirect '/erb'
   end
 
   get '/time' do
@@ -44,7 +54,7 @@ class WebAdmin < Sinatra::Base
   end
 
   get '/cell_modem_status' do
-    erb `/usr/bin/sudo /bin/get-modem-status.py --html`.gsub("\n","<br/>")
+    erb `/usr/bin/sudo /bin/get-modem-status.py --html`
   end
 
 end
