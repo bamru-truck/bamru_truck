@@ -10,6 +10,8 @@
     - minicom       # Tool useful to diagnose what is going on with a tty device
     - python-serial # Python serial lib
     - gobi-loader   # For loading firmware onto Gobi modems
+    - build-essential 
+    - gcc
   
 - name: install modem status shell file.
   sudo: true
@@ -40,6 +42,17 @@
     dest: /lib/firmware/gobi/UMTS.tar.bz
     mode: "a+rx"
 
+- name: install reset usb
+  sudo: true
+  copy: 
+    src: reset-usb.c
+    dest: /bin/reset-usb.c
+    mode: "a+rx"
+
+- name: Build reset-usb
+  sudo: true
+  shell: if [ ! -f /bin/reset-usb ]; then cd /bin; gcc -o ./reset-usb reset-usb.c; fi; chmod 755 /bin/reset-usb
+
 - name: extract firmware in /lib/firmware/gobi
   sudo: true
   shell: cd /lib/firmware/gobi; tar xvfj 6.tar.bz;tar xvfj UMTS.tar.bz;chmod 755 *; rm -f *.bz
@@ -48,10 +61,10 @@
   sudo: true
   file: src=/lib/udev/gobi_loader dest=/bin/gobi_loader owner=root group=root state=link
 
-- name: Create Gobi udev rules
+- name: install gobi udev rules
   sudo: true
-  shell: cat /lib/udev/rules.d/60-gobi-loader.rules > /etc/udev/rules.d/60-gobi.rules
- 
+  file: src=/lib/udev/rules.d/60-gobi-loader.rules dest=/etc/udev/rules.d/60-gobi.rules owner=root group=root state=link
+
 - name: Restart udev to take on new rules
   sudo: true
   shell: /etc/init.d/udev restart
