@@ -1,0 +1,60 @@
+---
+
+# cli_user
+#
+# invoke using:
+# - {role: cli_user, rem_user: "<username>"}
+
+- name: set postfix install options
+  sudo: true
+  shell: echo 'postfix postfix/mailname string {{rpi_name}}' | debconf-set-selections
+
+- name: set postfix install options 2
+  sudo: true
+  shell: echo 'postfix postfix/relayhost       string  {{relay_host}}' | debconf-set-selections
+
+- name: set postfix install options 3
+  sudo: true
+  shell: echo 'postfix postfix/main_mailer_type        select  Internet with smarthost' | debconf-set-selections
+
+- name: install support packages
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - postfix     # Linux mail server
+    - wget
+    - cron        # Likley already installed, but making sure
+
+- name: install call home script
+  sudo: true
+  copy: 
+    src: call-home-script.bash
+    dest: /bin/call-home-script.bash
+    mode: "a+rx"
+
+# Alter call home script
+- replace: dest=/bin/call-home-script.bash regexp='<hostname>' replace='{{rpi_name}}' backup=yes
+- replace: dest=/bin/call-home-script.bash regexp='home-email' replace='{{call_home_email}}' backup=no
+
+- name: install call home cron script
+  sudo: true
+  copy: 
+    src: run-call-home.bash
+    dest: /bin/run-call-home.bash
+    mode: "a+rx"
+
+- name: install call home cron job
+  sudo: true
+  copy: 
+    src: call-home-cron
+    dest: /etc/cron.d/call-home
+    mode: "a+rx"
+
+- name: restart postfix
+  sudo: true
+  shell: /usr/sbin/service postfix restart
+
+- name: restart cron
+  sudo: true
+  shell: /usr/sbin/service cron restart
+
