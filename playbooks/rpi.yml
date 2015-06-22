@@ -9,16 +9,16 @@
   sudo: true
   roles:
     - roles/check_env
-    - { role: roles/setup_ssh , rem_user:  "pi"            }
-    - { role: roles/cli_user  , rem_user:  "deploy"        }
-    - { role: roles/cli_user  , rem_user:  "aleak"         }
-    - { role: roles/cli_user  , rem_user:  "mgregg"        }
+    # - { role: roles/setup_ssh , rem_user:  "pi"            }
+    # - { role: roles/cli_user  , rem_user:  "deploy"        }
+    # - { role: roles/cli_user  , rem_user:  "aleak"         }
+    # - { role: roles/cli_user  , rem_user:  "mgregg"        }
     - { role: roles/tmux      , host_list: "aleak mgregg"  }
-    - roles/cli_tzone
-    - roles/cli_base
-    - roles/pips
-    - roles/hotspot_rpi
-    - roles/gpsd
-    - roles/cell_modem_support
-    - { role: roles/call_home, rpi_name: "mgregg-rpi3.michaelgregg.com", relay_host: "www.michaelgregg.com:250", call_home_email: "mgregg@michaelgregg.com" }  
-    - { role: roles/web_admin, deploy_user: "deploy" }
+    # - roles/cli_tzone
+    # - roles/cli_base
+    # - roles/pips
+    # - roles/hotspot_rpi
+    # - roles/gpsd
+    # - roles/cell_modem_support
+    # - { role: roles/call_home, rpi_name: "mgregg-rpi3.michaelgregg.com", relay_host: "www.michaelgregg.com:250", call_home_email: "mgregg@michaelgregg.com" }  
+    # - { role: roles/web_admin, deploy_user: "deploy" }
