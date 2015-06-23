@@ -3,8 +3,10 @@
 
 - hosts:      rpi   
   vars:
-    - lcl_user:  "{{ lookup('env', 'USER') }}"
-    - rem_user:  pi                
+    - lcl_user:   "{{ lookup('env', 'USER') }}"
+    - rem_user:   pi                
+    - git_branch: "master"
+    - git_repo:   "https://github.com/cinchcircuits/bamru_truck"
   remote_user: "{{rem_user}}"
   sudo: true
   roles:
@@ -13,7 +15,7 @@
     # - { role: roles/cli_user  , rem_user:  "deploy"        }
     # - { role: roles/cli_user  , rem_user:  "aleak"         }
     # - { role: roles/cli_user  , rem_user:  "mgregg"        }
-    - { role: roles/tmux      , host_list: "aleak mgregg"  }
+    # - { role: roles/tmux      , host_list: "aleak mgregg"  }
     # - roles/cli_tzone
     # - roles/cli_base
     # - roles/pips
@@ -21,4 +23,5 @@
     # - roles/gpsd
     # - roles/cell_modem_support
     # - { role: roles/call_home, rpi_name: "mgregg-rpi3.michaelgregg.com", relay_host: "www.michaelgregg.com:250", call_home_email: "mgregg@michaelgregg.com" }  
-    # - { role: roles/web_admin, deploy_user: "deploy" }
+    - { role: roles/web_admin, deploy_user: "deploy", branch: "dev_aleak" }
+    # - { role: roles/dev_env  , rem_user:    "aleak"  }
