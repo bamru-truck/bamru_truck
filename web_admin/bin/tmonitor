@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+
+APP=web_admin
+
+create_dev_session () {
+
+  # ----- Server Window -----
+
+  tmux new-session -s $APP -n "SERVER" -d
+
+  tmux split-window -v -t $APP:1      # vertical split  - Server on Top - Bash on Bottom
+
+  tmux send-keys -t $APP:1.1 'cls ; bin/run' C-m
+
+  # ----- VIM Editor -----
+
+  tmux new-window -n "VIM"
+
+  tmux send-keys -t $APP:2.1 'cls ; vim' C-m     # statsd collector
+
+  # ----- Open With VIM Window -----
+
+  tmux select-window -t $APP:2
+
+}
+
+# create_dev_session
+# tmux attach -t $APP
+
+echo TMONITOR UNDER CONSTRUCTION

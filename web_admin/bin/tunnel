@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+# Sets up port-forwarding local tunnel
+# Public machine IP is 45.79.82.37
+# port 4567 - production server
+# port 4568 - development server
+# port 220   - ssh
+
+# send email to partner, reporting
+# - sender
+# - connection address and port
+# - machine architecture
+
+echo TUNNEL: UNDER CONSTRUCTION

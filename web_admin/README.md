@@ -16,16 +16,19 @@ start/stop script.
 
 ## Local Development and Testing
 
-To set up a local development environment on Ubuntu:
+### For Ruby Developers
 
+If you are already a Ruby developer and have a Ruby environment on your system, follow these steps:
 +--------------------+-------------------------------------+-----------------------------+
 | Step               | Command                             | Comment                     |
 +--------------------+-------------------------------------+-----------------------------+
-| 1) Install Ruby    | > sudo apt-get install ruby         | installs Ruby 1.9.3         |
-| 2) Install Bundler | > sudo apt-get install ruby-bundler | see notes...                |
-| 3) Install Gems    | > bundle install                    | loads everything in Gemfile |
-| 4) Run the app     | > bin/run                           | runs the app on port 4567   |
+| 1) Install Gems    | > bundle install                    | loads everything in Gemfile |
+| 2) Run the app     | > bin/run                           | runs the app on port 4568   |
 +--------------------+-------------------------------------+-----------------------------+
+
+### For Non-Ruby Developers
+
+run `bin/setup`
 
 notes:
 - may be accomplished with "sudo gem install bundler"
@@ -36,11 +39,11 @@ notes:
 
 1) test and check in your edits
 2) go to the ansible directory `cd playbooks`
-3) re-run the ansible installer `./config nopass`
+3) re-run the ansible installer `./config`
 
 ## Running the Live App
 
 In your browser:
 
-http://<server-name-or-ip>:4567
+http://<server-name-or-ip>:4568
 

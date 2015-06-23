@@ -62,17 +62,17 @@
   with_items:
     - whoopsie        # ubuntu bug reporter
 
-- name: upload lang.sh on rpi
-  sudo: true
-  when: is_rpi
-  template:
-    src: lang_rpi.sh
-    dest: /etc/profile.d/lang.sh
-    mode: "a+rx"
+# - name: upload lang.sh on rpi
+#   sudo: true
+#   when: is_rpi
+#   template:
+#     src: lang_rpi.sh
+#     dest: /etc/profile.d/lang.sh
+#     mode: "a+rx"
 
 - name: upload lang.sh on ubuntu
   sudo: true
-  when: is_ubuntu
+  # when: is_ubuntu
   template:
     src: lang_ubu.sh
     dest: /etc/profile.d/lang.sh

@@ -1,0 +1,13 @@
+---
+
+# dev_env
+
+- name: install github repo
+  sudo: false
+  remote_user: "{{rem_user}}"
+  git:
+    repo:   "https://github.com/cinchcircuits/bamru_truck"
+    dest:   "/home/{{rem_user}}/bamru_truck"
+    force:  true
+    update: true
+
