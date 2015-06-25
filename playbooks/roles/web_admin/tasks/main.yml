@@ -11,6 +11,11 @@
   with_items:
     - ruby              # interpreter for ruby language
     - ruby-dev
+    - bundler
+    - ruby-sinatra
+    - thin
+    - ruby-ffi
+    - ruby-rb-inotify
 
 - name: setup gemrc 
   sudo: true
@@ -22,10 +27,13 @@
   sudo: true
   gem: name={{item}} state=latest
   with_items:
-    - bundler
-    - sinatra
-    - thin
     - rerun
+    - celluloid
+    - listen
+    - timers
+    - hitimer
+    - rb-inotif
+    - ffi
 
 - name: remove old repo
   file:
