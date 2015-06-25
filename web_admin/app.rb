@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'rbconfig'
 
 # $PROGRAM_NAME = 'web_admin_d'  # set the process name
 
@@ -9,6 +10,10 @@ class WebAdmin < Sinatra::Base
   TFILE = "/tmp/token.txt"
 
   helpers do
+    def raspi?
+      RbConfig::CONFIG["arch"].match(/arm-linux/)
+    end
+
     def link_to_unless_current(path, label)
       return label if path == request.path_info
       "<a href='#{path}'>#{label}</a>"
@@ -37,7 +42,7 @@ class WebAdmin < Sinatra::Base
   post '/token' do
     @token = params["new_token"]
     puts params
-    File.write(TFILE, @token) 
+    File.write(TFILE, @token)
     redirect '/erb'
   end
 
@@ -50,12 +55,19 @@ class WebAdmin < Sinatra::Base
   end
 
   get '/gps_packets' do
-    erb `gpspipe -r -n 10`.gsub("\n","<br/>")
+    if raspi?
+      erb `gpspipe -r -n 10`.gsub("\n","<br/>")
+    else
+      erb "ONLY RUNS ON RASPBERRY PI"
+    end
   end
 
   get '/cell_modem_status' do
-    erb `/usr/bin/sudo /bin/get-modem-status.py --html`
+    if raspi?
+      erb `/usr/bin/sudo /bin/get-modem-status.py --html`
+    else
+      erb "ONLY RUNS ON RASPBERRY PI"
+    end
   end
-
 end
 

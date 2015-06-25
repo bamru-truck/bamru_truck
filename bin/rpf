@@ -1,0 +1,99 @@
+#!/usr/bin/env ruby
+
+# remote port forwarding
+#
+# -- OVERVIEW --------------------------------------------------
+#
+# Forwards traffic from a remote proxy server to a local host.
+# 
+# Use this for local development, if you need a system on the
+# outside world to access your development system.
+#
+# This is useful working with webhook callbacks
+# from services like Twilio, Mandrill, etc.
+# 
+# Also useful for doing joint pairing and collaboration with
+# people outside the firewall.
+#
+# Derived from Local Tunnel (local tunnel) by progrium.
+#
+# -- PROXY SERVER CONFIGURATION --------------------------------
+#
+# Proxy server config options in /etc/ssh/sshd_config...
+#   GateWayPorts yes
+#   AllowTcpForwarding yes
+#
+# On the proxy server command line...
+#   sysctl net.ipv4.ip_forward = 1
+#
+# Then restart ssh
+#   sudo restart ssh
+#   - or -
+#   sudo /etc/init.d/ssh restart
+#
+# Check server status
+#   netstat -an | grep <remote port>
+#
+# It should show `0.0.0.0:<remote_port>`
+# If it shows `127.0.0.1:<remote_port>` then redo sshd_config 
+#   
+# ALSO - see the ansible role `pf_proxy` which auto-configures
+# the proxy server.
+#
+# -- PORT FORWARDING HOST --------------------------------------
+#
+# Forward a remote port to a port on the local machine...
+#     ssh -R remote_port:localhost:local_port remote_host
+# 
+# Also check out: the '-g' flag...
+# 
+# Check that the remote machine is listening...
+#     ssh remote_host
+#     netstat -an | grep <remote_port>
+# 
+# It should show `0.0.0.0:<remote_port>`.
+# 
+# If it shows `127.0.0.1:<remote_port>` then you have to configure the ssh daemon
+# to accept wildcard bind_addresses.
+# 
+# MORE INFO:
+#     man ssh_conf
+#     man sshd_conf
+#     GatewayPorts option
+#     /etc/ssh/sshd_conf
+#     /etc/ssh/ssh_conf
+# 
+
+exe = File.basename($0)
+
+usage_msg = "Usage: #{exe} <remote_host:port> <local_port>"
+
+abort usage_msg if ARGV.length != 2
+
+rhost, rport = ARGV[0].split(':')
+
+lport = ARGV[1]
+lhost = ENV['SYSNAME']
+
+banner = "<#{exe}> #{rhost}:#{rport}@#{lhost}:#{lport}"
+
+xterm_cmd = %Q(xterm_title "#{banner}") 
+
+lcmd      = "ssh -R #{rport}:localhost:#{lport} #{rhost} 'cat > /tmp/zzz'"
+
+puts lcmd
+
+# system "clear"
+
+puts "Started #{Time.now}"
+
+puts banner
+puts "Tunneling #{rhost}:#{rport} to #{lhost}:#{lport}"
+puts "Press Ctrl-C to exit..."
+
+system xterm_cmd
+begin
+  system lcmd
+rescue Exception
+  puts "\nExiting..."
+end

@@ -37,6 +37,9 @@ https://www.raspberrypi.org/documentation/installation/installing-images/README.
 
 7) now you should be able to `ssh pi@<hostname>`
 
+ProTip: create a reusable OS image pre-configured with passwords and account
+settings.  Ask Andy or Michael for more info.
+
 ## Ansible Configuration
 
 1) install latest version of Ansible to your Ubuntu laptop
@@ -69,3 +72,22 @@ Notes:
 ## Adding and using a 2g/3g/4g cell modem to your device
 
 1) https://github.com/cinchcircuits/bamru_truck/tree/master/playbooks/roles/cell_modem_support
+
+## Port Forwarding / Pair Programming 
+
+Use Port Forwarding to expose your development machine to people outside your firewall.
+
+The ip address of the public server is 45.79.82.37.  Ask Andy for a user account.
+
+The script `bin/tunnel` sets up these forwarded ports:
+
+| PORT | DESCRIPTION                    |
+| 4567 | web_admin (production server)  |
+| 4568 | web_admin (development server) |
+| 22   | ssh                            |
+
+Two developers can share a TMUX session for pair programming.  To start a
+pair-programming session:
+
+- log into the development box using SSH
+- run `wemux`

@@ -1,9 +1,34 @@
 #!/bin/bash
 
-# Usage: './config [nopass]'
-#
+USAGE_MSG="Usage: config [-n | --nopass] [-b | --branch <branchName>]"
+
 # Use the 'nopass' option if ssh-keys have been configured and you want to skip
 # the ssh password.
+
+# -------------------------------------------------------------------------------
+# Parse command-line options
+
+NOPASS=false
+BRANCH="master"
+
+while [[ $# > 0  ]]
+do
+  case $1 in
+    -n|--nopass)
+      NOPASS=true
+      ;;
+    -b|--branch)
+      BRANCH="$2"
+      shift
+      ;;
+    *)
+      echo $USAGE_MSG
+      echo Unrecognized Option: $1
+      exit
+      ;;
+  esac
+  shift
+done
 
 # -------------------------------------------------------------------------------
 # You can have a user-specific host file.  This option is provided so different
@@ -22,13 +47,13 @@ echo using host file $hosts
 # '--ask-pass' option. After ssh keys are provisioned, passwords are no longer
 # required.  The 'nopass' command line option skips the password prompt.
 
-[[ "$1" != "nopass" ]] && echo "Hint: use 'config nopass' to authenticate with SSH keys"
-[[ "$1" == "nopass" ]] && arg="" || arg=" --ask-pass"
+[[ "$NOPASS" != "true" ]] && echo "Hint: use 'config --nopass' to authenticate with SSH keys"
+[[ "$NOPASS" == "true" ]] && arg="" || arg="--ask-pass"
 
 
-cmd="ansible-playbook -i $hosts rpi.yml$arg"
+cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH rpi.yml $arg"
 
-echo running \'$cmd\'
+echo running \"$cmd\"
 
 # -------------------------------------------------------------------------------
 $cmd

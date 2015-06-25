@@ -2,6 +2,9 @@
 
 # web_admin
 
+- name: show the git branch
+  debug: msg="GIT BRANCH IS {{git_branch}}"
+    
 - name: install support software
   sudo: true
   apt:  pkg={{item}} state=present install_recommends=no
@@ -32,13 +35,13 @@
     - rb-inotif
     - ffi
 
+- name: remove old repo
+  file:
+    path: "/home/{{deploy_user}}/apps"
+    state: absent
+
 - name: install github repo
-  git:
-    repo:   "https://github.com/cinchcircuits/bamru_truck"
-    dest:   "/home/{{deploy_user}}/apps"
-    depth:  1
-    force:  true
-    update: true
+  command: "/usr/bin/git clone --depth 1 -b {{git_branch}} {{git_repo}} /home/{{deploy_user}}/apps"
 
 - name: remove extra files
   sudo: true
