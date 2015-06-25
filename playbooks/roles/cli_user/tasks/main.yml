@@ -35,6 +35,11 @@
     validate: 'visudo -cf %s'
   when: not sudoer_file.stat.exists
 
+- name: set permissions for sudoers file
+  file:
+    dest: /etc/sudoers.d/{{rem_user}}
+    mode: 0440
+
 - name: ssh keys for {{rem_user}}
   authorized_key:
     user: "{{rem_user}}"

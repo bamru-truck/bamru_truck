@@ -1,4 +1,4 @@
-# LANG Settings for Ubuntu
+# LANG Profile
 # {{ansible_managed}}
 # {{template_path}}
 export LANGUAGE="en_US.UTF-8"
