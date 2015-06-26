@@ -23,7 +23,7 @@ divider () {
 header () {
   divider
   echo $1 >> $LOGFILE
-  date >> $LOGFILE
+  date    >> $LOGFILE
 }
 
 set_env () {
@@ -64,8 +64,10 @@ case "$1" in
     stop_service
     ;;
   restart)
+    echo "Stopping Service (now)..."
     stop_service
-    sleep 1
+    echo "Starting Service (in 5 seconds)..."
+    sleep 5
     start_service
     ;;
   *)
