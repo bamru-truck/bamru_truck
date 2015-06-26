@@ -37,6 +37,10 @@
     - thin 
     - sinatra
 
+- name: stop the service
+  sudo: true
+  service: name=web_admin_d state=stopped
+
 - name: remove old repo
   file:
     path: "/home/{{deploy_user}}/apps"
