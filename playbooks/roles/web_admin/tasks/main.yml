@@ -31,9 +31,11 @@
     - celluloid
     - listen
     - timers
-    - hitimer
-    - rb-inotif
+    # - hitimer      didn't install on RPi
+    # - rb-inotif    didn't install on RPi
     - ffi
+    - thin 
+    - sinatra
 
 - name: remove old repo
   file:
