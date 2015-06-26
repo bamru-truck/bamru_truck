@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+# remote port forwarding
+
+PROXY_SERVER = "45.79.82.37"
+
+exe = File.basename($0)
+
+usage_msg = "Usage: #{exe} <remote_port> <local_port>"
+
+abort usage_msg if ARGV.length != 2
+
+rhost = PROXY_SERVER
+rport = ARGV[0]
+lport = ARGV[1]
+lhost = ENV['SYSNAME']
+
+banner = "<#{exe}> #{rhost}:#{rport}@#{lhost}:#{lport}"
+
+lcmd      = "ssh -R #{rport}:localhost:#{lport} #{rhost} 'cat > /tmp/zzz'"
+
+puts lcmd
+
+puts "Started #{Time.now}"
+
+puts banner
+puts "Tunneling #{rhost}:#{rport} to #{lhost}:#{lport}"
+puts "Press Ctrl-C to exit..."
+
+begin
+  system lcmd
+rescue Exception
+  puts "\nExiting..."
+end
