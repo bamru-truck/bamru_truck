@@ -14,23 +14,30 @@ Learn more about Sinatra at http://www.sinatrarb.com/
 Check the Ansible role `web_admin` to see the install procedure and the
 start/stop script.
 
-## Local Development and Testing
+## Development and Testing
 
-### For Ruby Developers
+### Developing on the RPi
 
-If you are already a Ruby developer and have a Ruby environment on your system, follow these steps:
-+--------------------+-------------------------------------+-----------------------------+
-| Step               | Command                             | Comment                     |
-+--------------------+-------------------------------------+-----------------------------+
-| 1) Install Gems    | > bundle install                    | loads everything in Gemfile |
-| 2) Run the app     | > bin/run                           | runs the app on port 4568   |
-+--------------------+-------------------------------------+-----------------------------+
+Ansible installs a working development environment on your RPi - see the
+`dev_env` role.  You will have to setup your Github keys manually.
 
-### For Non-Ruby Developers
+### For Ruby Developers on Ubuntu
 
-run `bin/setup`
+If you are already a Ruby developer and have a Ruby environment on your system,
+follow these steps:
++-----------------+------------------+-----------------------------+
+| Step            | Command          | Comment                     |
++-----------------+------------------+-----------------------------+
+| 1) Install Gems | > bundle install | loads everything in Gemfile |
+| 2) Run the app  | > bin/run        | runs the app on port 4568   |
++-----------------+------------------+-----------------------------+
+
+### For Non-Ruby Developers on Ubuntu
+
+run `bin/setup_dev_env` (UNDER CONSTRUCTION)
 
 notes:
+- follow the conventions used in the RPi install
 - may be accomplished with "sudo gem install bundler"
 - might run this without `sudo`
 - this installs all the support software in the `Gemfile`

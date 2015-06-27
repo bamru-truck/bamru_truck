@@ -13,8 +13,6 @@ The key tools we use to build and maintain the Hotspot:
 | RPi configuration | Ansible                       |
 | Scripting         | Bash                          |
 | Web-Admin UI      | Ruby / Sinatra                |
-| Web-Chat UI       | Elixir / Phoenix              |
-| Metrics           | Collectd / InfluxDB / Grafana |
 | Remote pairing    | Tmux / Vim / Wemux            |
 +-------------------+-------------------------------+
 ```
@@ -38,7 +36,7 @@ https://www.raspberrypi.org/documentation/installation/installing-images/README.
 7) now you should be able to `ssh pi@<hostname>`
 
 ProTip: create a reusable OS image pre-configured with passwords and account
-settings.  Ask Andy or Michael for more info.
+settings.  Ask Andy for more info.
 
 ## Ansible Configuration
 
@@ -79,12 +77,12 @@ Use Port Forwarding to expose your development machine to people outside your fi
 
 The ip address of the public server is 45.79.82.37.  Ask Andy for a user account.
 
-The script `bin/tunnel` sets up these forwarded ports:
+The script `bin/portfwd` sets up ports.  Use these port values:
 
-| PORT | DESCRIPTION                    |
-| 4567 | web_admin (production server)  |
-| 4568 | web_admin (development server) |
-| 22   | ssh                            |
+| DESCRIPTION                    | Local Port | Proxy Port |
+| web_admin (production server)  | 4567       | 4567       |
+| web_admin (development server) | 4568       | 4568       |
+| ssh                            | 22         | 2222       |
 
 Two developers can share a TMUX session for pair programming.  To start a
 pair-programming session:
