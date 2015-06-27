@@ -29,7 +29,7 @@ module AppHelpers
   end
 
   def navdata
-    %w(/:Home) +
+    %w(/:Home /token:Token) +
     %w(/gps_packets:20_GPS_Packets /cell_modem_status:Cell_Modem_Status)
   end
 

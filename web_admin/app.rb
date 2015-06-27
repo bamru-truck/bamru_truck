@@ -15,7 +15,7 @@ class WebAdmin < Sinatra::Base
     erb :home
   end
 
-  get '/erb' do
+  get '/token' do
     @token = File.exist?(TFILE) ? File.read(TFILE) : "Undefined"
     erb :token_form
   end
@@ -24,7 +24,7 @@ class WebAdmin < Sinatra::Base
     @token = params["new_token"]
     puts params
     File.write(TFILE, @token)
-    redirect '/erb'
+    redirect '/token'
   end
 
   get '/gps_packets' do

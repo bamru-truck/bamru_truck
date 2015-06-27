@@ -3,7 +3,7 @@
 if [ "$RACK_ENV" == "production" ]; then
   mkdir -p tmp/pids log
   pidfile="tmp/pids/thin.pid"
-  [ -f "$pidfile" ] && kill -9 $(<"$pidfile") 2> /dev/null
+  [ -f "$pidfile" ] && kill -9 $(< "$pidfile") 2> /dev/null
   /usr/local/sbin/thin -d -l log/production.log --rackup config.ru -p 4567 start
 else
   rerun "thin --rackup config.ru -p 4568 start"

@@ -1,7 +1,7 @@
 # {{ansible_managed}}
 # {{template_path}}
 
-/home/{{ deploy_user}}/apps/web_admin/log/*.log {
+/home/{{ deploy_user}}/logs/web_admin/*.log {
   rotate 4
   daily
   compress
