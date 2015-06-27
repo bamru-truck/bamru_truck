@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE_MSG="Usage: config [-n | --nopass] [-b | --branch <branchName>]"
+USAGE="Usage: config [-n|--nopass] [-b|--branch <branchName>] [-d|--deploy_only] [-h|--help]"
 
 # Use the 'nopass' option if ssh-keys have been configured and you want to skip
 # the ssh password.
@@ -15,6 +15,10 @@ TAGS=""
 while [[ $# > 0  ]]
 do
   case $1 in
+    -h|--help)
+      echo $USAGE
+      exit
+      ;;
     -n|--nopass)
       NOPASS=true
       ;;
@@ -24,10 +28,9 @@ do
       ;;
     -d|--deploy_only)
       TAGS="--tags deploy"
-      shift
       ;;
     *)
-      echo $USAGE_MSG
+      echo $USAGE
       echo Unrecognized Option: $1
       exit
       ;;
