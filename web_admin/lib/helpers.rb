@@ -15,7 +15,7 @@ module AppHelpers
     begin
       yield
     rescue
-      "THERE WAS AN ERROR"
+      erb "THERE WAS AN ERROR"
     end
   end
 
