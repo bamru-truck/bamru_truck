@@ -2,6 +2,12 @@
 
 # dev_env
 
+- name: remove old repo
+  sudo: true
+  file:
+    path: "/home/{{rem_user}}/bamru_truck"
+    state: absent
+
 - name: install github repo
   sudo: false
   remote_user: "{{rem_user}}"

@@ -10,6 +10,7 @@ USAGE_MSG="Usage: config [-n | --nopass] [-b | --branch <branchName>]"
 
 NOPASS=false
 BRANCH="master"
+TAGS=""
 
 while [[ $# > 0  ]]
 do
@@ -19,6 +20,10 @@ do
       ;;
     -b|--branch)
       BRANCH="$2"
+      shift
+      ;;
+    -d|--deploy_only)
+      TAGS="--tags deploy"
       shift
       ;;
     *)
@@ -50,8 +55,7 @@ echo using host file $hosts
 [[ "$NOPASS" != "true" ]] && echo "Hint: use 'config --nopass' to authenticate with SSH keys"
 [[ "$NOPASS" == "true" ]] && arg="" || arg="--ask-pass"
 
-
-cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH rpi.yml $arg"
+cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH $TAGS rpi.yml $arg"
 
 echo running \"$cmd\"
 

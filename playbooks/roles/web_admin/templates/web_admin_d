@@ -23,7 +23,7 @@ divider () {
 header () {
   divider
   echo $1 >> $LOGFILE
-  date >> $LOGFILE
+  date    >> $LOGFILE
 }
 
 set_env () {
@@ -47,13 +47,13 @@ start_service () {
   header "Starting web_admin_d" 
   show_env
   divider
-  RACK_ENV=production bin/run >> $LOGFILE 2>&1 & 
+  RACK_ENV=production bin/start >> $LOGFILE 2>&1 & 
 }
 
 stop_service () {
   set_env
   header "Stopping web_admin_d" 
-  pkill -f web_admin_d
+  RACK_ENV=production bin/stop >> $LOGFILE 2>&1 
 }
 
 case "$1" in 
@@ -65,7 +65,6 @@ case "$1" in
     ;;
   restart)
     stop_service
-    sleep 1
     start_service
     ;;
   *)

@@ -37,6 +37,13 @@
     - thin 
     - sinatra
 
+- name: stop the service
+  sudo: true
+  command: bin/stop
+  args:
+    chdir:   /home/{{deploy_user}}/apps/web_admin
+    removes: /home/{{deploy_user}}/apps/web_admin/tmp/pids/thin.pid
+
 - name: remove old repo
   file:
     path: "/home/{{deploy_user}}/apps"
