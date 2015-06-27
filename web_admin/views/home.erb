@@ -1,0 +1,35 @@
+<table border=1>
+  <tr>
+    <td>CURRENT TIME</td>
+    <td><%= Time.now %></td>
+  </tr>
+  <tr>
+    <td>SERVER NAME</td>
+    <td><%= ENV["SYSNAME"] %></td>
+  </tr>
+  <tr>
+    <td>SERVER TYPE</td>
+    <td><%= `uname -m` %></td>
+  </tr>
+  <tr>
+    <td>USER</td>
+    <td><%= ENV["USER"] %></td>
+  </tr>
+  <tr>
+    <td>PWD</td>
+    <td><%= ENV["PWD"] %></td>
+  </tr>
+  <tr>
+    <td>ENVIRONMENT</td>
+    <td><%= ENV["RACK_ENV"] || "development" %></td>
+  </tr>
+  <tr>
+    <td>GIT BRANCH</td>
+    <td><%= `git rev-parse --abbrev-ref HEAD` %></td>
+  </tr>
+  <tr>
+    <td>APP FILES</td>
+    <td><%= `ls -1`.gsub("\n","<br/>") %></td>
+  </tr>
+</table>
+

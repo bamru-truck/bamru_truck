@@ -3,6 +3,8 @@ module AppHelpers
     RbConfig::CONFIG["arch"].match(/arm-linux/)
   end
 
+  # ----- environment testing ----------------------------------
+
   def raspi_only
     if raspi?
       yield
@@ -19,13 +21,15 @@ module AppHelpers
     end
   end
 
+  # ----- header nav -------------------------------------------
+
   def link_to_unless_current(path, label)
     return label if path == request.path_info
     "<a href='#{path}'>#{label}</a>"
   end
 
   def navdata
-    %w(/:Home /sys:Sys /erb:Token /time:Time /ls:LS) +
+    %w(/:Home) +
     %w(/gps_packets:20_GPS_Packets /cell_modem_status:Cell_Modem_Status)
   end
 

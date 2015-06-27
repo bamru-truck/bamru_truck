@@ -12,11 +12,7 @@ class WebAdmin < Sinatra::Base
   helpers AppHelpers
 
   get '/' do
-    erb "Hello World!"
-  end
-
-  get '/sys' do
-    erb :sys
+    erb :home
   end
 
   get '/erb' do
@@ -29,14 +25,6 @@ class WebAdmin < Sinatra::Base
     puts params
     File.write(TFILE, @token)
     redirect '/erb'
-  end
-
-  get '/time' do
-    erb "Current Time: #{Time.now}"
-  end
-
-  get '/ls' do
-    erb `ls -1`.gsub("\n","<br/>")
   end
 
   get '/gps_packets' do
