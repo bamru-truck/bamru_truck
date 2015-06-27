@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ "$RACK_ENV" == "production" ]; then
+  pidfile="tmp/pids/thin.pid"
+  [ -f "$pidfile" ] && kill -9 $(< "$pidfile") 2> /dev/null
+else
+  killall thin
+fi
+
