@@ -85,7 +85,7 @@
     path:  "/home/{{deploy_user}}/apps/web_admin/{{item.dest}}"
     state: link 
   with_items:
-    - {src: "logs/web_admin", dest: "logs"}
+    - {src: "logs/web_admin", dest: "log"}
     - {src: "pids/web_admin", dest: "tmp/pids"}
 
 - name: set file ownership
