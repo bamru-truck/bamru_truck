@@ -14,7 +14,7 @@
 # Description:       used to manage server 
 ### END INIT INFO
 
-LOGFILE="log/production.log"
+LOGFILE="/home/{{deploy_user}}/logs/web_admin/production.log"
 
 divider () {
   echo "---------------------------------------------" >> $LOGFILE
@@ -29,7 +29,6 @@ header () {
 set_env () {
   export GEM_PATH=/root/.gem/ruby/1.9.1:/var/lib/gems/1.9.1
   cd /home/{{deploy_user}}/apps/web_admin
-  mkdir -p log
 }
 
 show_env () {

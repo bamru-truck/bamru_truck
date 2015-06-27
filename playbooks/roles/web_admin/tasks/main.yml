@@ -37,12 +37,22 @@
     - thin 
     - sinatra
 
+- name: create data directories
+  file:
+    path:  "/home/{{deploy_user}}/{{item}}"
+    state: directory
+  with_items:
+    - pids/web_admin
+    - pids/web_chat
+    - logs/web_admin
+    - logs/web_chat
+
 - name: stop the service
   sudo: true
   command: bin/stop
   args:
     chdir:   /home/{{deploy_user}}/apps/web_admin
-    removes: /home/{{deploy_user}}/apps/web_admin/tmp/pids/thin.pid
+    removes: /home/{{deploy_user}}/pids/web_admin/thin.pid
 
 - name: remove old repo
   file:
@@ -56,13 +66,27 @@
   sudo: true
   file:
     path: "/home/{{deploy_user}}/apps/{{item}}"
-    state: "absent"
+    state: absent
   with_items:
     - "README.md"
     - "NOTES.md"
     - "bin"
     - "playbooks"
   changed_when: false
+
+- name: create tmp directory
+  file:
+    path:  "/home/{{deploy_user}}/apps/web_admin/tmp"
+    state: directory
+
+- name: create symlinks
+  file:
+    src:   "/home/{{deploy_user}}/{{item.src}}"
+    path:  "/home/{{deploy_user}}/apps/web_admin/{{item.dest}}"
+    state: link 
+  with_items:
+    - {src: "logs/web_admin", dest: "log"}
+    - {src: "pids/web_admin", dest: "tmp/pids"}
 
 - name: set file ownership
   file:
