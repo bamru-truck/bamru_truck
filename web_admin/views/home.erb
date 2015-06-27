@@ -5,7 +5,7 @@
   </tr>
   <tr>
     <td>SERVER NAME</td>
-    <td><%= ENV["SYSNAME"] %></td>
+    <td><%= ENV["SYSNAME"] || File.read('/etc/hostname') %></td>
   </tr>
   <tr>
     <td>SERVER TYPE</td>
@@ -13,7 +13,7 @@
   </tr>
   <tr>
     <td>USER</td>
-    <td><%= ENV["USER"] %></td>
+    <td><%= ENV["USER"] || "root" %></td>
   </tr>
   <tr>
     <td>PWD</td>

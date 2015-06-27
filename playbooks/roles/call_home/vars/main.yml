@@ -1,0 +1,4 @@
+---
+rpi_name: "mgregg-rpi3.michaelgregg.com"
+relay_host: "www.michaelgregg.com:250"
+call_home_email: "mgregg@michaelgregg.com"
