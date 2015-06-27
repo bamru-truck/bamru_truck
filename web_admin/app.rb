@@ -47,7 +47,7 @@ class WebAdmin < Sinatra::Base
 
   get '/cell_modem_status' do
     raspi_only do
-      save_exec { erb `/usr/bin/sudo /bin/get-modem-status.py --html` }
+      safe_exec { erb `/usr/bin/sudo /bin/get-modem-status.py --html` }
     end
   end
 end
