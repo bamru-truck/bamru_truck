@@ -39,7 +39,10 @@
 
 - name: stop the service
   sudo: true
-  service: name=web_admin_d state=stopped
+  command: bin/stop
+  args:
+    chdir:   /home/{{deploy_user}}/apps/web_admin
+    removes: /home/{{deploy_user}}/apps/web_admin/tmp/pids/thin.pid
 
 - name: remove old repo
   file:
