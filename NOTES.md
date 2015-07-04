@@ -76,3 +76,6 @@ ftp://ftp.hp.com/pub/softpaq/sp36501-37000/sp36889.exe
 
 ## Network booting RPi's
 http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
+
+## Gobi at command set
+https://www.olimex.com/Products/USB-Modules/MOD-USB3G/resources/AT_Command_Set_Gobi.pdf
