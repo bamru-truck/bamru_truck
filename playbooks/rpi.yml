@@ -20,9 +20,9 @@
     - { role: roles/cli_user  , rem_user:  "mgregg"        }
     - { role: roles/tmux      , host_list: "aleak mgregg"  }
     - roles/pips
-    - roles/hotspot_rpi
+    # - roles/hotspot_rpi
     - roles/gpsd
-    - roles/cell_modem_support
+    # - roles/cell_modem_support
     - roles/call_home
     - { role: roles/web_admin , deploy_user: "deploy", tags: ['deploy'] }
     - { role: roles/dev_env   , rem_user:  "aleak"         }
