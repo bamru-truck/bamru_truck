@@ -46,6 +46,10 @@
     - pids/web_chat
     - logs/web_admin
     - logs/web_chat
+    
+- name: check for previous service installation
+  stat: path=/home/{{deploy_user}}/apps/web_admin
+  register: web_admin
 
 - name: stop the service
   sudo: true
@@ -53,6 +57,7 @@
   args:
     chdir:   /home/{{deploy_user}}/apps/web_admin
     removes: /home/{{deploy_user}}/pids/web_admin/thin.pid
+  when: web_admin.stat.exists
 
 - name: remove old repo
   file:
