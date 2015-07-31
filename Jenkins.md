@@ -8,8 +8,8 @@ Add the new ppa:
 sudo add-apt-repository ppa:webupd8team/java
 
 Install the new jre
-sudo apt-get update 
-sudo apt-get install oracle-java6-installer
+sudo aptitude update 
+sudo aptitude install oracle-java6-installer
 
 Then, reboot
 
@@ -23,6 +23,8 @@ Add https://jenkins.michaelgregg.com:8080
 head to https://jenkins.michaelgregg.com:8080/computer/<your node name>/
 
 After that, you can either click on the "Launch" button. Click alll if the crazy dialogs to allow the unsigned cert.
+
+It is important you edit your vm config and add a rpi_base_dir key, and a rpi_base_tgz key. See my first host for a example: https://jenkins.michaelgregg.com:8080/computer/mgregg-home-ubuntu-vm/configure
 
 ## Installing Jenkins on Ubuntu
 
