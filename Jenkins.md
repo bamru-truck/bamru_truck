@@ -1,3 +1,29 @@
+
+## How to connect your ubuntu machine to be a jenkins build slave
+
+Remove all alternate versions of java*
+sudo apt-get purge openjdk-\* icedtea-\* icedtea6-\*
+
+Add the new ppa:
+sudo add-apt-repository ppa:webupd8team/java
+
+Install the new jre
+sudo apt-get update 
+sudo apt-get install oracle-java6-installer
+
+Then, reboot
+
+After reboot, you will need to alter the security settings to allow self signed certs for out jenkins server.
+
+run javaws from the cli. 
+Click on the security tab
+In the Exception site list, click add.
+Add https://jenkins.michaelgregg.com:8080
+
+head to https://jenkins.michaelgregg.com:8080/computer/<your node name>/
+
+After that, you can either click on the "Launch" button. Click alll if the crazy dialogs to allow the unsigned cert.
+
 ## Installing Jenkins on Ubuntu
 
 # Install base system
