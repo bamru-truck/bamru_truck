@@ -26,18 +26,18 @@ void print_help()
 }
 
 void relay_on() {
-  digitalWrite(4,LOW);
-  digitalWrite(5,LOW);
-  digitalWrite(6,LOW);
-  digitalWrite(7,LOW);
-  digitalWrite(LED,HIGH); // Turn on LED to let user know that the output device should be on. 
-}
-
-void relay_off() {
   digitalWrite(4,HIGH);
   digitalWrite(5,HIGH);
   digitalWrite(6,HIGH);
   digitalWrite(7,HIGH);
+  digitalWrite(LED,HIGH); // Turn on LED to let user know that the output device should be on. 
+}
+
+void relay_off() {
+  digitalWrite(4,LOW);
+  digitalWrite(5,LOW);
+  digitalWrite(6,LOW);
+  digitalWrite(7,LOW);
   digitalWrite(LED,LOW);
 }
 
