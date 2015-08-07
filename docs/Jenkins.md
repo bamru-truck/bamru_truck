@@ -1,3 +1,6 @@
+# JENKINS
+
+View the [README](../README.md)
 
 ## How to connect your ubuntu machine to be a jenkins build slave
 
