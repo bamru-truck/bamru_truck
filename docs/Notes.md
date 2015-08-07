@@ -1,5 +1,7 @@
 # BAMRU TRUCK WIFI HOTSPOT / HACKING NOTES
 
+View the [README](../README.md)
+
 Github Repo: `https://github.com/cinchcircuits/bamru_truck.git`
 
 ## Configuring WIFI Hotspot
