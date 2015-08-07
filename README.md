@@ -89,3 +89,15 @@ pair-programming session:
 
 - log into the development box using SSH
 - run `wemux`
+
+## How to Contribute
+
+You'll need a GitHub account, Ubuntu, Command Line savvy, networking skills,
+Raspberry Pi know-how, and basic coding skills (HTML, CSS, JS, Ruby).
+
+[Contributing](./docs/Contributing.md)
+
+[Development Notes](./docs/Notes.md)
+
+[Jenkins](./docs/Jenkins.md)
+
