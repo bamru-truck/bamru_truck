@@ -1,5 +1,6 @@
 ---
-# USE THE CONFIG SCRIPT TO BRING UP A NEW MACHINE
+
+# yaml file to be used for Jenkins tests
 
 - hosts:      rpi   
   vars:
