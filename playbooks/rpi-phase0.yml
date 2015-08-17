@@ -19,8 +19,10 @@
     - { role: roles/cli_user  , rem_user:  "aleak"         }
     - { role: roles/cli_user  , rem_user:  "mgregg"        }
     - { role: roles/tmux      , host_list: "aleak mgregg"  }
+    - roles/pips
+    # - roles/hotspot_rpi   # => replaced by 'hostapd' and 'udhcpd' roles...
+    - roles/hostapd
+    - roles/udhcpd
+    - { role: roles/web_admin , deploy_user: "deploy", tags: ['deploy'] }
     - { role: roles/dev_env   , rem_user:  "aleak"         }
     - { role: roles/dev_env   , rem_user:  "mgregg"        }
-    - roles/pips
-    - roles/hostapd
-    - roles/dnsmasq
