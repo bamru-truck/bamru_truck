@@ -53,10 +53,6 @@
     regexp: '^DAEMON_CONF'
     line:   'DAEMON_CONF="/etc/hostapd/hostapd.conf"'
 
-- name: update udhcpd init to touch leases file
-  sudo: true
-  shell: sudo sed -i s=^set\ -e=set\ -e'\n'touch\ /var/lib/misc/udhcpd.leases=g /etc/init.d/udhcpd   
-
 - name: setup network interfaces
   sudo: true
   template: 
