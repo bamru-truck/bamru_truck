@@ -4,7 +4,7 @@ require 'colored'
 
 HR    = "\n#{'*'*60}"
 Host  = Struct.new(:name, :phase)
-names = %w(cat1.phase0 cat2.phase0)
+names = %w(cat1.phase1 cat2.phase1)
 hosts = names.map {|x| Host.new(*x.split('.'))}
 
 task :spec    => 'spec:all'
