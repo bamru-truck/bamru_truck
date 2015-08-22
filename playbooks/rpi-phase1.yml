@@ -1,0 +1,26 @@
+---
+# USE THE CONFIG SCRIPT TO BRING UP A NEW MACHINE
+
+- hosts:      rpi   
+  vars:
+    - lcl_user:   "{{ lookup('env', 'USER') }}"
+    - rem_user:   pi                
+    - git_branch: "master"
+    - git_repo:   "https://github.com/cinchcircuits/bamru_truck"
+  remote_user: "{{rem_user}}"
+  sudo: true
+  roles:
+    - roles/check_env
+    - roles/cli_tzone
+    - roles/cli_base
+    - roles/cli_locale
+    - { role: roles/setup_ssh , rem_user:  "pi"            }
+    - { role: roles/cli_user  , rem_user:  "deploy"        }
+    - { role: roles/cli_user  , rem_user:  "aleak"         }
+    - { role: roles/cli_user  , rem_user:  "mgregg"        }
+    - { role: roles/tmux      , host_list: "aleak mgregg"  }
+    - { role: roles/dev_env   , rem_user:  "aleak"         }
+    - { role: roles/dev_env   , rem_user:  "mgregg"        }
+    - roles/pips
+    - roles/hostapd
+    - roles/dnsmasq

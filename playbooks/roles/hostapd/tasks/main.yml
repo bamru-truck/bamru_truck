@@ -1,0 +1,122 @@
+---
+
+# hostapd
+# see http://elinux.org/RPI-Wireless-Hotspot
+
+- name: install support packages
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=no
+  with_items:
+    - hostapd      # access point demon
+    - bmon         # in-console bandwidth monitor
+    - iw           # wifi configurator
+    - bridge-utils # bridge-utils
+    - iptables-persistent
+
+- name: revert hostapd config if ansible has already been run
+  sudo: true
+  shell: if [ -f /usr/sbin/hostapd.backup ]; then mv /usr/sbin/hostapd.backup /usr/sbin/hostapd.stock; fi
+
+- name: backup hostapd binary if it has not already been backed up
+  sudo: true
+  shell: if [ ! -f /usr/sbin/hostapd.stock ]; then cp -a /usr/sbin/hostapd /usr/sbin/hostapd.stock; fi
+  
+- name: Backup the hostapd init file
+  sudo: true 
+  shell: if [ ! -f /etc/init.d/hostapd.backup ]; then mv /etc/init.d/hostapd /etc/init.d/hostapd.backup; fi
+
+- name: install new hostapd init file
+  sudo: true
+  copy:
+    src: hostapd-initfile
+    dest: /etc/init.d/hostapd
+    mode: "a+rx"
+
+- name: install a bug-fix version of hostapd
+  sudo: true
+  copy: 
+    src: hostapd
+    dest: /usr/sbin/hostapd.new
+    mode: "a+rx"
+
+- name: fix an error in /etc/init.d/hostapd
+  sudo: true
+  lineinfile:
+    dest:   /etc/init.d/hostapd
+    line:   "DAEMON_CONF=/etc/hostapd/hostapd.conf"
+    regexp: "^DAEMON_CONF="
+
+- name: configure /etc/default/hostapd
+  sudo: true
+  lineinfile:
+    dest:   /etc/default/hostapd
+    regexp: '^DAEMON_CONF'
+    line:   'DAEMON_CONF="/etc/hostapd/hostapd.conf"'
+
+- name: update udhcpd init to touch leases file
+  sudo: true
+  shell: sudo sed -i s=^set\ -e=set\ -e'\n'touch\ /var/lib/misc/udhcpd.leases=g /etc/init.d/udhcpd   
+
+- name: setup network interfaces
+  sudo: true
+  template: 
+    src:  interfaces
+    dest: /etc/network/interfaces
+
+- name: set wlan0 static address
+  sudo:  true
+  shell: ifconfig wlan0 192.168.42.1
+
+- name: configure hostapd.conf
+  template:
+    src:  hostapd.conf
+    dest: /etc/hostapd/hostapd.conf
+
+- name: turn on IP forwarding
+  sudo: true
+  shell: sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+
+- name: modprobe ip_tables
+  sudo: true
+  command: modprobe ip_tables
+
+- name: enable ip_tables on reboot
+  sudo: true
+  lineinfile:
+    dest: /etc/modules
+    line: "ip_tables"
+
+- name: enable NAT in the kernel 
+  sudo: true
+  shell: "{{item}}" 
+  with_items:
+    - "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE"
+    - "iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT"
+    - "iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT"
+
+- name: enable IP forwarding on boot (/etc/sysctl.conf)
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: "net.ipv4.ip_forward=1" 
+    regexp: "^net.ipv4.ip_forward"
+
+- name: save IPTABLES settings
+  sudo:  true
+  shell: "{{item}}"
+  with_items:
+    - "sh -c 'iptables-save > /etc/iptables/rules.v4'"
+    - "sh -c 'rm -f /etc/iptables.ipv4.nat'"
+    - "sh -c 'ln -s /etc/iptables/rules.v4 /etc/iptables.ipv4.nat'"
+
+- name: start the access point
+  sudo:  true
+  shell: "{{item}}" 
+  with_items:
+    - "service hostapd start"
+
+- name: auto-start access point on Boot
+  sudo:  true
+  shell: "{{item}}" 
+  with_items:
+    - "update-rc.d hostapd enable"
+

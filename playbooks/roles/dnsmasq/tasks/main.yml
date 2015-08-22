@@ -1,0 +1,8 @@
+---
+
+# dnsmasq
+# see http://www.thekelleys.org.uk/dnsmasq/doc.html
+
+- name: install 
+  sudo: true
+  apt:  pkg=dnsmasq state=present
