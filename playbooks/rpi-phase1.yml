@@ -22,6 +22,6 @@
     - { role: roles/tmux      , host_list: "aleak mgregg"  }
     - { role: roles/dev_env   , rem_user:  "aleak"         }
     - { role: roles/dev_env   , rem_user:  "mgregg"        }
-    # - roles/pips
-    # - roles/hostapd
-    # - roles/dnsmasq
+    - roles/pips
+    - roles/hostapd
+    - roles/dnsmasq
