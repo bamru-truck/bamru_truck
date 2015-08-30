@@ -12,9 +12,9 @@
   roles:
     - roles/check_env
     - roles/vars_dump
-    # - roles/cli_tzone
-    # - roles/cli_base
-    # - roles/cli_locale
+    - roles/cli_tzone
+    - roles/cli_base
+    - roles/cli_locale
     # - { role: roles/setup_ssh , rem_user:  "pi"            }
     # - { role: roles/cli_user  , rem_user:  "deploy"        }
     # - { role: roles/cli_user  , rem_user:  "aleak"         }
