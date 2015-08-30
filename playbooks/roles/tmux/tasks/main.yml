@@ -2,10 +2,23 @@
 
 # tmux
 
+- name : funcking fuck
+  debug:
+    msg: "DIST {{ansible_distribution}}"
+
+- name : funcking fuck
+  debug:
+    msg: "FUCKK {{ansible_distribution_version}}"
+
 - name: add PPA (ubuntu 1404)
   sudo: true
   when: is_ubuntu_1404
   apt_repository: repo="ppa:pi-rho/dev" 
+
+- name: add PPA (ubuntu 1204)
+  sudo: true
+  # when: is_ubuntu_1204
+  apt_repository: repo="ppa:kalakris/tmux" 
 
 - name: install (ubuntu)
   sudo: true
