@@ -15,13 +15,13 @@
     - roles/cli_tzone
     - roles/cli_base
     - roles/cli_locale
-    # - { role: roles/setup_ssh , rem_user:  "pi"            }
-    # - { role: roles/cli_user  , rem_user:  "deploy"        }
-    # - { role: roles/cli_user  , rem_user:  "aleak"         }
-    # - { role: roles/cli_user  , rem_user:  "mgregg"        }
-    # - { role: roles/tmux      , host_list: "aleak mgregg"  }
-    # - { role: roles/dev_env   , rem_user:  "aleak"         }
-    # - { role: roles/dev_env   , rem_user:  "mgregg"        }
+    - { role: roles/setup_ssh , rem_user:  "pi"            }
+    - { role: roles/cli_user  , rem_user:  "deploy"        }
+    - { role: roles/cli_user  , rem_user:  "aleak"         }
+    - { role: roles/cli_user  , rem_user:  "mgregg"        }
+    - { role: roles/tmux      , host_list: "aleak mgregg"  }
+    - { role: roles/dev_env   , rem_user:  "aleak"         }
+    - { role: roles/dev_env   , rem_user:  "mgregg"        }
     # - roles/pips
     # - roles/hostapd
     # - roles/dnsmasq

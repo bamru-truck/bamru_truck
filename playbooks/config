@@ -9,8 +9,7 @@ USAGE="Usage: config [-n|--nopass] [-b|--branch <branchName>] [-d|--deploy_only]
 # Parse command-line options
 
 NOPASS=false
-# BRANCH="master"
-BRANCH=$(git symbolic-ref --short -q HEAD)
+BRANCH="$(git symbolic-ref --short -q HEAD)"
 TAGS=""
 
 while [[ $# > 0  ]]
