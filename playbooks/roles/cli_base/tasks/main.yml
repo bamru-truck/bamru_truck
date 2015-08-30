@@ -12,7 +12,6 @@
     - python-virtualenv          # required by ansible
     - build-essential            # compile tools
     - dnsutils                   # dnsutils
-    - git-core                   # git
     - aptitude                   # package manager
     - cmake                      # required by libgit2/rugged
     - libicu-dev                 # development lib

@@ -6,3 +6,4 @@
   template:
     src: dump_vars.j2
     dest: /tmp/ansible_vars.txt
+  changed_when: false

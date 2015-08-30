@@ -1,0 +1,20 @@
+---
+
+# git
+
+- name: add git PPA (ubuntu)
+  apt_repository: repo='ppa:git-core/ppa' state=present
+  when: is_ubuntu
+
+- name: install git package (ubuntu)
+  apt: 
+    pkg:   "git-core={{git_vsn}}*"
+    state: "present"
+  when: is_ubuntu
+
+- name: install git package (RPi)
+  apt: 
+    pkg:   "git"
+    state: "latest"
+  when: is_rpi
+
