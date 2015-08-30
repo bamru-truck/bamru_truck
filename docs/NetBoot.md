@@ -10,8 +10,7 @@ in a home router).
 
 - SD card 4 GB or greater. You will only be using this for booting
 
-- Linux server on your network. (It is possible to use other OS’s, but those
-  are not covered in this guide. Also, that other server could be another RPi.)
+- Linux server on your network. (could be another RPi...)
 
 These instructions are based off of the guide found here:
 
@@ -29,7 +28,8 @@ Start with the SD card:
 
 3. sync, then unplug the sd card, then plug it into your server
 
-   If your server does not automatically mount the sd card, mount the root and boot partitions.
+   If your server does not automatically mount the sd card, mount the root and
+   boot partitions.
 
 4. On the server, create /export/raspbian/2015-05-05-raspbian-wheezy-base copy
    the contents of the root from the sd card to
