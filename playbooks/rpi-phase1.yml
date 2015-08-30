@@ -11,6 +11,7 @@
   sudo: true
   roles:
     - roles/check_env
+    - roles/vars_dump
     # - roles/cli_tzone
     # - roles/cli_base
     # - roles/cli_locale
