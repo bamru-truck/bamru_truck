@@ -1,7 +1,5 @@
 #!/bin/bash
 
-eval `./bin/ci/gen_env`
-
 ./bin/ci/reset_nfs_drive
 ./bin/ci/powercycle
 ./bin/ci/run_ansible

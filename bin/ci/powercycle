@@ -12,5 +12,5 @@ sleep 20
 sleep 20
 sleep 20
 
-msg "Ping the RPi to see if it alive"
+msg "Ping the RPi to see if it is alive"
 ping -c1 $rpi_hostname
