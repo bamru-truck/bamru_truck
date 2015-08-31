@@ -1,8 +1,11 @@
 # Network booting a Raspberry Pi 2
 
-Goal: Get raspbian to a point where it is booting off of a nfs share on a
-network without a very versatile dhcp server(ie, the dhcp server you might have
-in a home router).
+Goal: Get raspbian to a point where it is booting off of a nfs share configured
+to work in our Continuous Integration environment.
+
+These instructions are derived from the guide found here:
+
+http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 
 ## Prerequisites:
 
@@ -10,11 +13,9 @@ in a home router).
 
 - SD card 4 GB or greater. You will only be using this for booting
 
-- Linux server on your network. (could be another RPi...)
+- Linux NFS server on your network. (could be another RPi...)
 
-These instructions are based off of the guide found here:
-
-http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
+## Getting Started:
 
 I needed to make some alterations.
 
@@ -109,4 +110,3 @@ Make sure you change the <nfs server> bit.
 
 That should be it. Put your sd card back into your RPi and boot it. It should network boot.
 
-Enjoy-
