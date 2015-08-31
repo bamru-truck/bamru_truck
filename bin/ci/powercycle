@@ -3,13 +3,14 @@
 # Load environment variables
 eval `./bin/ci/gen_env`
 
-# Restart RPi
+# Power-Cycle the RPi
 ./powercycle/reset_arduino -t $switch_tty
 
-# Wait for RPi to reboot
-sleep 30
-sleep 30
-sleep 30
+# Wait for RPi to boot
+echo "Sleep for 60 seconds while the RPi boots..."
+sleep 20
+sleep 20
+sleep 20
 
-# Test to see if the rpi is currently up 
+# Test to see if the RPi is alive
 ping -c1 $rpi_hostname
