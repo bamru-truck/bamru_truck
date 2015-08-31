@@ -3,10 +3,9 @@
 # Load environment variables
 eval `./bin/ci/gen_env`
 
-# Power-Cycle the RPi
+echo "Powercycle the RPi..."
 ./powercycle/reset_arduino -t $switch_tty
 
-# Wait for RPi to boot
 echo "Sleep for 60 seconds while the RPi boots..."
 sleep 20
 sleep 20
