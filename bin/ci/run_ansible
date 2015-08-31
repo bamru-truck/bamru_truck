@@ -1,2 +1,25 @@
 #!/bin/bash
 
+
+# Setup ansible enviroment
+pwd=$(pwd)
+
+cd $pwd/playbooks
+cat rpi.yml-automation > rpi.yml
+cd $pwd/playbooks/roles/call_home/vars
+cat main.yml-automation > main.yml
+cd $pwd/playbooks/inventory
+cat hosts.ini-automation > hosts.ini
+
+sed -i s/--host--/$rpi_hostname/g hosts.ini
+sed -i s/--testssid--/$ssid/g hosts.ini
+
+# Settle ssh key if it is not already populated.
+ssh -oStrictHostKeyChecking=no pi@$rpi_hostname 'ls /tmp'
+
+cd $pwd/playbooks
+rm -f ./inventory/hosts_*.ini
+./config --nopass
+
+
+

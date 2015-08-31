@@ -1,3 +1,20 @@
 #!/bin/bash
 
 ./powercycle/reset_arduino -t /dev/ttyUSB0
+
+# Restart RPi
+cd $pwd
+ls
+cd power
+sudo python ./reset-rpi-serial.py -t $switch_tty
+
+cd $pwd
+
+x=0;
+while [ $x -lt 3 ]; do
+  sleep 30;
+  let x=$x+1;
+done
+
+# Test to see if the rpi is currently up. 
+ping -c1 $rpi_hostname

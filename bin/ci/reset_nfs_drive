@@ -1,1 +1,16 @@
 #!/bin/bash
+
+# Reload main env
+pwd=$(pwd)
+
+if [ ! -f $rpi_base_tgz ]; then 
+  echo "ERROR! $rpi_base_tgz does not exist! Exiting"
+  exit 1
+else
+  sudo rm -Rf $rpi_base_dir
+  sync;sync;sync # I seem to get errors if I do not run this
+  # Decompress RPi root
+  sudo mkdir -p $rpi_base_dir
+  cd $rpi_base_dir; cd ..;sudo tar xfz $rpi_base_tgz
+  sync;sync;sync # I seem to get errors if I do not run this
+fi
