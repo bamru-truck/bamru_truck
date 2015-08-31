@@ -18,7 +18,5 @@ msg "Setup ssh keys on $rpi_hostname"
 ssh -oStrictHostKeyChecking=no pi@$rpi_hostname 'ls /tmp'
 
 msg "Run ansible"
-./config --nopass --inventory ci
-
-
+./config --nopass --inventory ci -p $playbook 
 

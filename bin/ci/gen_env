@@ -35,8 +35,9 @@ _base:
   rpi_base_tgz: /export/raspbian/basic-image-with-ssh-keys.tar.gz
 aleak:
   _base:
-    rpi_hostname: cat4.x
+    rpi_hostname: cat4
     rpi_ssid: cat4
     switch_tty: /dev/ttyUSB0
+    playbook: phase1
 mgregg:
   

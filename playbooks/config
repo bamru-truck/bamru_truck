@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="Usage: config [-n|--nopass] [-b|--branch <branchName>] [-d|--deploy_only] [-p|--playbook] [-h|--help]"
+USAGE="Usage: config [-n|--nopass] [-i|--inventory <inventoryFile>] [-b|--branch <branchName>] [-d|--deploy_only] [-p|--playbook] [-h|--help]"
 
 # Use the 'nopass' option if ssh-keys have been configured and you want to skip
 # the ssh password.
@@ -21,6 +21,7 @@ do
       ;;
     -i|--inventory)
       INVENTORY="$2"
+      shift
       ;;
     -n|--nopass)
       NOPASS=true
