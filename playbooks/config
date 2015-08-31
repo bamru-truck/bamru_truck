@@ -19,6 +19,9 @@ do
       echo $USAGE
       exit
       ;;
+    -i|--inventory)
+      INVENTORY="$2"
+      ;;
     -n|--nopass)
       NOPASS=true
       ;;
@@ -49,8 +52,11 @@ done
 
 base_hosts="./inventory/hosts.ini"
 user_hosts="./inventory/hosts_$USER.ini"
+clop_hosts="./inventory/hosts_$INVENTORY.ini"
 
-[ -f $user_hosts ] && hosts=$user_hosts || hosts=$base_hosts
+hosts=$base_hosts
+[ -f $user_hosts ] && hosts=$user_hosts 
+[ -f $clop_hosts ] && hosts=$clop_hosts 
 
 echo using host file $hosts
 

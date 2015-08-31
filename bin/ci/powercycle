@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# Load environment variables
-eval `./bin/ci/gen_env`
+source ./bin/ci/util
+load_environment_variables
+print_header
 
-echo "Powercycle the RPi..."
+msg "Powercycle the RPi"
 ./powercycle/reset_arduino -t $switch_tty
 
-echo "Sleep for 60 seconds while the RPi boots..."
+msg "Sleep for 60 seconds while the RPi boots"
 sleep 20
 sleep 20
 sleep 20
 
-# Test to see if the RPi is alive
+msg "Ping the RPi to see if it alive"
 ping -c1 $rpi_hostname

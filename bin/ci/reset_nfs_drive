@@ -1,20 +1,22 @@
 #!/bin/bash
 
-# Load environment variables
-eval `./bin/ci/gen_env`
+source ./bin/ci/util
+load_environment_variables
+print_header
 
 # Reload main env
 pwd=$(pwd)
 
 if [ ! -f $rpi_base_tgz ]; then 
-  echo "ERROR! $rpi_base_tgz does not exist! Exiting"
+  msg "ERROR! $rpi_base_tgz does not exist! Exiting"
   exit 1
 else
+  msg "Remove old rpi_base_dir"
   sudo rm -Rf $rpi_base_dir
 
   sync;sync;sync # I seem to get errors if I do not run this
 
-  # Expand RPi root
+  msg "Expand raw rpi_base_dir"
   sudo mkdir -p $rpi_base_dir
   cd $rpi_base_dir
   cd ..

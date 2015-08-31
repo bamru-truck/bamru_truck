@@ -1,26 +1,24 @@
 #!/bin/bash
 
-eval `./bin/ci/gen_env`
+source ./bin/ci/util
+load_environment_variables
+print_header
 
 # Setup ansible enviroment
 pwd=$(pwd)
-
 cd $pwd/playbooks
-cat rpi.yml-automation > rpi.yml
-cd $pwd/playbooks/roles/call_home/vars
-cat main.yml-automation > main.yml
-cd $pwd/playbooks/inventory
-cat hosts.ini-automation > hosts.ini
 
-sed -i s/--host--/$rpi_hostname/g hosts.ini
-sed -i s/--testssid--/$ssid/g hosts.ini
+msg "Create inventory file"
+echo "[rpi]"                         > inventory/hosts_ci.ini
+echo "$rpi_hostname ssid=$rpi_ssid" >> inventory/hosts_ci.ini
 
-# Settle ssh key if it is not already populated.
+exit 1
+
+msg "Setup ssh keys on $rpi_hostname"
 ssh -oStrictHostKeyChecking=no pi@$rpi_hostname 'ls /tmp'
 
-cd $pwd/playbooks
-rm -f ./inventory/hosts_*.ini
-./config --nopass
+msg "Run ansible"
+./config --nopass --inventory ci
 
 
 
