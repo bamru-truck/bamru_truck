@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+load_environment_variables() {
+  eval `./bin/ci/gen_env`
+}
+
+script_name() {
+  basename "$0"
+}
+
+print_header() {
+  echo "`date` - `script_name`"
+}
+
+msg() {
+  echo "> $1..."
+}
