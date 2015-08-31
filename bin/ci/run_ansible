@@ -1,5 +1,6 @@
 #!/bin/bash
 
+eval `./bin/ci/gen_env`
 
 # Setup ansible enviroment
 pwd=$(pwd)
