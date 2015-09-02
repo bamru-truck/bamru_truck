@@ -20,5 +20,6 @@ abort "ERROR - sd partitions at #{SD_BASE} not found"  unless SD_PARTITIONS.leng
 abort "ERROR - no SD root partition"                   if SD_ROOT.nil?
 
 File.open(TAB_FILE, 'w') {|f| f.puts TAB_TEXT}
+system "sudo touch #{SD_ROOT}/tmp/.tmpfs"
 
 puts "Text written to #{TAB_FILE}\n#{TAB_TEXT}"
