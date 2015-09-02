@@ -1,14 +1,11 @@
 #!/usr/bin/env ruby
 
-require 'wemote'
-require 'typhoeus'
-
 # Use this script to control Belkin Wemo switches.
-# Relies on the Wemote gem: see https://github.com/gisikw/wemote
+# Relies on 'ouimeaux' command-line executable.
 
 SWITCH_NAME = "RPi Switch"
 
-opts = %w(on off toggle powercycle)
+opts = %w(on off toggle status search)
 msg  = "Usage: set_wemo <#{opts.join('|')}>"
 
 abort(msg) if ARGV.length != 1
@@ -23,6 +20,7 @@ case arg
 when "on"             then switch.on!
 when "off"            then switch.off!
 when "toggle"         then switch.toggle!
-when "powercycle"     then switch.off! ; sleep 2 ; switch.on!
+when "search"        then pp Wemote::Switch
+when "status"
 end
 

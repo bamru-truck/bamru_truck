@@ -1,7 +1,11 @@
 # Network booting a Raspberry Pi 2
 
-Goal: Get raspbian to a point where it is booting off of a nfs share configured
-to work in our Continuous Integration environment.
+Goal: Configure raspbian to boot from a nfs drive, in order to work in our
+Continuous Integration environment.
+
+We use net-booting to automatically setup a pristine RPi configuration in
+seconds, in order to run the automated configuration and testing scripts used
+in our Continuous Integration environment.
 
 These instructions are derived from the guide found here:
 
@@ -11,24 +15,84 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 
 - Rpi 2
 
-- SD card 4 GB or greater. You will only be using this for booting
+- 4GB SD card. You will only be using this for booting
 
 - Linux NFS server on your network. (could be another RPi...)
 
-## Getting Started - RPi Preparation:
+- DHCP service on your lan
 
-Start with the SD card:
+## NFS Configuration
+
+### Server Setup
+
+    > sudo apt-get install nfs-kernel-server
+    > sudo bash -c echo '/export *(rw,no_root_squash,async,no_subtree_check)' >> /etc/exports
+    > sudo exportfs -ra
+    > sudo /etc/init.d/nfs-kernel-server restart
+
+### Client Testing
+
+    > sudo apt-get install nfs-common      # nfs client packages
+    > showmount -e <nfs-host>              # query NFS server for exported drives
+    > mkdir nfs                            # create a mount point
+    > sudo mount <nfs-host>:/drive nfs     # mount nfs drive
+    > ls nfs                               # view nfs contents
+    > df                                   # mounted drive should appear in partition list
+    > sudo umount nfs                      # unmount nfs drive
+
+## Preparing a bootable SD card
 
 1. Downloaded the latest raspbian from here:
+
     https://www.raspberrypi.org/downloads/
 
-2. Extract the zip file, write it to the sd card using dd
-        dd if=./2015-05-05-raspbian-wheezy.img of=/dev/sd(WHATEVER) bs=1M
+2. Extract the zip file, write it to a 4GB SD card using dd
 
-3. sync, then unplug the sd card, then plug it into your server
+    sudo dd if=./2015-05-05-raspbian-wheezy.img of=/dev/sd<WHATEVER> bs=1M
+    sudo sync
 
-   If your server does not automatically mount the sd card, mount the root and
-   boot partitions.
+3. Boot the RPi with your SD card, and make the following changes using the
+   `raspi-config` tool:
+
+   - change the hostname
+   - change the user password to `pi`
+   - enable sshd
+
+4. Run these commands on the Rpi:
+
+    > sudo apt-get update            # update repo list
+    > sudo apt-get upgrade -y -q     # upgrade packages
+    > sudo rpi-update                # update the kernel to latest
+
+5. Add ssh keys 
+
+    - instructions TBD
+    - after this step, you should be able to SSH to the RPi without a password
+
+      > ssh pi@<hostname>
+
+You now have a clean bootable image.
+
+## Saving your bootable image
+
+    > sudo umount /dev/sd<WHATEVER>*
+    > sudo dd bs=4M if=/dev/sd<WHATEVER> of=bootable.img
+
+## Creating and saving a net-bootable configuration
+
+1. Unplug the sd card, then plug it into your server.
+
+2. Run a configuration script to force the RPi kernel to netboot
+
+    > ./
+    
+3. Run a configuration script to setup the RPi /etc/fstab for nfs automount
+
+    > ./
+
+
+
+## Saving your net-bootable configuration
 
 4. On the server, create /export/raspbian/2015-05-05-raspbian-wheezy-base copy
    the contents of the root from the sd card to
@@ -37,14 +101,6 @@ Start with the SD card:
 5. Copy the contents of the boot to
    /export/raspbian/2015-05-05-raspbian-wheezy-base/boot
 
-## Getting Started - NFS Configuration:
-
-Set up NFS on your linux server:
-
-    sudo aptitude install nfs-kernel-server
-    sudo bash -c echo '/export *(rw,no_root_squash,async,no_subtree_check)' >> /etc/exports
-    sudo exportfs -ra
-    sudo /etc/init.d/nfs-kernel-server restart
 
 Edit the fstab in your RPi image:
 

@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+SD_BASE       = "/media"
+SD_PARTITIONS = Dir.glob("#{SD_BASE}/*")
+SD_ROOT       = SD_PARTITIONS.select {|path| path.split('/').last != 'boot' }
+TAB_FILE      = "#{SD_ROOT}/etc/fstab"
+
+TAB_TEXT = <<-EOF
+proc            /proc           proc    defaults          0       0
+#/dev/mmcblk0p1 /boot           vfat    defaults          0       2
+#/dev/mmcblk0p2 /               ext4    defaults,noatime  0       1
+/dev/mmcblk0p1  /boot           vfat    defaults,ro       0       2
+/dev/nfs        /    rootfs  defaults,rw  
+tmpfs  /tmp     tmpfs  nodev,nosuid,size=10%,mode=1777  0  0
+tmpfs  /var/log tmpfs  nodev,nosuid,size=20%,mode=1755  0  0
+EOF
+
+abort "ERROR - sd base directory #{SD_BASE} not found" unless Dir.exist?(SD_BASE)
+abort "ERROR - sd partitions at #{SD_BASE} not found"  unless SD_PARTITIONS.length == 2
+abort "ERROR - no SD root partition"                   if SD_ROOT.nil?
+
+File.open(TAB_FILE, 'w') {|f| f.puts TAB_TEXT}
+
+puts "Text written to #{TAB_FILE}\n#{TAB_TEXT}"
