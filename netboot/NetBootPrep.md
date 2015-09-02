@@ -1,11 +1,10 @@
 # Network booting a Raspberry Pi 2
 
-Goal: Configure raspbian to boot from a nfs drive, in order to work in our
-Continuous Integration environment.
+Goal: Configure raspbian to boot from a nfs drive
 
-We use net-booting to automatically reset the RPi to a clean state, in order to
-run the automated configuration and testing scripts used in our Continuous
-Integration environment.
+We use net-booting to automatically reset the RPi to a clean state.  This is
+needed to run the automated configuration and testing scripts used in our
+Continuous Integration environment.
 
 These netboot instructions are derived from the guide found here:
 
@@ -26,7 +25,8 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 ### Server Setup
 
     > sudo apt-get install nfs-kernel-server
-    > sudo bash -c echo '/export *(rw,no_root_squash,async,no_subtree_check)' >> /etc/exports
+    > sudo mkdir -f /export
+    > sudo echo '/export *(rw,no_root_squash,async,no_subtree_check)' >> /etc/exports
     > sudo exportfs -ra
     > sudo /etc/init.d/nfs-kernel-server restart
 
@@ -42,7 +42,7 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 
 ## Preparing a bootable SD card
 
-1. Downloaded the [latest raspbian](https://www.raspberrypi.org/downloads)
+1. Download the [latest raspbian](https://www.raspberrypi.org/downloads)
 
 2. Extract the zip file, write it to a 4GB SD card 
 
@@ -80,7 +80,7 @@ Insert your SD card into your NFS server, then:
 
 ## Creating and saving a net-bootable configuration
 
-1. Unplug the sd card, then plug it into your server.
+1. Unplug the sd card, then re-insert into your server.
 
 2. Run a configuration script to force the RPi kernel to netboot
 
