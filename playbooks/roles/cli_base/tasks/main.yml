@@ -26,6 +26,7 @@
     - iftop                      # monitoring utility
     - dstat                      # monitoring utility
     - iotop                      # monitoring utility
+    - nmap                       # monitoring utility
     - nload                      # monitoring utility
     - sysstat                    # monitoring utility
     - libsqlite3-dev             # sqlite database

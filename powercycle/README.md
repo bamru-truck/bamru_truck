@@ -4,16 +4,18 @@ For test automation, we need a way to reliably reboot the RPi.
 
 ## Options
 
-We can use either a commercial PowerCycle network appliance, or we can use an
+We can use either a commercial HomeAutomation switch, or we can use an
 Arduino-based power-cycle device built by Michael.
 
-### Commercial PowerCycle Appliance
+### Commercial HomeAutomation Switch
 
 These PowerCycle devices take a reboot signal over ethernet.
 
-- [single outlet](http://www.amazon.com/ezOutlet-Internet-IP-Enabled-Android-Interface/dp/B00KQ4R1RK/ref=pd_bxgy_60_img_y)
+[Belkin WeMo Insight Switch](http://www.amazon.com/WeMo-F7C029fc-Enabled-Insight-Smartphones/dp/B00EOEDJ9W/ref=sr_1_1?ie=UTF8&qid=1441147697&sr=8-1&keywords=belkin+wemo+insight+switch)
 
-- [dual outlet](http://www.amazon.com/MSNSwitch-Internet-IP-Enabled-Remote-Interface/dp/B00K36JLL0/ref=pd_bxgy_23_img_y)
+[WeMo Ruby Gem](https://github.com/jordanbyron/wemo)
+
+[WeMote Ruby Gem](https://github.com/gisikw/wemote)
 
 ### Michael's Arduino PowerCycle Device
 
@@ -23,7 +25,7 @@ Michael has built an arduino power cycling device take a reboot signal over USB.
 
 The upside of the Michael's Arduino device is cost.  The downside is that it only can be driven by a single test machine, and it requires custom configuration to select the correct TTY port.
 
-The downside of the Commercial PowerCycle appliance is cost ($50-$100).
+The downside of the HomeAutomation Switch is cost ($50-$100).
 The upside is that it can be driven by any computer on the network.
 
 

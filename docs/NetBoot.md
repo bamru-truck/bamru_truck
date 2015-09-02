@@ -15,9 +15,7 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 
 - Linux NFS server on your network. (could be another RPi...)
 
-## Getting Started:
-
-I needed to make some alterations.
+## Getting Started - RPi Preparation:
 
 Start with the SD card:
 
@@ -36,20 +34,23 @@ Start with the SD card:
    the contents of the root from the sd card to
    /export/raspbian/2015-05-05-raspbian-wheezy-base
 
-5. Copy the contents of the boot to /export/raspbian/2015-05-05-raspbian-wheezy-base/boot
+5. Copy the contents of the boot to
+   /export/raspbian/2015-05-05-raspbian-wheezy-base/boot
 
-On the server, you will need to set up a nfs server:
+## Getting Started - NFS Configuration:
+
+Set up NFS on your linux server:
 
     sudo aptitude install nfs-kernel-server
     sudo bash -c echo '/export *(rw,no_root_squash,async,no_subtree_check)' >> /etc/exports
     sudo exportfs -ra
     sudo /etc/init.d/nfs-kernel-server restart
 
-edit the fstab of your image:
+Edit the fstab in your RPi image:
 
     sudo vim /export/raspbian/2015-05-05-raspbian-wheezy-base/etc/fstab
 
-You will want to edit it to look like this:
+It should look like this:
 
     proc            /proc           proc    defaults          0       0
     #/dev/mmcblk0p1  /boot           vfat    defaults          0       2
@@ -86,10 +87,11 @@ Mine looks like this:
 
 Copy the image to a new path:
 
-You probably want to preserve the nfs base for use with new RPi’s later. Copy
-it to a new working location.
+Preserve the nfs base for use with new RPis later. Copy it to a new working
+location.
 
-    sudo cp -a /export/raspbian/2015-05-05-raspbian-wheezy-base /export/raspbian/working
+    cd /export/raspbian
+    sudo cp -a 2015-05-05-raspbian-wheezy-base working
 
 Modify the boot sd card:
 
@@ -108,5 +110,12 @@ Edit it to be similar to this one:
 
 Make sure you change the <nfs server> bit.
 
-That should be it. Put your sd card back into your RPi and boot it. It should network boot.
+Put your sd card back into your RPi and boot it. It should network boot.
+
+## CI Compatibility
+
+Needs:
+- a hostname
+- ssh
+- an updated linux kernel
 
