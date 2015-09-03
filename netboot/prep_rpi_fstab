@@ -4,6 +4,7 @@ SD_BASE       = "/media"
 SD_PARTITIONS = Dir.glob("#{SD_BASE}/*")
 SD_ROOT       = SD_PARTITIONS.select {|path| path.split('/').last != 'boot' }
 TAB_FILE      = "#{SD_ROOT}/etc/fstab"
+BACKUP_FILE   = "#{TAB_FILE}.backup.#{Time.now.strftime('%y%m%d_%H%M%S')}"
 
 TAB_TEXT = <<-EOF
 proc            /proc           proc    defaults          0       0
@@ -19,6 +20,7 @@ abort "ERROR - sd base directory #{SD_BASE} not found" unless Dir.exist?(SD_BASE
 abort "ERROR - sd partitions at #{SD_BASE} not found"  unless SD_PARTITIONS.length == 2
 abort "ERROR - no SD root partition"                   if SD_ROOT.nil?
 
+system "sudo cp #{TAB_FILE}, #{BACKUP_FILE}"
 File.open(TAB_FILE, 'w') {|f| f.puts TAB_TEXT}
 system "sudo touch #{SD_ROOT}/tmp/.tmpfs"
 

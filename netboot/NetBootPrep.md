@@ -52,8 +52,8 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 3. Boot the RPi with your SD card, and make the following changes using the
    `raspi-config` tool:
 
-   - change the hostname
    - change the user password to `pi`
+   - change the RPi hostname
    - enable sshd
 
 4. Run these commands on the Rpi:
