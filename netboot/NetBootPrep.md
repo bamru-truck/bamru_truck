@@ -82,19 +82,16 @@ Insert your SD card into your NFS server, then:
 
 1. Unplug the sd card, then re-insert into your server.
 
-2. Run a configuration script to force the RPi kernel to netboot
+2. Run a configuration script to configure netbooting
 
     > ./netboot/prep_rpi_cmdline
-    
-3. Run a configuration script to setup the RPi /etc/fstab for nfs automount
-
     > ./netboot/prep_rpi_fstab
 
-4. On the server, create /export/raspbian/2015-05-05-raspbian-wheezy-base copy
+3. On the server, create /export/raspbian/2015-05-05-raspbian-wheezy-base copy
    the contents of the root from the sd card to
    /export/raspbian/2015-05-05-raspbian-wheezy-base
 
-5. Copy the contents of the boot to
+4. Copy the contents of the boot to
    /export/raspbian/2015-05-05-raspbian-wheezy-base/boot
 
 ## Wrapup
