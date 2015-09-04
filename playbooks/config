@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="Usage: config [-n|--nopass] [-b|--branch <branchName>] [-d|--deploy_only] [-h|--help]"
+USAGE="Usage: config [-n|--nopass] [-b|--branch <branchName>] [-d|--deploy_only] [-p|--playbook] [-h|--help]"
 
 # Use the 'nopass' option if ssh-keys have been configured and you want to skip
 # the ssh password.
@@ -26,6 +26,10 @@ do
       BRANCH="$2"
       shift
       ;;
+    -p|--playbook)
+      PLAYBOOK="-$2"
+      shift
+      ;;
     -d|--deploy_only)
       TAGS="--tags deploy"
       ;;
@@ -41,7 +45,7 @@ done
 # -------------------------------------------------------------------------------
 # You can have a user-specific host file.  This option is provided so different
 # developers can run ansible independently.  If a user-specific host file is not
-# provided, a default file 'inventory/hosts.ini' will be used. 
+# provided, a default file 'inventory/hosts.ini' will be used.
 
 base_hosts="./inventory/hosts.ini"
 user_hosts="./inventory/hosts_$USER.ini"
@@ -58,7 +62,7 @@ echo using host file $hosts
 [[ "$NOPASS" != "true" ]] && echo "Hint: use 'config --nopass' to authenticate with SSH keys"
 [[ "$NOPASS" == "true" ]] && arg="" || arg="--ask-pass"
 
-cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH $TAGS rpi.yml $arg"
+cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH $TAGS rpi$PLAYBOOK.yml $arg"
 
 echo running \"$cmd\"
 

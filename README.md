@@ -101,3 +101,4 @@ Raspberry Pi know-how, and basic coding skills (HTML, CSS, JS, Ruby).
 
 [Jenkins](./docs/Jenkins.md)
 
+[Configuring Hostapd and DnsMasq](./docs/HostapdDnsmasq.md)
