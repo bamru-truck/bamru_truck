@@ -7,20 +7,25 @@ print_header
 # Reload main env
 pwd=$(pwd)
 
-if [ ! -f $rpi_base_tgz ]; then 
-  msg "ERROR! $rpi_base_tgz does not exist! Exiting"
+if [ ! -d $rpi_master_root ]; then 
+  msg "ERROR! $rpi_master_root does not exist! Exiting"
   exit 1
 else
-  msg "Remove old rpi_base_dir"
-  sudo rm -Rf $rpi_base_dir
+  msg "Remove old $rpi_master_root"
+  sudo mv $rpi_master_root $rpi_master_root.kill  # rename
+  sudo nohup rm -Rf $rpi_base_dir &               # delete in background job
+  sync;sync;sync 
 
-  sync;sync;sync # I seem to get errors if I do not run this
+  msg "Create new $rpi_master_root"
+  sudo mkdir -f $rpi_base
+  if [ -d $rpi_ondeck_root ]; then
+    sudo mv $rpi_ondeck_root $rpi_active_root    # rename the ondeck_root (fast!)
+  else
+    sudo cp $rpi_master_root $rpi_active_root    # copy the master_root (slow)
+    sync;sync;sync
+  fi
 
-  msg "Expand raw rpi_base_dir"
-  sudo mkdir -p $rpi_base_dir
-  cd $rpi_base_dir
-  cd ..
-  sudo tar xfz $rpi_base_tgz
-
-  sync;sync;sync # I seem to get errors if I do not run this
-fi
+  msg "Prepare new ondeck backup"
+  sudo mkdir -f $rpi_base/ondeck
+  sudo nohup cp -r $rpi_master_root $rpi_ondeck_root &  # create a new ondeck root...
+  fi

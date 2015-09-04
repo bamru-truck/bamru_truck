@@ -31,8 +31,10 @@ puts out_data.map {|key, value| "#{key}=#{value}"}.join("\n")
 __END__
 ---
 _base:
-  rpi_base_dir: /export/raspbian/working
-  rpi_base_tgz: /export/raspbian/basic-image-with-ssh-keys.tar.gz
+  rpi_base:        /export/raspbian
+  rpi_active_root: /export/raspbian/active/root
+  rpi_master_root: /export/raspbian/master/root
+  rpi_ondeck_root: /export/raspbian/ondeck/root
 aleak:
   _base:
     rpi_hostname: cat4

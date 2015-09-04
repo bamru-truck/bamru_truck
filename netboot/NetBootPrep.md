@@ -13,12 +13,29 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 ## Prerequisites:
 
 - Rpi 2
-
 - 4GB SD card. You will only be using this for booting
-
 - Linux NFS server on your network. (could be another RPi...)
-
 - DHCP service on your lan
+
+## Approach
+
+The RPi SD card has two partitions:
++-----------+--------------------------+------------+-----------+------+
+| Partition | Contains                 | Access     | Hosted On | Size |
++-----------+--------------------------+------------+-----------+------+
+| boot      | kernel boot instructions | read only  | SD card   | Megs |
+| root      | the whole OS             | read/write | NFS Drive | Gigs |
++-----------+--------------------------+------------+-----------+------+
+
+Two copies of the root partition are maintained on the NFS server:
+- a MASTER copy, which has the original base version of the OS
+- an ACTIVE copy, which contains a fully-configured server 
+
+During a CI run, here is how we reset the OS to a clean state:
+- stop the RPi
+- delete the ACTIVE directory on the NFS server
+- copy the MASTER directory to the ACTIVE directory
+- restart the RPi
 
 ## NFS Configuration
 
