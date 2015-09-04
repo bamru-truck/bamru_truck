@@ -27,15 +27,17 @@ puts "Removing old #{ER} directory..."
 system "sudo rm -rf #{ER}"
 
 puts "Creating new #{ER} directories..."
-system "sudo mkdir -p #{ER}/{active,master,ondeck}"
+system "sudo mkdir -p #{ER}/active"
+system "sudo mkdir -p #{ER}/master"
+system "sudo mkdir -p #{ER}/ondeck"
 
-puts "Copying master boot directory..."
-system "sudo cp -r #{SD_BOOT} #{ER_MASTER}"
+puts "Copying master boot directory (runs fast!)..."
+system "sudo cp -a #{SD_BOOT} #{ER_MASTER}/boot"
 
-puts "Copying master root directory (slow!)..."
-system "sudo cp -r #{SD_ROOT} #{ER_MASTER}/root"
+puts "Copying master root directory (runs slow!)..."
+system "sudo cp -a #{SD_ROOT} #{ER_MASTER}/root"
 
-puts "Creating active root directory (slow!)..."
-system "sudo cp -r #{ER_MASTER}/root #{ER_ACTIVE}"
+puts "Creating active root directory (runs slow!)..."
+system "sudo cp -a #{ER_MASTER}/root #{ER_ACTIVE}/root"
 
 puts "DONE!"

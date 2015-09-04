@@ -31,11 +31,11 @@ else
     sudo mv $rpi_ondeck_root $rpi_active_root      # rename the ondeck_root (fast!)
   else
     msg "Create new $rpi_active_root from master"
-    sudo cp -r $rpi_master_root $rpi_active_root   # copy the master_root (slow)
+    sudo cp -a $rpi_master_root $rpi_active_root   # copy the master_root (slow)
   fi
   sync;sync;sync
 
   msg "Start process to create new ondeck backup"
   sudo mkdir -p $rpi_base/ondeck
-  sudo nohup cp -r $rpi_master_root $rpi_ondeck_root > /dev/null 2>&1 &  
+  sudo nohup cp -a $rpi_master_root $rpi_ondeck_root > /dev/null 2>&1 &  
   fi
