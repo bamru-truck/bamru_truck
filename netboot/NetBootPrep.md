@@ -2,9 +2,8 @@
 
 Goal: Configure raspbian to boot from a nfs drive
 
-We use net-booting to automatically reset the RPi to a clean state.  This is
-needed to run the automated configuration and testing scripts used in our
-Continuous Integration environment.
+Netbooting allows us to quickly and automatically reset the RPi OS to a clean
+state.  This is needed to run our Continuous Integration tests.
 
 These netboot instructions are derived from the guide found here:
 
@@ -13,25 +12,25 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 ## Prerequisites:
 
 - Rpi 2
-- 4GB SD card. You will only be using this for booting
+- 4GB SD card. (SanDisk Ultra for fast Disk I/O)
 - Linux NFS server on your network. (could be another RPi...)
 - DHCP service on your lan
 
 ## Approach
 
 The RPi SD card has two partitions:
-+-----------+--------------------------+------------+-----------+------+
-| Partition | Contains                 | Access     | Hosted On | Size |
-+-----------+--------------------------+------------+-----------+------+
-| boot      | kernel boot instructions | read only  | SD card   | Megs |
-| root      | the whole OS             | read/write | NFS Drive | Gigs |
-+-----------+--------------------------+------------+-----------+------+
++--------------+-------------------+------------+------------+------+
+| Partition    | Contains          | Access     | Hosted On  | Size |
++--------------+-------------------+------------+------------+------+
+| boot @ /boot | boot instructions | read only  | SD Card    | Megs |
+| root @ /     | the whole OS      | read/write | NFS Server | Gigs |
++--------------+-------------------+------------+------------+------+
 
-Two copies of the root partition are maintained on the NFS server:
+Two copies of the root partition are maintained on the NFS Server:
 - a MASTER copy, which has the original base version of the OS
-- an ACTIVE copy, which contains a fully-configured server 
+- an ACTIVE copy, which is NFS-mounted to the RPi
 
-During a CI run, here is how we reset the OS to a clean state:
+During a CI run, here is how we reset the RPi OS to a clean state:
 - stop the RPi
 - delete the ACTIVE directory on the NFS server
 - copy the MASTER directory to the ACTIVE directory
@@ -63,8 +62,8 @@ During a CI run, here is how we reset the OS to a clean state:
 
 2. Extract the zip file, write it to a 4GB SD card 
 
-    sudo dd if=./2015-05-05-raspbian-wheezy.img of=/dev/sd<WHATEVER> bs=4M
-    sudo sync
+    > sudo dd if=./2015-05-05-raspbian-wheezy.img of=/dev/sd<WHATEVER> bs=4M
+    > sudo sync
 
 3. Boot the RPi with your SD card, and make the following changes using the
    `raspi-config` tool:
@@ -73,7 +72,7 @@ During a CI run, here is how we reset the OS to a clean state:
    - change the RPi hostname
    - enable sshd
 
-4. Run these commands on the Rpi:
+4. Run these commands on the RPi
 
     > sudo apt-get update            # update repo list
     > sudo apt-get upgrade -y -q     # upgrade packages
@@ -99,35 +98,26 @@ Insert your SD card into your NFS server, then:
 
 1. Unplug the sd card, then re-insert into your server.
 
-2. Run a configuration script to configure netbooting
+2. Run configuration scripts to setup netbooting
 
-    > ./netboot/prep_rpi_cmdline
-    > ./netboot/prep_rpi_fstab
+    > ./netboot/prep_rpi_cmdline   # cause RPi kernel to boot from NFS
+    > ./netboot/prep_rpi_fstab     # automount NFS drive on RPi
 
-3. On the server, create /export/raspbian/2015-05-05-raspbian-wheezy-base copy
-   the contents of the root from the sd card to
-   /export/raspbian/2015-05-05-raspbian-wheezy-base
+3. Copy the SD partitions to your NFS server
 
-4. Copy the contents of the boot to
-   /export/raspbian/2015-05-05-raspbian-wheezy-base/boot
+    > mkdir -f /export/raspbian/master    # directory for MASTER data
+    > mkdir -f /export/raspbian/active    # directory for ACTIVE data
+    > cd /export/raspbian
+    > sudo cp -r /media/boot master       # copy MASTER boot partition
+    > sudo cp -r /media/<ID> master/root  # copy MASTER root partition
 
-## Wrapup
+## DONE!
 
-Copy the image to a new path:
+1. Unmount the SD card
 
-Preserve the nfs base for use with new RPis later. Copy it to a new working
-location.
+    > sudo umount /dev/sd<WHATEVER>*
+    > sudo sync
 
-    cd /export/raspbian
-    sudo cp -a 2015-05-05-raspbian-wheezy-base working
-
-Modify the boot sd card:
-
-I do not have a good way to modify my dhcp server on this network to add a nfs
-root path line.
-
-So, this RPi will still boot the kernel off of the sd card, while mounting the
-root off of the network.
-
-Put your sd card back into your RPi and boot it. It should network boot.
+2. Now plug the SD card into the RPi.  Powerup the RPi and it will boot from
+   the NFS drive.
 

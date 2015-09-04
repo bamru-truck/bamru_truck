@@ -5,7 +5,7 @@ load_environment_variables
 print_header
 
 msg "Powercycle the RPi"
-./powercycle/reset_arduino -t $switch_tty
+$powercycle_cmd
 
 msg "Sleep for 60 seconds while the RPi boots"
 sleep 20
