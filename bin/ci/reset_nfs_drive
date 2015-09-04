@@ -7,25 +7,35 @@ print_header
 # Reload main env
 pwd=$(pwd)
 
+if ps aux | grep -q '[o]ndeck' ; then
+  msg "Kill active ondeck backup process"
+  sudo kill $(ps aux | grep '[o]ndeck' | awk '{print $2}')
+  sudo rm -r $rpi_base/ondeck
+fi
+
 if [ ! -d $rpi_master_root ]; then 
   msg "ERROR! $rpi_master_root does not exist! Exiting"
   exit 1
 else
-  msg "Remove old $rpi_master_root"
-  sudo mv $rpi_master_root $rpi_master_root.kill  # rename
-  sudo nohup rm -Rf $rpi_base_dir &               # delete in background job
-  sync;sync;sync 
-
-  msg "Create new $rpi_master_root"
-  sudo mkdir -f $rpi_base
-  if [ -d $rpi_ondeck_root ]; then
-    sudo mv $rpi_ondeck_root $rpi_active_root    # rename the ondeck_root (fast!)
-  else
-    sudo cp $rpi_master_root $rpi_active_root    # copy the master_root (slow)
-    sync;sync;sync
+  if [ -d $rpi_active_root ]; then
+    msg "Remove old $rpi_active_root"
+    sudo mv $rpi_active_root $rpi_active_root.kill$$  # rename
+    sudo nohup rm -Rf $rpi_active_root.kill$$ > /dev/null 2>&1 &  
+    sync;sync;sync 
   fi
 
-  msg "Prepare new ondeck backup"
-  sudo mkdir -f $rpi_base/ondeck
-  sudo nohup cp -r $rpi_master_root $rpi_ondeck_root &  # create a new ondeck root...
+  sudo mkdir -p $rpi_base
+  sudo mkdir -p $rpi_base/active
+  if [ -d $rpi_ondeck_root ]; then
+    msg "Create new $rpi_active_root from ondeck"
+    sudo mv $rpi_ondeck_root $rpi_active_root      # rename the ondeck_root (fast!)
+  else
+    msg "Create new $rpi_active_root from master"
+    sudo cp -r $rpi_master_root $rpi_active_root   # copy the master_root (slow)
+  fi
+  sync;sync;sync
+
+  msg "Start process to create new ondeck backup"
+  sudo mkdir -p $rpi_base/ondeck
+  sudo nohup cp -r $rpi_master_root $rpi_ondeck_root > /dev/null 2>&1 &  
   fi
