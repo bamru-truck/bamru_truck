@@ -54,7 +54,7 @@ switch_bin()
 		echo "Found Atheros wifi card."
 		found=1;
 		rm -f /usr/sbin/hostapd; 
-		ln -s /usr/sbin/hostapd.new /usr/sbin/hostapd; 
+		ln -s /usr/sbin/hostapd.stock /usr/sbin/hostapd; 
 	fi
 
 	if [ $found -eq 0 ]; then
