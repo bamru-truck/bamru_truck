@@ -33,7 +33,7 @@
     mode: "a+rx"
 
 # Alter call home script
-- replace: dest=/bin/call-home-script.bash regexp='<hostname>' replace='{{rpi_name}}' backup=yes
+- replace: dest=/bin/call-home-script.bash regexp='<hostname>' replace={{ ansible_nodename }} backup=yes
 - replace: dest=/bin/call-home-script.bash regexp='home-email' replace='{{call_home_email}}' backup=no
 
 - name: install call home cron script
