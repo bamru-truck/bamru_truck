@@ -13,7 +13,7 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 
 - Rpi 2
 - 4GB SD card. (SanDisk Ultra for fast Disk I/O)
-- Linux NFS server on your network. (could be another RPi...)
+- Linux NFS server on your network. (Ubuntu Laptop)
 - DHCP service on your lan
 
 ## Approach
@@ -31,10 +31,31 @@ Two copies of the root partition are maintained on the NFS Server:
 - an ACTIVE copy, which is NFS-mounted to the RPi
 
 During a CI run, here is how we reset the RPi OS to a clean state:
-- stop the RPi
 - delete the ACTIVE directory on the NFS server
 - copy the MASTER directory to the ACTIVE directory
-- restart the RPi
+- powercycle the RPi
+
+## Directories
+
+### SD Card
+
+When you plug the SD card into your NFS server, the boot and root partitions
+are auto-mounted:
+
+    /media/boot                              # the boot partition
+    /media/<long UUID-like name>             # the root partition
+
+You can browse/edit/update any contents of the auto-mounted SD card.
+
+### NFS Drives
+
+All of the NFS data is stored under path /export/raspbian
+
+    /export/raspbian/master/boot       # the master boot partition
+    /export/raspbian/master/root       # the master root partition
+    /export/raspbian/active/root       # the active root partition
+
+Only the active/root directory is mounted onto the RPi.
 
 ## NFS Configuration
 
@@ -48,17 +69,17 @@ During a CI run, here is how we reset the RPi OS to a clean state:
 
 ### Client Testing
 
-    > sudo apt-get install nfs-common   # nfs client packages
-    > showmount -e <nfs-host>           # query NFS server for exported drives
-    > mkdir nfs                         # create a mount point
-    > sudo mount <nfs-host>:/drive nfs  # mount nfs drive
-    > ls nfs                            # view nfs contents
-    > df                                # mounted drive should appear in list
-    > sudo umount nfs                   # unmount nfs drive
+    > sudo apt-get install nfs-common    # nfs client packages
+    > showmount -e <nfs-host>            # query NFS server for exported drives
+    > mkdir nfs                          # create a mount point
+    > sudo mount <nfs-host>:/export nfs  # mount nfs drive
+    > ls nfs                             # view nfs contents
+    > df                                 # mounted drive should appear in list
+    > sudo umount nfs                    # unmount nfs drive
 
 ## Preparing a bootable SD card
 
-1. Download the [latest raspbian](https://www.raspberrypi.org/downloads)
+1. Download raspbian from [here](https://www.raspberrypi.org/downloads)
 
 2. Extract the zip file, write it to a 4GB SD card 
 
@@ -100,9 +121,9 @@ Insert your SD card into your NFS server, then:
 
 2. Run configuration scripts to setup netbooting
 
-    > ./netboot/prep_cmdline      # modify SD to cause RPi kernel to boot from NFS
-    > ./netboot/prep_fstab        # modify SD to automount NFS drive on RPi
-    > ./netboot/prep_nfs_exports  # setup MASTER and ACTIVE partitions on NFS server
+    > ./netboot/prep_cmdline # modify SD to cause RPi kernel to boot from NFS
+    > ./netboot/prep_fstab   # modify SD to automount NFS drive on RPi
+    > ./netboot/prep_nfs     # setup MASTER and ACTIVE partitions on NFS server
 
 ## DONE!
 
