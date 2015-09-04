@@ -100,16 +100,9 @@ Insert your SD card into your NFS server, then:
 
 2. Run configuration scripts to setup netbooting
 
-    > ./netboot/prep_rpi_cmdline   # cause RPi kernel to boot from NFS
-    > ./netboot/prep_rpi_fstab     # automount NFS drive on RPi
-
-3. Copy the SD partitions to your NFS server
-
-    > mkdir -f /export/raspbian/master    # directory for MASTER data
-    > mkdir -f /export/raspbian/active    # directory for ACTIVE data
-    > cd /export/raspbian
-    > sudo cp -r /media/boot master       # copy MASTER boot partition
-    > sudo cp -r /media/<ID> master/root  # copy MASTER root partition
+    > ./netboot/prep_cmdline      # modify SD to cause RPi kernel to boot from NFS
+    > ./netboot/prep_fstab        # modify SD to automount NFS drive on RPi
+    > ./netboot/prep_nfs_exports  # setup MASTER and ACTIVE partitions on NFS server
 
 ## DONE!
 

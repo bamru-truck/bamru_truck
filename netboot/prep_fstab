@@ -8,10 +8,8 @@ BACKUP_FILE   = "#{TAB_FILE}.backup.#{Time.now.strftime('%y%m%d_%H%M%S')}"
 
 TAB_TEXT = <<-EOF
 proc            /proc           proc    defaults          0       0
-#/dev/mmcblk0p1 /boot           vfat    defaults          0       2
-#/dev/mmcblk0p2 /               ext4    defaults,noatime  0       1
-/dev/mmcblk0p1  /boot           vfat    defaults,ro       0       2
-/dev/nfs        /    rootfs  defaults,rw  
+/dev/mmcblk0p1  /boot           vfat    defaults          0       2
+/dev/nfs        /               rootfs  defaults,rw  
 tmpfs  /tmp     tmpfs  nodev,nosuid,size=10%,mode=1777  0  0
 tmpfs  /var/log tmpfs  nodev,nosuid,size=20%,mode=1755  0  0
 EOF

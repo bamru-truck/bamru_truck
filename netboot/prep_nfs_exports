@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+SD_BASE       = "/media"
+SD_BOOT       = "/media/boot"
+SD_PARTITIONS = Dir.glob("#{SD_BASE}/*")
+SD_ROOT       = SD_PARTITIONS.select {|path| path.split('/').last != 'boot' }.first
+ER            = "/export/raspbian"
+ER_MASTER     = "#{ER}/master"
+ER_ACTIVE     = "#{ER}/active"
+
+abort "ERROR - sd SD base directory #{SD_BASE} not found" unless Dir.exist?(SD_BASE)
+abort "ERROR - sd SD boot directory #{SD_BOOT} not found" unless Dir.exist?(SD_BOOT)
+abort "ERROR - no SD root directory"                      if SD_ROOT.nil?
+
+puts "Removing old #{ER} directory..."
+system "sudo rm -rf #{ER}"
+
+puts "Creating new #{ER} directories..."
+system "sudo mkdir -p #{ER}/{active,master,ondeck}"
+
+puts "Copying master boot directory..."
+system "sudo cp -r #{SD_BOOT} #{ER_MASTER}"
+
+puts "Copying master root directory (slow!)..."
+system "sudo cp -r #{SD_ROOT} #{ER_MASTER}/root"
+
+puts "Creating active root directory (slow!)..."
+system "sudo cp -r #{ER_MASTER}/root #{ER_ACTIVE}"
+
+puts "DONE!"
