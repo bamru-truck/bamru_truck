@@ -3,24 +3,39 @@ require 'rspec/core/rake_task'
 require 'colored'
 
 HR    = "\n#{'*'*60}"
-Host  = Struct.new(:name, :phase)
-names = %w(cat1.phase1 cat2.phase1)
-hosts = names.map {|x| Host.new(*x.split('.'))}
+
+# generate the hostnames from the playbooks/inventory files...
+def hosts 
+  base  = "../playbooks/inventory"
+  names = ["hosts", "hosts_ci", "hosts_#{ENV['USER']}"].map {|f| "#{base}/#{f}.ini"}
+  focus = names.select { |f| File.exist? f }
+  rawdt = `cat #{focus.join(' ')}`.split("\n").map {|s| s.strip.chomp}
+  rawdt.select {|s| /^[a-z]/.match s }.map {|h| h.split(' ').first}.sort.uniq
+end
+
+# generate the playbooks from the specs directory...
+def playbooks
+  Dir.glob("./spec/[a-z]*").select {|p| File.directory? p}.map {|p| p.split('/').last}
+end
 
 task :spec    => 'spec:all'
 task :default => :spec
 
 namespace :spec do
-  task :all => hosts.map {|h| "spec:#{h.name}"}
+  task :all => hosts.map {|h| "spec:#{h}"}
   hosts.each do |host|
-    desc "Run serverspec for #{host.name}/#{host.phase}"
-    RSpec::Core::RakeTask.new(host.name) do |t|
-      ENV['TARGET_HOST']  = host.name
-      ENV['TARGET_PHASE'] = host.phase
-      puts HR.yellow
-      puts "TEST TARGET: #{host.name}/#{host.phase}".yellow
-      t.verbose = false
-      t.pattern = "spec/#{host.phase}/*_spec.rb"
+    namespace host.to_sym do
+      playbooks.each do |playbook|
+        desc "Run serverspec on #{host}/#{playbook}"
+        RSpec::Core::RakeTask.new(playbook) do |t|
+          ENV['TARGET_HOST']  = host
+          ENV['TARGET_PHASE'] = playbook 
+          puts HR.yellow
+          puts "TEST TARGET: #{host}/#{playbook}".yellow
+          t.verbose = false
+          t.pattern = "spec/#{playbook}/*_spec.rb"
+        end
+      end
     end
   end
 end
