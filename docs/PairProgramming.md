@@ -54,10 +54,10 @@ When your programming partner SSH's to your system, only wemux will run.
 
 Session Host:
 
-  > ./bin/portfwd 2222 22              # start port forwarding
-  > wemux start                        # start wemux session
+    > ./bin/portfwd 2222 22              # start port forwarding
+    > wemux start                        # start wemux session
 
 Remote Partner:
 
-  > ssh <username>@45.79.82.37
+    > ssh <username>@45.79.82.37
 
