@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./bin/ci/util
+source ./ci/util
 load_environment_variables
 print_header
 

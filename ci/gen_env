@@ -18,7 +18,7 @@ require 'pp'
 hostname = ENV['SYSNAME']      
 username = ENV['USER']
 
-raw_data  = YAML::load(DATA)                # DATA has everything after __END__
+raw_data  = YAML::load(File.read('./ci/env.yml'))
 base = raw_data.fetch("_base", {})          # extract the base values from raw_data
 user = raw_data.fetch(username  , {})       # extract the user values from the raw_data
 user_base = user.fetch("_base"  , {})       # extract the user_base values

@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 load_environment_variables() {
-  eval `./bin/ci/gen_env`
+  eval `./ci/gen_env`
 }
 
 script_name() {
