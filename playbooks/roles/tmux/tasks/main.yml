@@ -2,17 +2,17 @@
 
 # tmux
 
-- name: add PPA (ubuntu 1404)
+- name: add tmux PPA (ubuntu 1404)
   sudo: true
   when: is_ubuntu_1404
   apt_repository: repo="ppa:pi-rho/dev" 
 
-- name: add PPA (ubuntu 1204)
+- name: add tmux PPA (ubuntu 1204)
   sudo: true
   when: is_ubuntu_1204
   apt_repository: repo="ppa:kalakris/tmux" 
 
-- name: install (ubuntu)
+- name: install tmux (ubuntu)
   sudo: true
   apt:  pkg={{item}} state=latest install_recommends=yes
   when: is_ubuntu
@@ -29,7 +29,7 @@
 
 # wemux
 
-- name: install github repo
+- name: install wemux github repo
   git:
     repo:   "https://github.com/zolrath/wemux.git"
     dest:   "/usr/local/share/wemux"
@@ -37,7 +37,7 @@
     force:  true
     update: true
 
-- name: create symlink to executable
+- name: create wemux symlink to executable
   file: 
     src: /usr/local/share/wemux/wemux
     dest: /usr/local/bin/wemux
