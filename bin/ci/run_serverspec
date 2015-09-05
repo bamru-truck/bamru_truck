@@ -7,6 +7,6 @@ print_header
 pwd=$(pwd)
 cd $pwd/serverspec
 
-msg "Run serverspec"
+msg "Run serverspec for $rpi_hostname/$playboook"
 rake spec:$rpi_hostname:$playbook
 
