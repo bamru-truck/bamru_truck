@@ -1,19 +1,12 @@
 #!/bin/bash
 
-eval `./bin/ci/gen_env`
+source ./bin/ci/util
+load_environment_variables
+print_header
 
-# It worked! 
+pwd=$(pwd)
+cd $pwd/serverspec
 
-# Now, it is time for some post install tests.
-
-# First, reboot the RPi nicely
-ssh -oStrictHostKeyChecking=no pi@$rpi_hostname '/usr/bin/sudo /sbin/reboot'
-
-sleep 30
-sleep 30
-sleep 30
-sleep 40
-
-# Test to see if the rpi is currently up. 
-ping -c1 $rpi_hostname
+msg "Run serverspec"
+rake spec:$rpi_hostname:$playbook
 
