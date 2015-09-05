@@ -3,12 +3,12 @@
 This note explains how to setup your development laptop (NFS Server) for remote
 access using Port Forwarding and Wemux.
 
-+-----------------+-----------------------------------------------------+
-| Tool            | Purpose                                             |
-+-----------------+-----------------------------------------------------+
-| Port Forwarding | to expose your dev machine(s) outside your firewall |
-| Wemux           | for shared console sessions (command line and vim)  |
-+-----------------+-----------------------------------------------------+
+    +-----------------+-----------------------------------------------------+
+    | Tool            | Purpose                                             |
+    +-----------------+-----------------------------------------------------+
+    | Port Forwarding | to expose your dev machine(s) outside your firewall |
+    | Wemux           | for shared console sessions (command line and vim)  |
+    +-----------------+-----------------------------------------------------+
 
 ## Installing WeMux 
 
@@ -24,10 +24,10 @@ account.
 
 The script `bin/portfwd` sets up ports.  Use these port values:
 
-| DESCRIPTION                    | Remote/Proxy Port | Local Port |
-| web_admin (production server)  | 4567              | 4567       |
-| web_admin (development server) | 4568              | 4568       |
-| ssh                            | 2222              | 22         |
+    | DESCRIPTION                    | Remote/Proxy Port | Local Port |
+    | web_admin (production server)  | 4567              | 4567       |
+    | web_admin (development server) | 4568              | 4568       |
+    | ssh                            | 2222              | 22         |
 
 ## Port Forwarding / Web Access
 
