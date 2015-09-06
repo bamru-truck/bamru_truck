@@ -7,8 +7,8 @@ def select_root(list)
   list.select {|path| path.split('/').last != 'boot'}.first
 end
 
-SD_BASE       = "/media"
-SD_BOOT       = "/media/boot"
+SD_BASE       = ARGV[0] || "/media"
+SD_BOOT       = "#{SD_BASE}/boot"
 SD_PARTITIONS = Dir.glob("#{SD_BASE}/*")
 SD_ROOT       = select_root(SD_PARTITIONS)
 ER            = "/export/raspbian"
