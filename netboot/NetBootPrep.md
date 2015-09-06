@@ -19,12 +19,13 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 ## Approach
 
 The RPi SD card has two partitions:
-+--------------+-------------------+------------+------------+------+
-| Partition    | Contains          | Access     | Hosted On  | Size |
-+--------------+-------------------+------------+------------+------+
-| boot @ /boot | boot instructions | read only  | SD Card    | Megs |
-| root @ /     | the whole OS      | read/write | NFS Server | Gigs |
-+--------------+-------------------+------------+------------+------+
+
+    +--------------+-------------------+------------+------------+------+
+    | Partition    | Contains          | Access     | Hosted On  | Size |
+    +--------------+-------------------+------------+------------+------+
+    | boot @ /boot | boot instructions | read only  | SD Card    | Megs |
+    | root @ /     | the whole OS      | read/write | NFS Server | Gigs |
+    +--------------+-------------------+------------+------------+------+
 
 Two copies of the root partition are maintained on the NFS Server:
 - a MASTER copy, which has the original base version of the OS
@@ -132,7 +133,7 @@ Insert your SD card into your NFS server, then:
 
 2. Now plug the SD card into the RPi - it will boot from the NFS drive.
 
-## Best Practice: Snapshots
+## Snapshots
 
 Some provisioning steps are slow. (eg `sudo apt-get upgrade`) Create 'partial
 build' disk snapshots to avoid re-executing slow commands:

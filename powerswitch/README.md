@@ -28,7 +28,6 @@ configuration to select the correct TTY port.
 The downside of the HomeAutomation Switch is cost ($50-$100).
 The upside is that it can be driven by any computer on the network.
 
-
 ## Arduino Configuration
 
 Plug in all the cables to the Arduino power-cycle device.  
