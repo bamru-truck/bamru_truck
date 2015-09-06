@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+# This script assumes that the SD card is mounted at /media.  It updates the
+# file /media/boot/cmdline.txt with instructions the cause the RPi to boot from
+# a NFS drive.
+
+require 'socket'
+
+BASE_PATH = ARGV[0] || "/media"
+
+CMDLINE_FILE = "#{BASE_PATH}/boot/cmdline.txt"
+BACKUP_FILE  = "#{CMDLINE_FILE}.backup.#{Time.now.strftime('%y%m%d_%H%M%S')}"
+
+msg = "ERROR - file #{CMDLINE_FILE} not found"
+abort msg unless File.exist?(CMDLINE_FILE)
+
+def local_ip
+  orig = Socket.do_not_reverse_lookup  
+  Socket.do_not_reverse_lookup = true   # disable reverse DNS resolution
+  UDPSocket.open do |socket|
+    socket.connect '64.233.187.99', 1   # connect to google
+    socket.addr.last                    # return your IP address
+  end
+ensure
+  Socket.do_not_reverse_lookup = orig   # restore reverse DNS resolution
+end
+
+cmdline = "dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 ip=dhcp root=/dev/nfs nfs-options=hard,intr,rw,size=32768,wsize=32768 rootfstype=nfs elevator=deadline rootwait nfsroot=#{local_ip}:/export/raspbian/active/root rootpath=/export/raspbian/active/root"
+
+system "sudo cp #{CMDLINE_FILE} #{BACKUP_FILE}"
+File.open(CMDLINE_FILE, 'w') {|f| f.puts cmdline}
+
+puts "Netboot command line written to #{CMDLINE_FILE}\n#{cmdline}"

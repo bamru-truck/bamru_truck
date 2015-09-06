@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="Usage: config [-n|--nopass] [-b|--branch <branchName>] [-d|--deploy_only] [-h|--help]"
+USAGE="Usage: config [-n|--nopass] [-i|--inventory <inventoryFile>] [-b|--branch <branchName>] [-d|--deploy_only] [-p|--playbook] [-h|--help]"
 
 # Use the 'nopass' option if ssh-keys have been configured and you want to skip
 # the ssh password.
@@ -9,7 +9,7 @@ USAGE="Usage: config [-n|--nopass] [-b|--branch <branchName>] [-d|--deploy_only]
 # Parse command-line options
 
 NOPASS=false
-BRANCH="master"
+BRANCH="$(git symbolic-ref --short -q HEAD)"
 TAGS=""
 
 while [[ $# > 0  ]]
@@ -19,11 +19,19 @@ do
       echo $USAGE
       exit
       ;;
+    -i|--inventory)
+      INVENTORY="$2"
+      shift
+      ;;
     -n|--nopass)
       NOPASS=true
       ;;
     -b|--branch)
       BRANCH="$2"
+      shift
+      ;;
+    -p|--playbook)
+      PLAYBOOK="-$2"
       shift
       ;;
     -d|--deploy_only)
@@ -41,12 +49,15 @@ done
 # -------------------------------------------------------------------------------
 # You can have a user-specific host file.  This option is provided so different
 # developers can run ansible independently.  If a user-specific host file is not
-# provided, a default file 'inventory/hosts.ini' will be used. 
+# provided, a default file 'inventory/hosts.ini' will be used.
 
 base_hosts="./inventory/hosts.ini"
 user_hosts="./inventory/hosts_$USER.ini"
+clop_hosts="./inventory/hosts_$INVENTORY.ini"
 
-[ -f $user_hosts ] && hosts=$user_hosts || hosts=$base_hosts
+hosts=$base_hosts
+[ -f $user_hosts ] && hosts=$user_hosts 
+[ -f $clop_hosts ] && hosts=$clop_hosts 
 
 echo using host file $hosts
 
@@ -58,7 +69,7 @@ echo using host file $hosts
 [[ "$NOPASS" != "true" ]] && echo "Hint: use 'config --nopass' to authenticate with SSH keys"
 [[ "$NOPASS" == "true" ]] && arg="" || arg="--ask-pass"
 
-cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH $TAGS rpi.yml $arg"
+cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH $TAGS rpi$PLAYBOOK.yml $arg"
 
 echo running \"$cmd\"
 

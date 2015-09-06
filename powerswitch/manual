@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+# manual powercycle
+
+puts "*" * 60
+puts "*" * 60
+puts "*" * 60
+
+print "\nPLEASE POWER CYCLE YOUR RASPBERRY PI THEN PRESS ENTER ->"
+gets

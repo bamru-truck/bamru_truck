@@ -71,25 +71,6 @@ Notes:
 
 1) https://github.com/cinchcircuits/bamru_truck/tree/master/playbooks/roles/cell_modem_support
 
-## Port Forwarding / Pair Programming 
-
-Use Port Forwarding to expose your development machine to people outside your firewall.
-
-The ip address of the public server is 45.79.82.37.  Ask Andy for a user account.
-
-The script `bin/portfwd` sets up ports.  Use these port values:
-
-| DESCRIPTION                    | Local Port | Proxy Port |
-| web_admin (production server)  | 4567       | 4567       |
-| web_admin (development server) | 4568       | 4568       |
-| ssh                            | 22         | 2222       |
-
-Two developers can share a TMUX session for pair programming.  To start a
-pair-programming session:
-
-- log into the development box using SSH
-- run `wemux`
-
 ## How to Contribute
 
 You'll need a GitHub account, Ubuntu, Command Line savvy, networking skills,
@@ -99,5 +80,8 @@ Raspberry Pi know-how, and basic coding skills (HTML, CSS, JS, Ruby).
 
 [Development Notes](./docs/Notes.md)
 
+[Pair Programming](./docs/PairProgramming.md)
+
 [Jenkins](./docs/Jenkins.md)
 
+[Configuring Hostapd and DnsMasq](./docs/HostapdDnsmasq.md)
