@@ -93,11 +93,9 @@ Only the active/root directory is mounted onto the RPi.
    - change the RPi hostname
    - enable sshd
 
-4. Run these commands on the RPi
+4. Upgrade the RPi to the latest kernel
 
-    > sudo apt-get update            # update repo list
-    > sudo apt-get upgrade -y -q     # upgrade packages
-    > sudo rpi-update                # update to newest kernel
+    > sudo rpi-update            
 
 5. Add ssh keys 
 
@@ -132,6 +130,16 @@ Insert your SD card into your NFS server, then:
     > sudo umount /dev/sd<WHATEVER>*
     > sudo sync
 
-2. Now plug the SD card into the RPi.  Powerup the RPi and it will boot from
-   the NFS drive.
+2. Now plug the SD card into the RPi - it will boot from the NFS drive.
 
+## Best Practice: Snapshots
+
+Some provisioning steps are slow. (eg `sudo apt-get upgrade`) Create 'partial
+build' disk snapshots to avoid re-executing slow commands:
+
+    1. reset the NFS disk to the master/root (`./ci/reset_nfs_disk`)
+    2. do 'partitial provisioning' (edit playbook, then `./ci/run_ansible`)
+    3. create snapshot (`./netboot/prep_snapshot`)
+    4. restore playbook (`git checkout ./playbook/rpi-<yourPB>.yml`)
+
+Restore the master/root to the original using `./netboot/prep_snapshot revert`
