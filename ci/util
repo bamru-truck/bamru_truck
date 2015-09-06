@@ -9,6 +9,7 @@ script_name() {
 }
 
 print_header() {
+  echo "------------------------------------"
   echo "`date` - `script_name`"
 }
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-./ci/reset_nfs_drive
-./ci/powercycle
-./ci/run_ansible
+./ci/reset_nfs_drive && 
+./ci/powercycle      && 
+./ci/run_ansible     && 
 ./ci/run_serverspec
 
