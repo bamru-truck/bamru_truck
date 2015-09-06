@@ -28,21 +28,3 @@ out_data = [base, user_base, user_host].reduce(&:merge)
 
 puts out_data.map {|key, value| "#{key}='#{value}'"}.join("\n")
 
-__END__
----
-_base:
-  rpi_base:        /export/raspbian
-  rpi_active_root: /export/raspbian/active/root
-  rpi_master_root: /export/raspbian/master/root
-  rpi_ondeck_root: /export/raspbian/ondeck/root
-aleak:
-  _base:
-    playbook:       phase1
-    rpi_hostname:   cat4
-    rpi_ssid:       cat4
-    powercycle_cmd: './powercycle/set_wemo cycle'
-mgregg:
-  _base:
-    playbook:       phase1
-    powercycle_cmd: './powercycle/reset_arduino -t /dev/ttyUSB0'
-  
