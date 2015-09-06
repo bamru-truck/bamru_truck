@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="Usage: config [-n|--nopass] [-b|--branch <branchName>] [-d|--deploy_only] [-p|--playbook] [-h|--help]"
+USAGE="Usage: config [-n|--nopass] [-i|--inventory <inventoryFile>] [-b|--branch <branchName>] [-d|--deploy_only] [-p|--playbook] [-h|--help]"
 
 # Use the 'nopass' option if ssh-keys have been configured and you want to skip
 # the ssh password.
@@ -9,7 +9,7 @@ USAGE="Usage: config [-n|--nopass] [-b|--branch <branchName>] [-d|--deploy_only]
 # Parse command-line options
 
 NOPASS=false
-BRANCH="master"
+BRANCH="$(git symbolic-ref --short -q HEAD)"
 TAGS=""
 
 while [[ $# > 0  ]]
@@ -18,6 +18,10 @@ do
     -h|--help)
       echo $USAGE
       exit
+      ;;
+    -i|--inventory)
+      INVENTORY="$2"
+      shift
       ;;
     -n|--nopass)
       NOPASS=true
@@ -49,8 +53,11 @@ done
 
 base_hosts="./inventory/hosts.ini"
 user_hosts="./inventory/hosts_$USER.ini"
+clop_hosts="./inventory/hosts_$INVENTORY.ini"
 
-[ -f $user_hosts ] && hosts=$user_hosts || hosts=$base_hosts
+hosts=$base_hosts
+[ -f $user_hosts ] && hosts=$user_hosts 
+[ -f $clop_hosts ] && hosts=$clop_hosts 
 
 echo using host file $hosts
 

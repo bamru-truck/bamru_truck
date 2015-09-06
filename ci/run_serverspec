@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source ./ci/util
+load_environment_variables
+print_header
+
+pwd=$(pwd)
+cd $pwd/serverspec
+
+msg "Run serverspec for $rpi_hostname/$playboook"
+rake spec:$rpi_hostname:$playbook
+

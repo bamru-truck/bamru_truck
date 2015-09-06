@@ -1,4 +1,5 @@
-#!/bin/python
+#!/usr/bin/env python
+
 import serial
 import time
 import sys, getopt
@@ -24,7 +25,6 @@ def main(argv):
       print 'Please enter a tty with the -t switch'
       sys.exit(1)
  
-   print 'tty is "', ttydev
    port = ttydev 
    ser = serial.Serial(ttydev, 9600, timeout=1)
    ser.xonxof = 0

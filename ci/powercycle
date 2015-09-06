@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source ./ci/util
+load_environment_variables
+print_header
+
+msg "Powercycle the RPi"
+$powercycle_cmd
+
+msg "Sleep 15 seconds while the RPi boots"; sleep 15
+msg "Sleep 15 seconds while the RPi boots"; sleep 15
+msg "Sleep 15 seconds while the RPi boots"; sleep 15
+msg "Done sleeping"
+
+msg "Ping the RPi to see if it is alive"
+ping -c1 $rpi_hostname

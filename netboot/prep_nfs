@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+# This script assumes that the SD card is mounted at /media.  It copies the
+# contents of the SD card on /media to the NFS drives at /export/raspbian.
+
+def select_root(list)
+  list.select {|path| path.split('/').last != 'boot'}.first
+end
+
+SD_BASE       = ARGV[0] || "/media"
+SD_BOOT       = "#{SD_BASE}/boot"
+SD_PARTITIONS = Dir.glob("#{SD_BASE}/*")
+SD_ROOT       = select_root(SD_PARTITIONS)
+ER            = "/export/raspbian"
+ER_MASTER     = "#{ER}/master"
+ER_ACTIVE     = "#{ER}/active"
+
+def err(msg)
+  abort "ERROR - #{msg}"
+end
+
+err "sd SD base directory #{SD_BASE} not found" unless Dir.exist?(SD_BASE)
+err "sd SD boot directory #{SD_BOOT} not found" unless Dir.exist?(SD_BOOT)
+err "no SD root directory"                      if SD_ROOT.nil?
+
+puts "Removing old #{ER} directory..."
+system "sudo rm -rf #{ER}"
+
+puts "Creating new #{ER} directories..."
+system "sudo mkdir -p #{ER}/active"
+system "sudo mkdir -p #{ER}/master"
+system "sudo mkdir -p #{ER}/ondeck"
+
+puts "Copying master boot directory (runs fast!)..."
+system "sudo cp -a #{SD_BOOT} #{ER_MASTER}/boot"
+
+puts "Copying master root directory (runs slow!)..."
+system "sudo cp -a #{SD_ROOT} #{ER_MASTER}/root"
+
+puts "Creating active root directory (runs slow!)..."
+system "sudo cp -a #{ER_MASTER}/root #{ER_ACTIVE}/root"
+
+puts "DONE!"
