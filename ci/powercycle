@@ -41,7 +41,6 @@ if [ $sshable == true ]; then
   exit 0
 else
   msg "Can not ssh to pi@$rpi_hostname"
-  msg "Current user is $USER"
   msg "Unsuccessful reboot"
   exit 1
 fi
