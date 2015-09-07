@@ -19,8 +19,8 @@ if [ ! -d $rpi_master_root ]; then
 else
   if [ -d $rpi_active_root ]; then
     msg "Remove old $rpi_active_root"
-    sudo mv $rpi_active_root $rpi_active_root.kill$$  # rename
-    sudo nohup rm -Rf $rpi_active_root.kill$$ > /dev/null 2>&1 &  
+    sudo mv $rpi_active_root /export/kill$$  
+    sudo nohup rm -Rf /export/kill$$ > /dev/null 2>&1 &  
     sync;sync;sync 
   fi
 
@@ -35,7 +35,12 @@ else
   fi
   sync;sync;sync
 
+  msg "Export Directory Stats"
+  sudo du -s --time /export/raspbian/*/*
+
   msg "Start process to create new ondeck backup"
   sudo mkdir -p $rpi_base/ondeck
   sudo nohup cp -a $rpi_master_root $rpi_ondeck_root > /dev/null 2>&1 &  
   fi
+
+  msg "Done"

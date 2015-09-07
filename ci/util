@@ -9,10 +9,18 @@ script_name() {
 }
 
 print_header() {
-  echo "------------------------------------"
+  echo "-------------------------------------------------------------"
   echo "`date` - `script_name`"
 }
 
 msg() {
   echo "> $1..."
+}
+
+can_ping() {
+  ping -c1 $1 > /dev/null
+}
+
+can_ssh() {
+  ssh -q $1 exit
 }

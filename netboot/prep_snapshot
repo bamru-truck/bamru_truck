@@ -34,17 +34,23 @@ end
 
 abort_unless ERA_ROOT, ERM_ROOT
 
-puts "Removing stale cache..."
-system "sudo rm -rf #{ER}/ondeck"
+puts   "Removing stale cache..."
+system "sudo rm -rf #{ONDECK}"
 
-puts "Creating clean backup..."
+puts   "Creating clean backup..."
 system "sudo mv #{ERM_ROOT} #{ERM_CLEAN}" unless Dir.exist?(ERM_CLEAN) 
 
-puts "Removing old master..."
+puts   "Removing old master..."
 system "sudo rm -rf #{ERM_ROOT}"               
 
-puts "Creating snapshot..."
+puts   "Creating snapshot..."
 system "sudo cp -a #{ERA_ROOT} #{ERM_ROOT}"
 
 puts   "Creating cache..."
-system "sudo cp -a #{ERM_ROOT} #{ONDECK}" 
+system "sudo mkdir -p #{ONDECK}"
+system "sudo cp -a #{ERM_ROOT} #{ONDECK}/root" 
+
+puts   "Export Directory Stats..."
+system "sudo du -s --time /export/raspbian/*/*"
+
+puts "Done."
