@@ -63,7 +63,7 @@ Only the active/root directory is mounted onto the RPi.
 ### Server Setup
 
     > sudo apt-get install nfs-kernel-server
-    > sudo mkdir -f /export
+    > sudo mkdir -p /export
     > sudo echo '/export *(rw,no_root_squash,async,no_subtree_check)' >> /etc/exports
     > sudo exportfs -ra
     > sudo /etc/init.d/nfs-kernel-server restart
