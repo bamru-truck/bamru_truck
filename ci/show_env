@@ -1,0 +1,13 @@
+#!/bin/bash
+
+source ./ci/util
+load_environment_variables
+print_header
+
+msg "CI_USER[$USER] CI_HOST[`hostname`] RPi_HOST[$rpi_hostname]"
+msg "CI Environment Variables"
+./ci/gen_env
+msg "USER VAR"
+env | grep aleak
+msg "Done."
+
