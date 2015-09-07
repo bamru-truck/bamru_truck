@@ -6,7 +6,9 @@
 
 require 'socket'
 
-CMDLINE_FILE = "/media/boot/cmdline.txt"
+BASE_PATH = ARGV[0] || "/media"
+
+CMDLINE_FILE = "#{BASE_PATH}/boot/cmdline.txt"
 BACKUP_FILE  = "#{CMDLINE_FILE}.backup.#{Time.now.strftime('%y%m%d_%H%M%S')}"
 
 msg = "ERROR - file #{CMDLINE_FILE} not found"

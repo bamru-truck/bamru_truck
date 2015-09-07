@@ -20,8 +20,8 @@
     - { role: roles/cli_user  , rem_user:  "aleak"         }
     - { role: roles/cli_user  , rem_user:  "mgregg"        }
     - { role: roles/tmux      , host_list: "aleak mgregg"  }
-    - { role: roles/dev_env   , rem_user:  "aleak"         }
-    - { role: roles/dev_env   , rem_user:  "mgregg"        }
+    #- { role: roles/dev_env   , rem_user:  "aleak"         }
+    #- { role: roles/dev_env   , rem_user:  "mgregg"        }
     - roles/pips
     - roles/hostapd
     - roles/dnsmasq
