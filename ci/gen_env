@@ -4,8 +4,7 @@
 # integration scripts.  The YAML text at the bottom of the script allows
 # environment variables to be customized for specific user and hostnames.
 #
-# Ruby saves all data after the __END__ statement in a string variable DATA. We
-# turn the YAML data into a ruby hash, then merge the values together.  
+# We turn the YAML data into a ruby hash, then merge the values together.  
 #
 # Note that _base values supply defaults that can be over-ridded for a specific
 # user or host.
@@ -15,8 +14,8 @@
 require 'yaml'
 require 'pp'
 
-hostname = ENV['SYSNAME']      
-username = ENV['USER'] || ENV['LOGNAME']
+hostname = `hostname`.chomp
+username = ENV['USER'] 
 
 raw_data  = YAML::load(File.read('./ci/env.yml'))
 base = raw_data.fetch("_base", {})          # extract the base values from raw_data
@@ -26,7 +25,7 @@ user_host = user.fetch(hostname , {})       # extract the user host-specific val
 
 out_data = [base, user_base, user_host].reduce(&:merge)
 
-puts "env_sysname='#{hostname}'"
+puts "env_hostname='#{hostname}'"
 puts "env_username='#{username}'"
 puts out_data.map {|key, value| "#{key}='#{value}'"}.join("\n")
 
