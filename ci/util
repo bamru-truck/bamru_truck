@@ -18,7 +18,7 @@ msg() {
 }
 
 can_ping() {
-  ping -c1 $1 > /dev/null
+  ping -c1 $1 > /dev/null 2>&1
 }
 
 can_ssh() {

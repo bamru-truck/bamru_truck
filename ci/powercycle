@@ -5,7 +5,7 @@ load_environment_variables
 print_header
 
 msg "Powercycle the RPi"
-msg "CI Slave->`hostname` RPi->$rpi_hostname"
+msg "CI_USER[$USER] CI_HOST[`hostname`] RPi_HOST[$rpi_hostname]"
 msg "Powercycle Command: $powercycle_cmd"
 $powercycle_cmd
 
