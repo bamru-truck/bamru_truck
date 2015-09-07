@@ -16,7 +16,7 @@ require 'yaml'
 require 'pp'
 
 hostname = ENV['SYSNAME']      
-username = ENV['USER']
+username = ENV['USER'] || ENV['LOGNAME']
 
 raw_data  = YAML::load(File.read('./ci/env.yml'))
 base = raw_data.fetch("_base", {})          # extract the base values from raw_data
@@ -26,5 +26,7 @@ user_host = user.fetch(hostname , {})       # extract the user host-specific val
 
 out_data = [base, user_base, user_host].reduce(&:merge)
 
+puts "env_sysname='#{hostname}'"
+puts "env_username='#{username}'"
 puts out_data.map {|key, value| "#{key}='#{value}'"}.join("\n")
 
