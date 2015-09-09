@@ -80,7 +80,7 @@ Only the active/root directory is mounted onto the RPi.
 
 ## Preparing a bootable SD card
 
-1. Download raspbian from [here](https://www.raspberrypi.org/downloads)
+1. Download raspbian from [here](https://www.raspberrypi.org/downloads/raspbian)
 
 2. Extract the zip file, write it to a 4GB SD card 
 
