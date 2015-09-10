@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# use this script to install the development dependencies 
+# on the development/nfs server
+
+sudo apt-get remove ruby
+sudo apt-get install ruby1.9.1
+sudo gem install bundler
+cd serverspec
+bundle

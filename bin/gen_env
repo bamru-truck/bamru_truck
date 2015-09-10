@@ -9,6 +9,8 @@
 # Note that _base values supply defaults that can be over-ridded for a specific
 # user or host.
 #
+# To override the default sd_base variable: `sd_base=/mydir gen_env`
+#
 # To use this in a shell script: "eval `gen_env`"
 
 require 'yaml'
@@ -16,8 +18,9 @@ require 'pp'
 
 hostname = `hostname`.chomp
 username = ENV['USER'] 
+sd_base  = ENV['sd_base'] || "/media/#{username}"
 
-raw_data  = YAML::load(File.read('./ci/env.yml'))
+raw_data  = YAML::load(File.read('./bin/env.yml'))
 base = raw_data.fetch("_base", {})          # extract the base values from raw_data
 user = raw_data.fetch(username  , {})       # extract the user values from the raw_data
 user_base = user.fetch("_base"  , {})       # extract the user_base values
@@ -25,6 +28,7 @@ user_host = user.fetch(hostname , {})       # extract the user host-specific val
 
 out_data = [base, user_base, user_host].reduce(&:merge)
 
+puts "sd_base='#{sd_base}"
 puts "env_hostname='#{hostname}'"
 puts "env_username='#{username}'"
 puts out_data.map {|key, value| "#{key}='#{value}'"}.join("\n")

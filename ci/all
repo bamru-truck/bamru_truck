@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./ci/show_env
+./bin/show_env
 
 ./ci/reset_nfs_drive && 
 ./ci/powercycle      && 

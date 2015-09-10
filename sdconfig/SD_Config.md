@@ -1,4 +1,4 @@
-# Network booting a Raspberry Pi 2
+# Configuring the SD Card 
 
 Goal: Configure raspbian to boot from a nfs drive
 
