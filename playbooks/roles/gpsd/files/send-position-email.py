@@ -30,7 +30,7 @@ def send_email(lat, lon, sender, receiver, speed, time):
     try:
         message = """From: From Person <--sender-->
 To: To Person <--to-->
-Subject: SMTP e-mail test position
+Subject: BAMRU truck SMTP e-mail test position
 Mime-Version: 1.0;
 Content-Type: text/html; charset="ISO-8859-1";
 Content-Transfer-Encoding: 7bit;
@@ -78,7 +78,7 @@ def main(argv):
           sys.exit()
        elif opt in ("-e", "--email"):
           email = arg
-    print 'email file is "', email
+    print 'email is "', email
     if email == '':
         print 'send-position-email.py -e <email to send to>'
         exit(1)
