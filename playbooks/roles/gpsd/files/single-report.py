@@ -1,9 +1,11 @@
+#!/usr/bin/python
 import gps
  
 import sys, time
 from socket import *
 
-serverHost = 'rotate.aprs.net'
+#serverHost = 'rotate.aprs.net'
+serverHost = '127.0.0.1'
 serverPort = 20157
 password = '23716'
 address = 'KF6WRW-10>APRS,TCPIP*:'
@@ -17,9 +19,11 @@ delay = 15 # delay in seconds - 15 sec. is for testing- should be 20 to 30 min f
 session = gps.gps("localhost", "2947")
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
  
-class gpsfloat(float):
-    def __str__(self):
-        return "%0.6f" % self.real
+#class gpsfloat(infloat):
+def gpsfloat(infloat):
+#    def __str__(self):
+    print("%.5f" % infloat)
+    return "%.5f" % infloat 
 
 def send_packet( pposition):
     # create socket & connect to server
@@ -35,12 +39,12 @@ def send_packet( pposition):
     sSock.shutdown(0)
     sSock.close()
 
-    packet = address + position + comment
+    packet = address + pposition + comment
     print (packet) # prints the packet being sent
     print (len(comment)) # prints the length of the comment part of the packet
-    while 1:
-        send_packet()
-        quit(0)
+#    while 1:
+#        send_packet()
+#    quit(0)
 #        time.sleep(delay)
 
 while True:
@@ -66,10 +70,11 @@ while True:
                 else:
                     lond = "W"
                     lon = lon * -1
-                pposition = "=%f%s/%f%s-" % ( lat, latd, lon, lond )
+                pposition = "=%s%s/%s%s-" % ( lat, latd, lon, lond )
                 print pposition
                 # Now we have the position collected properly. Now, report it. 
-		send_packet(pposition)
+                while 1:
+                    send_packet(pposition)
 		quit(0)
     except KeyError:
 		pass

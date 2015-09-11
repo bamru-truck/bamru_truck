@@ -1,0 +1,30 @@
+{
+ "protocol": "jsonais",
+ "encodetime": "20150910004805",
+ "groups": [
+  {
+   "path": [ { "name": "kf6wrw-10", "url": "http://aprs.fi/" } ],
+   "msgs": [
+    {
+     "msgtype": "1",
+     "mmsi":123456789,
+     "callsign":"KF6WRW-10",
+     "shipname":"MY BOAT NAME",
+     "status":5,
+     "speed":0,
+     "lon":-121.98136,
+     "lat":37.31954,
+     "course":0.0,
+     "heading":0.0,
+     "length":12,
+     "width":2,
+     "ref_front":6,
+     "ref_left":1,
+     "draught":1,
+     "second":"1441842572",
+     "rxtime":"20150910004805"
+    }
+   ]
+  }
+ ]
+}
