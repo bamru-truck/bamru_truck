@@ -5,8 +5,9 @@ import sys, time
 from socket import *
 
 #serverHost = 'rotate.aprs.net'
-serverHost = '127.0.0.1'
-serverPort = 20157
+serverHost = 'noam.aprs2.net'
+#serverPort = 20157
+serverPort = 14580
 password = '23716'
 address = 'KF6WRW-10>APRS,TCPIP*:'
 position = '=3700.14N/11000.56W-' # Old position string for reference
@@ -22,8 +23,8 @@ session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 #class gpsfloat(infloat):
 def gpsfloat(infloat):
 #    def __str__(self):
-    print("%.5f" % infloat)
-    return "%.5f" % infloat 
+    print("%.2f" % infloat)
+    return "%.2f" % infloat 
 
 def send_packet( pposition):
     # create socket & connect to server
