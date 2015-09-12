@@ -12,7 +12,7 @@ http://blogs.wcode.org/2013/09/howto-netboot-a-raspberry-pi/
 ## Prerequisites:
 
 - Rpi 2
-- 4GB SD card. (SanDisk Ultra for fast Disk I/O)
+- SD card. (Use a fast card!!)
 - Linux NFS server on your network. (Ubuntu Laptop)
 - DHCP service on your lan
 
@@ -82,47 +82,27 @@ Only the active/root directory is mounted onto the RPi.
 
 1. Download raspbian from [here](https://www.raspberrypi.org/downloads/raspbian)
 
-2. Extract the zip file, write it to a 4GB SD card 
+2. Extract the zip file, write it to a SD card 
 
     > sudo dd if=./2015-05-05-raspbian-wheezy.img of=/dev/sd<WHATEVER> bs=4M
     > sudo sync
 
-3. Boot the RPi with your SD card, and make the following changes using the
-   `raspi-config` tool:
+3. Unplug the SD card, then re-insert it.
 
+
+4. Configure the SD card for net-booting
+
+    > ./sdconfig/all
+    
+   The sdconfig/all script performs the following actions
    - change the user password to `pi`
    - change the RPi hostname
    - enable sshd
-
-4. Upgrade the RPi to the latest kernel
-
-    > sudo rpi-update            
-
-5. Add ssh keys 
-
-    - instructions TBD
-    - after this step, you should be able to SSH to the RPi without a password
-
-      > ssh pi@<hostname>
-
-You now have a clean bootable image.
-
-## Saving your bootable image
-
-Insert your SD card into your NFS server, then:
-
-    > sudo umount /dev/sd<WHATEVER>*
-    > sudo dd bs=4M if=/dev/sd<WHATEVER> of=bootable.img
-
-## Creating and saving a net-bootable configuration
-
-1. Unplug the sd card, then re-insert into your server.
-
-2. Run configuration scripts to setup netbooting
-
-    > ./netboot/prep_cmdline # modify SD to cause RPi kernel to boot from NFS
-    > ./netboot/prep_fstab   # modify SD to automount NFS drive on RPi
-    > ./netboot/prep_nfs     # setup MASTER and ACTIVE partitions on NFS server
+   - add ssh keys
+   - update the RPi kernel
+   - modify SD to cause RPi kernel to boot from NFS
+   - modify SD to automount NFS drive on RPi
+   - setup MASTER and ACTIVE partitions on NFS server
 
 ## DONE!
 
@@ -140,7 +120,7 @@ build' disk snapshots to avoid re-executing slow commands:
 
     1. reset the NFS disk to the master/root (`./ci/reset_nfs_disk`)
     2. do 'partitial provisioning' (edit playbook, then `./ci/run_ansible`)
-    3. create snapshot (`./netboot/prep_snapshot`)
+    3. create snapshot (`./sdconfig/netboot_snapshot`)
     4. restore playbook (`git checkout ./playbook/rpi-<yourPB>.yml`)
 
-Restore the master/root to the original using `./netboot/prep_snapshot revert`
+Restore the master/root to the original using `./sdconfig/netboot_snapshot revert`
