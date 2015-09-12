@@ -8,7 +8,7 @@ cd $pwd/playbooks
 
 msg "Create inventory file"
 echo "[rpi]"                         > inventory/hosts_ci.ini
-echo "$erpi_hostname ssid=$erpi_ssid" >> inventory/hosts_ci.ini
+echo "$rpi_hostname ssid=$rpi_ssid" >> inventory/hosts_ci.ini
 
 msg "Run ansible"
 ./config --nopass --inventory ci -p $playbook 

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+source ./bin/util
+
+stop_ondeck_backup
+
+[ -d $rpi_master_root ] || raise "$rpi_master_root does not exist!"
+
+if [ -d $rpi_active_root ]; then
+  msg "Remove old $rpi_active_root"
+  sudo mv $rpi_active_root /export/kill$$  
+  sudo nohup rm -Rf /export/kill$$ > /dev/null 2>&1 &  
+  sync;sync;sync 
+fi
+
+sudo mkdir -p $rpi_base
+sudo mkdir -p $rpi_base/active
+if [ -d $rpi_ondeck_root ]; then
+  msg "Create new $rpi_active_root from ondeck"
+  sudo mv $rpi_ondeck_root $rpi_active_root      # rename the ondeck_root (fast!)
+else
+  msg "Create new $rpi_active_root from master"
+  sudo cp -a $rpi_master_root $rpi_active_root   # copy the master_root (slow)
+fi
+sync;sync;sync
+
+create_ondeck_backup
+
+msg "Export Directory Stats"
+sudo du -s --time /export/raspbian/*/*
+
+msg "DONE"

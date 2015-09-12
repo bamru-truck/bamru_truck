@@ -3,7 +3,7 @@
 source ./bin/util
 
 msg "Powercycle the RPi"
-msg "CI_USER[$USER] CI_HOST[`hostname`] RPi_HOST[$erpi_hostname]"
+msg "CI_USER[$USER] CI_HOST[`hostname`] RPi_HOST[$rpi_hostname]"
 msg "Powercycle Command: $powercycle_cmd"
 $powercycle_cmd
 
@@ -12,14 +12,14 @@ count_down=5
 pingable=false
 while [ $count_down -gt 0 -a $pingable == false ]; do
   msg "Sleep 10 seconds while the RPi boots (countdown:$count_down)"; sleep 10
-  can_ping $erpi_hostname && pingable=true
+  can_ping $rpi_hostname && pingable=true
   let count_down-=1
 done
 
 if [ $pingable == true ]; then
-  msg "$erpi_hostname is pingable"
+  msg "$rpi_hostname is pingable"
 else
-  msg "$erpi_hostname is not pingable"
+  msg "$rpi_hostname is not pingable"
   msg "Unsuccessful reboot"
   exit 1
 fi
@@ -29,16 +29,16 @@ count_down=5
 sshable=false
 while [ $count_down -gt 0 -a $sshable == false ]; do
   msg "Sleep 10 seconds waiting for SSH access (countdown:$count_down)"; sleep 10
-  can_ssh pi@$erpi_hostname && sshable=true
+  can_ssh pi@$rpi_hostname && sshable=true
   let count_down-=1
 done
 
 if [ $sshable == true ]; then
-  msg "Can ssh to pi@$erpi_hostname"
+  msg "Can ssh to pi@$rpi_hostname"
   msg "Successful reboot"
   exit 0
 else
-  msg "Can not ssh to pi@$erpi_hostname"
+  msg "Can not ssh to pi@$rpi_hostname"
   msg "Unsuccessful reboot"
   exit 1
 fi

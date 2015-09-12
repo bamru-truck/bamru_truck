@@ -1,43 +1,33 @@
-#!/usr/bin/env ruby
+#!/bin/bash
 
 # This script assumes that the SD card is mounted at /media.  It copies the
 # contents of the SD card on /media to the NFS drives at /export/raspbian.
 
-def select_root(list)
-  list.select {|path| path.split('/').last != 'boot'}.first
-end
+source ./bin/util
 
-SD_BASE       = ARGV[0] || "/media"
-SD_BOOT       = "#{SD_BASE}/boot"
-SD_PARTITIONS = Dir.glob("#{SD_BASE}/*")
-SD_ROOT       = select_root(SD_PARTITIONS)
-ER            = "/export/raspbian"
-ER_MASTER     = "#{ER}/master"
-ER_ACTIVE     = "#{ER}/active"
+[ -n $sd_root ] || raise "no SD root directory"
+[ -d $sd_base ] || raise "sd SD base directory $sd_base not found" 
+[ -d $sd_boot ] || raise "sd SD boot directory $sd_boot not found"
 
-def err(msg)
-  abort "ERROR - #{msg}"
-end
+stop_ondeck_backup
 
-err "sd SD base directory #{SD_BASE} not found" unless Dir.exist?(SD_BASE)
-err "sd SD boot directory #{SD_BOOT} not found" unless Dir.exist?(SD_BOOT)
-err "no SD root directory"                      if SD_ROOT.nil?
+msg  "Removing old $erpi_base directory..."
+sudo rm -rf $erpi_base
 
-puts "Removing old #{ER} directory..."
-system "sudo rm -rf #{ER}"
+msg  "Creating new $erpi_base directories..."
+sudo mkdir -p $erpi_base/active
+sudo mkdir -p $erpi_base/master
+sudo mkdir -p $erpi_base/ondeck
 
-puts "Creating new #{ER} directories..."
-system "sudo mkdir -p #{ER}/active"
-system "sudo mkdir -p #{ER}/master"
-system "sudo mkdir -p #{ER}/ondeck"
+msg  "Copying master boot directory (runs fast!)..."
+sudo cp -a $sd_boot $erpi_master_boot
 
-puts "Copying master boot directory (runs fast!)..."
-system "sudo cp -a #{SD_BOOT} #{ER_MASTER}/boot"
+msg  "Copying master root directory (runs slow!)..."
+sudo cp -a $sd_root $erpi_master_root
 
-puts "Copying master root directory (runs slow!)..."
-system "sudo cp -a #{SD_ROOT} #{ER_MASTER}/root"
+msg  "Creating active root directory (runs slow!)..."
+sudo cp -a $erpi_master_root $erpi_active_root
 
-puts "Creating active root directory (runs slow!)..."
-system "sudo cp -a #{ER_MASTER}/root #{ER_ACTIVE}/root"
+create_ondeck_backup
 
-puts "DONE!"
+msg  "DONE"

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source ./bin/util
+
+./sdconfig/set_hostname    &&
+./sdconfig/set_kernel      &&
+./sdconfig/set_sshd        &&
+./sdconfig/set_sshkeys     &&
+./sdconfig/netboot_cmdline &&
+./sdconfig/netboot_fstab   &&
+./sdconfig/netboot_nfs     
+

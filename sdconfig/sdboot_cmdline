@@ -1,17 +1,14 @@
-#!/usr/bin/env ruby
+#!/bin/bash
 
 # This script assumes that the SD card is mounted at /media.  It updates the
 # file /media/<path>/etc/fstab with instructions the cause the RPi to
 # auto-mount the NFS drive on boot.
 
-def select_root(list)
-  list.select {|path| path.split('/').last != 'boot'}.first
-end
+source ./bin/util
+load_environment_variables
+print_header
 
-SD_BASE       = ARGV[0] || "/media"
-SD_PARTITIONS = Dir.glob("#{SD_BASE}/*")
-SD_ROOT       = select_root(SD_PARTITIONS)
-TAB_FILE      = "#{SD_ROOT}/etc/fstab"
+TAB_FILE=$sd_root/etc/fstab
 BACKUP_FILE   = "#{TAB_FILE}.backup.#{Time.now.strftime('%y%m%d_%H%M%S')}"
 
 TAB_TEXT = <<-EOF

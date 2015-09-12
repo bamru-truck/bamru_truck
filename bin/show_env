@@ -1,11 +1,9 @@
 #!/bin/bash
 
 source ./bin/util
-load_environment_variables
-print_header
 
 msg "CI_USER[$USER] CI_HOST[`hostname`] RPi_HOST[$rpi_hostname]"
 msg "CI Environment Variables"
 ./bin/gen_env
-msg "Done."
+msg "DONE"
 

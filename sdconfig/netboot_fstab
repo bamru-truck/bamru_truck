@@ -1,20 +1,14 @@
-#!/usr/bin/env ruby
+#!/bin/bash
 
 # This script assumes that the SD card is mounted at /media.  It updates the
 # file /media/<path>/etc/fstab with instructions the cause the RPi to
 # auto-mount the NFS drive on boot.
 
-def select_root(list)
-  list.select {|path| path.split('/').last != 'boot'}.first
-end
+source ./bin/util
 
-SD_BASE       = ARGV[0] || "/media"
-SD_PARTITIONS = Dir.glob("#{SD_BASE}/*")
-SD_ROOT       = select_root(SD_PARTITIONS)
-TAB_FILE      = "#{SD_ROOT}/etc/fstab"
-BACKUP_FILE   = "#{TAB_FILE}.backup.#{Time.now.strftime('%y%m%d_%H%M%S')}"
+TAB_FILE=$sd_root/etc/fstab
 
-TAB_TEXT = <<-EOF
+setblock TAB_TEXT << EOF
 proc            /proc           proc    defaults        0  0
 /dev/mmcblk0p1  /boot           vfat    defaults        0  2
 /dev/nfs        /               rootfs  defaults,rw  
@@ -22,17 +16,16 @@ tmpfs  /tmp     tmpfs  nodev,nosuid,size=10%,mode=1777  0  0
 tmpfs  /var/log tmpfs  nodev,nosuid,size=20%,mode=1755  0  0
 EOF
 
-def err(msg)
-  abort "ERROR - #{msg}"
-end
+[ -n $sd_root ] || raise "No SD root partition..."
+[ -d $sd_root ] || raise "SD root directory $sd_root not found"
+[ -d $sd_base ] || raise "SD base directory $sd_base not found"
 
-err "sd base directory #{SD_BASE} not found" unless Dir.exist?(SD_BASE)
-err "sd partitions at #{SD_BASE} not found"  unless SD_PARTITIONS.length == 2
-err "no SD root partition"                   if SD_ROOT.nil?
+backup_file $TAB_FILE
 
-system "sudo cp #{TAB_FILE} #{BACKUP_FILE}"
-File.open("/tmp/tab", 'w') {|f| f.puts TAB_TEXT}
-system "sudo cp /tmp/tab #{TAB_FILE}"
-system "sudo touch #{SD_ROOT}/tmp/.tmpfs"
+echo "$TAB_TEXT" >> /tmp/tab
 
-puts "Text written to #{TAB_FILE}\n#{TAB_TEXT}"
+sudo cp /tmp/tab $TAB_FILE
+sudo touch $SD_ROOT/tmp/.tmpfs
+
+echo Text written to $TAB_FILE
+echo "$TAB_TEXT"

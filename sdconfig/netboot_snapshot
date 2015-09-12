@@ -1,56 +1,46 @@
-#!/usr/bin/env ruby
+#!/bin/bash
 
 # This script creates a disk snapshot.
 #
-# Use `prep_snapshot revert` to revert to clean root...
+# Use `netboot_snapshot revert` to revert to clean root...
 
-ER        = "/export/raspbian"
-ERM       = "#{ER}/master"
-ERA       = "#{ER}/active"
-ERA_ROOT  = "#{ERA}/root"
-ERM_ROOT  = "#{ERM}/root"
-ERM_CLEAN = "#{ERM}/clean"
-ONDECK    = "#{ER}/ondeck"
+source ./bin/util
 
-def abort_unless(*paths)
-  paths.each do |path|
-    abort "Error - no #{path}" unless Dir.exist?(path)
-  end
-end
-
-if %w(revert restore rollback).include? ARGV[0]
-  puts "Reverting snapshot..."
-  abort_unless ERM_CLEAN 
-  puts   "Removing old files..."
-  system "sudo rm -rf #{ERA_ROOT} #{ONDECK} #{ERM_ROOT}"
-  puts   "Restoring #{ERM_ROOT}..."
-  system "sudo cp -a #{ERM_CLEAN} #{ERM_ROOT}" 
-  puts   "Restoring #{ERA_ROOT}..."
-  system "sudo cp -a #{ERM_CLEAN} #{ERA_ROOT}" 
-  puts   "Restoring #{ONDECK}..."
-  system "sudo cp -a #{ERM_CLEAN} #{ONDECK}" 
+if [ "$1" == "revert" ]; then
+  msg "Reverting snapshot..."
+  [ -d $erpi_master_clean ] || raise "missing $erpi_master_clean"
+  msg  "Removing old files..."
+  sudo rm -rf $erpi_active_root $erpi_ondeck_root $erpi_master_root
+  msg  "Restoring $erpi_master_root..."
+  sudo cp -a $erpi_master_clean $erpi_master_root 
+  msg  "Restoring $erpi_active_root..."
+  sudo cp -a $erpi_master_clean $erpi_active_root 
+  msg  "Restoring $erpi_ondeck..."
+  sudo mkdir -p $erpi_ondeck 
+  sudo cp -a $erpi_master_clean $erpi_ondeck_root
   exit
-end
+fi
 
-abort_unless ERA_ROOT, ERM_ROOT
+[ -d $erpi_active_root ] || raise "no $erpi_active_root"
+[ -d $erpi_master_root ] || raise "no $erpi_master_root"
 
-puts   "Removing stale cache..."
-system "sudo rm -rf #{ONDECK}"
+msg  "Removing stale cache..."
+sudo rm -rf $erpi_ondeck_root
 
-puts   "Creating clean backup..."
-system "sudo mv #{ERM_ROOT} #{ERM_CLEAN}" unless Dir.exist?(ERM_CLEAN) 
+msg  "Creating clean backup..."
+[ -d $erpi_master_clean ] || sudo mv $erpi_master_root $erpi_master_clean 
 
-puts   "Removing old master..."
-system "sudo rm -rf #{ERM_ROOT}"               
+msg   "Removing old master..."
+sudo rm -rf $erpi_master_root 
 
-puts   "Creating snapshot..."
-system "sudo cp -a #{ERA_ROOT} #{ERM_ROOT}"
+msg  "Creating snapshot..."
+sudo cp -a $erpi_active_root $erpi_master_root
 
-puts   "Creating cache..."
-system "sudo mkdir -p #{ONDECK}"
-system "sudo cp -a #{ERM_ROOT} #{ONDECK}/root" 
+msg  "Creating cache..."
+sudo mkdir -p $erpi_ondeck 
+sudo cp -a $erpi_master_root $erpi_ondeck_root 
 
-puts   "Export Directory Stats..."
-system "sudo du -s --time /export/raspbian/*/*"
+msg  "Export Directory Stats..."
+sudo du -s --time $erpi/*/*
 
-puts "Done."
+msg "DONE"
