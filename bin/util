@@ -61,9 +61,9 @@ stop_ondeck_backup() {
 
 create_ondeck_backup() {
   msg "Start process to create new ondeck backup"
-  sudo rm -r $rpi_base/ondeck
-  sudo mkdir -p $rpi_base/ondeck
-  sudo nohup cp -a $rpi_master_root $rpi_ondeck_root > /dev/null 2>&1 &  
+  sudo rm -r $erpi_ondeck
+  sudo mkdir -p $erpi_ondeck
+  sudo nohup cp -a $erpi_master_root $erpi_ondeck_root > /dev/null 2>&1 &  
 }
 
 load_environment_variables

@@ -18,3 +18,5 @@ sudo echo $CMDLINE_TEXT > $CMDLINE_FILE
 
 echo "Netboot command line written to $CMDLINE_FILE"
 echo $CMDLINE_TEXT
+
+msg "DONE"

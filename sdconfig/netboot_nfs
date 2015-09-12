@@ -5,27 +5,28 @@
 
 source ./bin/util
 
+[ -n $erpi    ] || raise '$erpi variable is not set'
 [ -n $sd_root ] || raise "no SD root directory"
 [ -d $sd_base ] || raise "sd SD base directory $sd_base not found" 
 [ -d $sd_boot ] || raise "sd SD boot directory $sd_boot not found"
 
 stop_ondeck_backup
 
-msg  "Removing old $erpi_base directory..."
-sudo rm -rf $erpi_base
+msg  "Removing old $erpi directory"
+sudo rm -rf $erpi
 
-msg  "Creating new $erpi_base directories..."
-sudo mkdir -p $erpi_base/active
-sudo mkdir -p $erpi_base/master
-sudo mkdir -p $erpi_base/ondeck
+msg  "Creating new $erpi directories"
+sudo mkdir -p $erpi/active
+sudo mkdir -p $erpi/master
+sudo mkdir -p $erpi/ondeck
 
-msg  "Copying master boot directory (runs fast!)..."
+msg  "Copying master boot directory (runs fast!)"
 sudo cp -a $sd_boot $erpi_master_boot
 
-msg  "Copying master root directory (runs slow!)..."
+msg  "Copying master root directory (runs slow!)"
 sudo cp -a $sd_root $erpi_master_root
 
-msg  "Creating active root directory (runs slow!)..."
+msg  "Creating active root directory (runs slow!)"
 sudo cp -a $erpi_master_root $erpi_active_root
 
 create_ondeck_backup

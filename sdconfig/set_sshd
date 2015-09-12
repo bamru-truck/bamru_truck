@@ -12,7 +12,7 @@ create_link() {
   sudo ln -fs ../init.d/ssh $2 
 }
 
-msg "autoboot sshd on startup"
+msg "Autoboot sshd on startup"
 
 create_link $sd_root/etc/rc2.d S02ssh 
 create_link $sd_root/etc/rc3.d S03ssh 

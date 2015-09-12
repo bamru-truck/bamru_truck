@@ -26,7 +26,7 @@ echo "$TAB_TEXT" >> /tmp/tab
 sudo cp /tmp/tab $TAB_FILE
 sudo touch $SD_ROOT/tmp/.tmpfs
 
-echo Text written to $TAB_FILE
+echo FSTAB text written to $TAB_FILE
 echo "$TAB_TEXT"
 
 msg "DONE"

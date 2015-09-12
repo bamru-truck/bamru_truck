@@ -9,3 +9,5 @@ source ./bin/util
 ./sdconfig/netboot_cmdline &&
 ./sdconfig/netboot_fstab   &&
 ./sdconfig/netboot_nfs     
+
+
