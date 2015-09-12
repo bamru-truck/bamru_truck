@@ -89,7 +89,6 @@ Only the active/root directory is mounted onto the RPi.
 
 3. Unplug the SD card, then re-insert it.
 
-
 4. Configure the SD card for net-booting
 
     > ./sdconfig/all
@@ -123,4 +122,5 @@ build' disk snapshots to avoid re-executing slow commands:
     3. create snapshot (`./sdconfig/netboot_snapshot`)
     4. restore playbook (`git checkout ./playbook/rpi-<yourPB>.yml`)
 
-Restore the master/root to the original using `./sdconfig/netboot_snapshot revert`
+Restore the master/root to the original using `./sdconfig/netboot_snapshot
+revert`
