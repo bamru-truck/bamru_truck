@@ -28,7 +28,7 @@ sender = 'mgregg@michaelgregg.com'
 
 def send_email(lat, lon, sender, receiver, speed, time):
     try:
-        message = """From: From Person <--sender-->
+        message = """From: From BAMRU Truck <--sender-->
 To: To Person <--to-->
 Subject: BAMRU truck SMTP e-mail test position
 Mime-Version: 1.0;
@@ -40,7 +40,7 @@ Content-Transfer-Encoding: 7bit;
 Current position is <a href="https://maps.google.com/maps?ll=--lat--,--lon--&q=--lat--,--lon--&hl=en&t=m&z=15">-Location-</a>
 
 <br>Current position: --lat--, --lon--
-<br>Current speed: --speed-- (mpg, furlongs per hour, IDK...)
+<br>Current speed: --speed-- (mpg, furlongs per fortnight, IDK...)
 <br>GPS Time(gmt): --time--
 <br>System Time: --systime-- 
 
