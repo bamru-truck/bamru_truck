@@ -1,9 +1,0 @@
-#!/bin/bash
-
-./bin/show_env
-
-./ci/reset_nfs_drive && 
-./ci/powercycle      && 
-./ci/run_ansible     && 
-./ci/run_serverspec
-

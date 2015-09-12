@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# This script enableds ssh on startup.  It takes the place of running
+# `update-rc.d ssh enable` on the RPi.
+
+source ./bin/util
+
+[[ -n $sd_root && -d $sd_root/etc ]] || raise "missing sd_root"
+
+create_link() {
+  cd $1
+  sudo ln -fs ../init.d/ssh $2 
+}
+
+msg "autoboot sshd on startup"
+
+create_link $sd_root/etc/rc2.d S02ssh 
+create_link $sd_root/etc/rc3.d S03ssh 
+create_link $sd_root/etc/rc4.d S04ssh 
+create_link $sd_root/etc/rc5.d S05ssh 
+
+msg "DONE"

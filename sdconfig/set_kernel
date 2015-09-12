@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source ./bin/util
+
+[ -d $sd_boot ] || raise "missing directory: $sd_boot"
+[ -d $sd_root ] || raise "missing directory: $sd_root"
+
+msg "Running rpi-update..."
+BOOT_PATH=$sd_boot ROOT_PATH=$sd_root sudo ./sdconfig/alt/rpi-update
+

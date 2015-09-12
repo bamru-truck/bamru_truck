@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# This script assumes that the SD card is mounted at /media.  It updates the
-# file /media/<path>/etc/fstab with instructions the cause the RPi to
-# auto-mount the NFS drive on boot.
+# This script updates the file $sd_root/etc/fstab with instructions that
+# cause the RPi to auto-mount the NFS drive on boot.
 
 source ./bin/util
 
@@ -29,3 +28,5 @@ sudo touch $SD_ROOT/tmp/.tmpfs
 
 echo Text written to $TAB_FILE
 echo "$TAB_TEXT"
+
+msg "DONE"

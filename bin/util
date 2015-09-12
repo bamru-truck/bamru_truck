@@ -38,6 +38,11 @@ can_ssh() {
   ssh -q $1 exit
 }
 
+raise() {
+  echo "ERROR: $1"
+  exit 1
+}
+
 local_ip_address() {
   [ -n $network_interface ] || raise "network_interface not defined"
   ifconfig $network_interface | grep 'inet addr' | awk '{print $2}' | sed -s 's/addr://' | grep .
@@ -45,11 +50,6 @@ local_ip_address() {
 
 remove_blank_lines() {
   echo -e $1 | sed '/^$/d'
-}
-
-raise() {
-  echo "Error: $1"
-  exit 1
 }
 
 stop_ondeck_backup() {
