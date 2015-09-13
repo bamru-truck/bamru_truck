@@ -23,6 +23,6 @@
     # - roles/hotspot_rpi   # => replaced by 'hostapd' and 'udhcpd' roles...
     - roles/hostapd
     - roles/udhcpd
-    - { role: roles/web_admin , deploy_user: "deploy", tags: ['deploy'] }
+    - { role: roles/web_admin , deploy_user: "deploy", tags: ['focus'] }
     - { role: roles/dev_env   , rem_user:  "aleak"         }
     - { role: roles/dev_env   , rem_user:  "mgregg"        }

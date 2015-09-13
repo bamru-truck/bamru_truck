@@ -2,7 +2,7 @@
 
 # This script creates a disk snapshot.
 #
-# Use `netboot_snapshot revert` to revert to clean root...
+# Use `snapshot revert` to revert to clean root...
 
 source ./bin/util
 
