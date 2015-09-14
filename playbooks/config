@@ -80,7 +80,7 @@ echo using host file $hosts
 [[ "$NOPASS" != "true" ]] && echo "Hint: use 'config --nopass' to authenticate with SSH keys"
 [[ "$NOPASS" == "true" ]] && arg="" || arg="--ask-pass"
 
-cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH $TAGS rpi$PLAYBOOK.yml $arg"
+cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH $TAGS rpi$PLAYBOOK.yml $arg -vvvv"
 
 echo running \"$cmd\"
 
