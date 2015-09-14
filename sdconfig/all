@@ -3,7 +3,6 @@
 source ./bin/util
 
 ./sdconfig/set_hostname    &&
-./sdconfig/set_kernel      &&
 ./sdconfig/set_sshd        &&
 ./sdconfig/set_sshkeys     &&
 ./sdconfig/netboot_cmdline &&

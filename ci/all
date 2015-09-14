@@ -4,6 +4,6 @@
 
 ./ci/reset_nfs_drive           && 
 ./ci/powercycle                && 
-./ci/run_ansible only_on_focus &&
+./ci/run_ansible focus_only    &&
 ./ci/run_serverspec
 

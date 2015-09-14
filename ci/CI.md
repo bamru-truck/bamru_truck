@@ -1,14 +1,25 @@
 # Continuous Integration
 
-## Snapshots
+## Preparing your RPi for CI
 
-Some provisioning steps are slow. (eg `sudo apt-get upgrade`) Create 'partial
-build' disk snapshots to avoid re-executing slow commands:
+1. prep a SD Card
 
-    1. reset the NFS disk to the master/root (`./ci/reset_nfs_disk`)
-    2. do 'partitial provisioning' (edit playbook, then `./ci/run_ansible`)
-    3. create snapshot (`./sdconfig/netboot_snapshot`)
-    4. restore playbook (`git checkout ./playbook/rpi-<yourPB>.yml`)
+2. boot in your RPi
 
-Restore the master/root to the original using `./sdconfig/netboot_snapshot
-revert`
+3. on the RPi:
+
+    > exit out of the 'raspi-config' program
+    > run 'sudo rpi-update' to update the kernel
+    > reboot the machine
+    > verify that you can ssh to the machine 'ssh pi@<machine>'
+
+4. build a snapshot
+
+    > ./ci/build_snapshot
+
+   NOTE: first run you may have to type 'yes' to verify known-hosts settings
+
+## Execute CI run
+
+    > ./ci/all
+

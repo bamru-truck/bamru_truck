@@ -98,7 +98,6 @@ Only the active/root directory is mounted onto the RPi.
    - change the RPi hostname
    - enable sshd
    - add ssh keys
-   - update the RPi kernel
    - modify SD to cause RPi kernel to boot from NFS
    - modify SD to automount NFS drive on RPi
    - setup MASTER and ACTIVE partitions on NFS server

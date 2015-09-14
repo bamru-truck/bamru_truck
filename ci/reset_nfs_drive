@@ -13,8 +13,8 @@ if [ -d $erpi_active_root ]; then
   sync;sync;sync 
 fi
 
-sudo mkdir -p $erpi_base
-sudo mkdir -p $erpi_base/active
+sudo mkdir -p $erpi
+sudo mkdir -p $erpi_active
 if [ -d $erpi_ondeck_root ]; then
   msg "Create new $erpi_active_root from ondeck"
   sudo mv $erpi_ondeck_root $erpi_active_root      # rename the ondeck_root (fast!)

@@ -35,7 +35,7 @@ can_ping() {
 }
 
 can_ssh() {
-  ssh -q $1 exit
+  ssh -q $1 exit > /dev/null 2>&1
 }
 
 raise() {

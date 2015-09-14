@@ -5,6 +5,6 @@ source ./bin/util
 pwd=$(pwd)
 cd $pwd/serverspec
 
-msg "Run serverspec for $erpi_hostname/$playboook"
-rake spec:$erpi_hostname:$playbook
+msg "Run serverspec for $rpi_hostname/$playboook"
+rake spec:$rpi_hostname:$playbook
 

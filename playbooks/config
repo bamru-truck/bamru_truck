@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="Usage: config [-n|--nopass] [-i|--inventory <inventoryFile>] [-b|--branch <branchName>] [-f|--focus <only|skip>] [-p|--playbook] [-h|--help]"
+USAGE="Usage: config [-n|--nopass] [-i|--inventory <inventoryFile>] [-b|--branch <branchName>] [-f|--focus <only|skip>] [-p|--playbook <playbookName>] [-h|--help]"
 
 # Use the 'nopass' option if ssh-keys have been configured and you want to skip
 # the ssh password.
@@ -31,7 +31,7 @@ do
       shift
       ;;
     -p|--playbook)
-      PLAYBOOK="$2"
+      PLAYBOOK="-$2"
       shift
       ;;
     -f|--focus)
@@ -47,12 +47,13 @@ do
   shift
 done
 
+# -------------------------------------------------------------------------------
 case $FOCUS_ARG in
-  "only")
+  only)
     TAGS='--tags focus'
     ;;
-  "skip")
-    TAGS='--skip_tags focus'
+  skip)
+    TAGS='--skip-tags focus'
     ;;
 esac
 

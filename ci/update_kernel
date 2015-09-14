@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source ./bin/util
+
+msg "Run rpi-update on $rpi_hostname to update kernel"
+ssh pi@$rpi_hostname sudo rpi-update
+
+msg "DONE"
