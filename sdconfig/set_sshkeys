@@ -7,9 +7,10 @@ pihome="$sd_root/home/pi"
 pikeys="$pihome/.ssh"
 authfile="$pikeys/authorized_keys"
 
-[ -n $sd_root ] || raise "no sd_root"
-[ -f $pubfile ] || raise "no public key at $pubfile"
-[ -d $pihome  ] || raise "no home directory for pi"
+[ -n $sd_root      ] || raise "no sd_root"
+[ -n $rpi_hostname ] || raise "no rpi_hostname"
+[ -f $pubfile      ] || raise "no public key at $pubfile"
+[ -d $pihome       ] || raise "no home directory for pi"
 
 msg "Setting up SSH keys"
 
