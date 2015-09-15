@@ -16,7 +16,7 @@
 
     > ./ci/build_snapshot
 
-The build_snapshot script performs the following actions:
+The `build_snapshot` script performs the following actions:
 
     - resets the NFS drive to a clean state
     - runs all of the 'non-focus' roles in the ansible playbook
