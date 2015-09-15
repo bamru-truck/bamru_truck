@@ -8,7 +8,7 @@ msg "Powercycle Command: $powercycle_cmd"
 $powercycle_cmd
 
 # check to see if machine is pingable
-count_down=5
+count_down=9
 pingable=false
 while [ $count_down -gt 0 -a $pingable == false ]; do
   msg "Sleep 10 seconds while the RPi boots (countdown:$count_down)"; sleep 10
@@ -25,7 +25,7 @@ else
 fi
 
 # check for ssh login
-count_down=5
+count_down=9
 sshable=false
 while [ $count_down -gt 0 -a $sshable == false ]; do
   msg "Sleep 10 seconds waiting for SSH access (countdown:$count_down)"; sleep 10
