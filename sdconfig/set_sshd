@@ -14,9 +14,9 @@ create_link() {
 
 msg "Autoboot sshd on startup"
 
-create_link $sd_root/etc/rc2.d S02ssh 
-create_link $sd_root/etc/rc3.d S03ssh 
-create_link $sd_root/etc/rc4.d S04ssh 
-create_link $sd_root/etc/rc5.d S05ssh 
+create_link $sd_root/etc/rc2.d S01ssh 
+create_link $sd_root/etc/rc3.d S01ssh 
+create_link $sd_root/etc/rc4.d S01ssh 
+create_link $sd_root/etc/rc5.d S01ssh 
 
 msg "DONE"

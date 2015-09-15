@@ -101,6 +101,9 @@ Only the active/root directory is mounted onto the RPi.
    - modify SD to cause RPi kernel to boot from NFS
    - modify SD to automount NFS drive on RPi
    - setup MASTER and ACTIVE partitions on NFS server
+   - If the machine you are running on is not the end NFS server, edit your
+       /media/<sd-root>/boot/cmdline.txt
+       Alter the IP address in cmdline.txt, change it to the IP of your NFS server.
 
 ## DONE!
 
