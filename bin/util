@@ -21,6 +21,14 @@ script_name() {
   basename "$0"
 }
 
+script_directory() {
+  $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+}
+
+script_parent_directory() {
+  $( cd `script_directory` && cd .. && pwd )
+}
+
 print_header() {
   echo "-------------------------------------------------------------"
   echo "`date` - `script_name`"

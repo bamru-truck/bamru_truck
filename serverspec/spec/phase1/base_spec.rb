@@ -38,11 +38,11 @@ describe host('google.com') do
   it { should be_reachable }
 end
 
-if host_has_wlan?
-  describe "SSID #{ENV['TARGET_HOST']}" do
-    it "should see the SSID" do
-      expect(ssid_scan).to include(ENV['TARGET_HOST'])
-    end
-  end
-end
+# if host_has_wlan?
+#   describe "SSID #{ENV['TARGET_HOST']}" do
+#     it "should see the SSID" do
+#       expect(ssid_scan).to include(ENV['TARGET_HOST'])
+#     end
+#   end
+# end
 

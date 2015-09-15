@@ -1,7 +1,9 @@
-# Experimental CI Server
+# GitHub CI Server
+
+WORK IN PROGRESS - do not use in production.
 
 An experiment to test the feasability of a custom-built CI server to use in
-place of Jenkins.
+place of Jenkins.  
 
 Inspired by: https://developer.github.com/guides/building-a-ci-server/
 
@@ -37,9 +39,25 @@ To run:
 
 - profit
 
-## TBDs
+## Questions
 
-- how to handle simultaneous requests?
-- how/where to display the logfile results?
-- how to handle multiple test slaves?
-- etc.
+### How to handle simultaneous requests?
+
+Custom Job queue - using a server and a worker process
+
+### How/where to display the logfile results?
+
+The logfile results should be stored and managed in the CI Server.  When
+reporting an error status, reference the Error Message URL in the status
+update.  
+
+### How to handle multiple test slaves?
+
+This is part of the API Spec!!  See:
+https://robots.thoughtbot.com/multiple-ci-services-on-a-github-pull-request
+
+## Other References
+
+GitHub Status API:
+https://developer.github.com/v3/repos/statuses/
+
