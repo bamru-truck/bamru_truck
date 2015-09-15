@@ -6,6 +6,8 @@ focus_arg=""
 [ "$1" == "focus_only" ] && focus_arg="-f only"
 [ "$1" == "focus_skip" ] && focus_arg="-f skip"
 
+[ -n $playbook ] || raise '$playbook not defined'
+
 # Setup ansible enviroment
 pwd=$(pwd)
 cd $pwd/playbooks
@@ -16,5 +18,5 @@ echo "$rpi_hostname ssid=$rpi_ssid" >> inventory/hosts_ci.ini
 
 msg "Run ansible"
 cmd="./config --nopass --inventory ci -p $playbook $focus_arg"
-msg $cmd
+msg "$cmd"
 $cmd
