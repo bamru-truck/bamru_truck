@@ -1,8 +1,10 @@
 #!/bin/bash
 
-source ./ci/util
-load_environment_variables
-print_header
+source ./bin/util
+
+focus_arg=""
+[ "$1" == "focus_only" ] && focus_arg="-f only"
+[ "$1" == "focus_skip" ] && focus_arg="-f skip"
 
 # Setup ansible enviroment
 pwd=$(pwd)
@@ -13,5 +15,6 @@ echo "[rpi]"                         > inventory/hosts_ci.ini
 echo "$rpi_hostname ssid=$rpi_ssid" >> inventory/hosts_ci.ini
 
 msg "Run ansible"
-./config --nopass --inventory ci -p $playbook 
-
+cmd="./config --nopass --inventory ci -p $playbook $focus_arg"
+msg $cmd
+$cmd

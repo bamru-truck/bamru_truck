@@ -1,8 +1,6 @@
 #!/bin/bash
 
-source ./ci/util
-load_environment_variables
-print_header
+source ./bin/util
 
 pwd=$(pwd)
 cd $pwd/serverspec

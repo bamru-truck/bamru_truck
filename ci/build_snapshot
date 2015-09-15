@@ -1,0 +1,10 @@
+#!/bin/bash
+
+./bin/show_env
+
+./ci/update_kernel           &&
+./ci/snapshot revert         && 
+./ci/powercycle              && 
+./ci/run_ansible focus_skip  &&
+./ci/snapshot
+

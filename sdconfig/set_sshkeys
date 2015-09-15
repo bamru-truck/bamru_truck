@@ -1,0 +1,33 @@
+#!/bin/bash
+
+source ./bin/util
+
+pubfile="/home/$env_username/.ssh/id_rsa.pub"
+pihome="$sd_root/home/pi"
+pikeys="$pihome/.ssh"
+authfile="$pikeys/authorized_keys"
+
+[ -n $sd_root      ] || raise "no sd_root"
+[ -n $rpi_hostname ] || raise "no rpi_hostname"
+[ -f $pubfile      ] || raise "no public key at $pubfile"
+[ -d $pihome       ] || raise "no home directory for pi"
+
+msg "Setting up SSH keys"
+
+mkdir -p $pikeys
+
+# if the local key is stored in the authfile, then delete it
+if [ -f $authfile ] && grep -q $env_hostname $authfile; then
+  msg "Removing old keys"
+  grep -s -v $env_hostname $authfile > /tmp/auth 
+  mv /tmp/auth $authfile
+fi
+
+msg "Remove previous known_host settings for $rpi_hostname"
+ssh-keygen -f "/home/$env_username/.ssh/known_hosts" -R $rpi_hostname
+
+# add public ssh key to authfile
+msg "Adding new key"
+cat $pubfile >> $authfile
+
+msg "DONE"

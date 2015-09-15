@@ -1,41 +1,32 @@
 #!/bin/bash
 
-source ./ci/util
-load_environment_variables
-print_header
+source ./bin/util
 
-# Reload main env
-pwd=$(pwd)
+stop_ondeck_backup
 
-if ps aux | grep -q '[o]ndeck' ; then
-  msg "Kill active ondeck backup process"
-  sudo kill $(ps aux | grep '[o]ndeck' | awk '{print $2}')
-  sudo rm -r $rpi_base/ondeck
+[ -d $erpi_master_root ] || raise "$erpi_master_root does not exist!"
+
+if [ -d $erpi_active_root ]; then
+  msg "Remove old $erpi_active_root"
+  sudo mv $erpi_active_root /export/kill$$  
+  sudo nohup rm -Rf /export/kill$$ > /dev/null 2>&1 &  
+  sync;sync;sync 
 fi
 
-if [ ! -d $rpi_master_root ]; then 
-  msg "ERROR! $rpi_master_root does not exist! Exiting"
-  exit 1
+sudo mkdir -p $erpi
+sudo mkdir -p $erpi_active
+if [ -d $erpi_ondeck_root ]; then
+  msg "Create new $erpi_active_root from ondeck"
+  sudo mv $erpi_ondeck_root $erpi_active_root      # rename the ondeck_root (fast!)
 else
-  if [ -d $rpi_active_root ]; then
-    msg "Remove old $rpi_active_root"
-    sudo mv $rpi_active_root $rpi_active_root.kill$$  # rename
-    sudo nohup rm -Rf $rpi_active_root.kill$$ > /dev/null 2>&1 &  
-    sync;sync;sync 
-  fi
+  msg "Create new $erpi_active_root from master"
+  sudo cp -a $erpi_master_root $erpi_active_root   # copy the master_root (slow)
+fi
+sync;sync;sync
 
-  sudo mkdir -p $rpi_base
-  sudo mkdir -p $rpi_base/active
-  if [ -d $rpi_ondeck_root ]; then
-    msg "Create new $rpi_active_root from ondeck"
-    sudo mv $rpi_ondeck_root $rpi_active_root      # rename the ondeck_root (fast!)
-  else
-    msg "Create new $rpi_active_root from master"
-    sudo cp -a $rpi_master_root $rpi_active_root   # copy the master_root (slow)
-  fi
-  sync;sync;sync
+create_ondeck_backup
 
-  msg "Start process to create new ondeck backup"
-  sudo mkdir -p $rpi_base/ondeck
-  sudo nohup cp -a $rpi_master_root $rpi_ondeck_root > /dev/null 2>&1 &  
-  fi
+msg "Export Directory Stats"
+sudo du -s --time /export/raspbian/*/*
+
+msg "DONE"

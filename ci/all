@@ -1,7 +1,9 @@
 #!/bin/bash
 
-./ci/reset_nfs_drive && 
-./ci/powercycle      && 
-./ci/run_ansible     && 
+./bin/show_env
+
+./ci/reset_nfs_drive           && 
+./ci/powercycle                && 
+./ci/run_ansible focus_only    &&
 ./ci/run_serverspec
 
