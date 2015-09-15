@@ -114,6 +114,6 @@ create_ondeck_backup() {
 # ----------------------------------------------------------------------------
 # execution
 
-cd `base_path`
 load_environment_variables
 print_header
+cd `base_path`
