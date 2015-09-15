@@ -1,42 +1,80 @@
-#!/usr/bin/bash
+#!/bin/bash
+
+# ----------------------------------------------------------------------------
+# environment configuration
+
+load_environment_variables() {
+  binpath=`bin_path`
+  eval `$binpath/gen_env`
+}
+
+# ----------------------------------------------------------------------------
+# text utilities
 
 shopt -s expand_aliases       # expand aliases in non-interactive shell
 
 alias setblock="read -d ''"   # for multi-line text blocks
 
+remove_blank_lines() {
+  echo -e $1 | sed '/^$/d'
+}
+
 timestamp() {
   date +"%y%m%d-%H%M%S"
 }
 
-load_environment_variables() {
-  eval `./bin/gen_env`
-}
-
-backup_file() {
-  ts=`timestamp`
-  sudo cp $1 $1.backup_$ts
-}
+# ----------------------------------------------------------------------------
+# script and path names 
 
 script_name() {
   basename "$0"
 }
 
-script_directory() {
-  $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+script_path() {
+  cd `dirname $0`
+  pwd
 }
 
-script_parent_directory() {
-  $( cd `script_directory` && cd .. && pwd )
+bin_path() {
+  cd `script_path` 
+  cd ../bin 
+  pwd 
 }
+
+base_path() {
+  cd `script_path`
+  cd ..
+  pwd 
+}
+
+script_parent_dir() {
+  basename `script_path`
+}
+
+script_full_name() {
+  str=`script_parent_dir`/`script_name` 
+  echo $str
+}
+
+# ----------------------------------------------------------------------------
+# console output 
 
 print_header() {
   echo "-------------------------------------------------------------"
-  echo "`date` - `script_name`"
+  echo "`date` - `script_full_name`"
 }
 
 msg() {
   echo "> $1..."
 }
+
+raise() {
+  echo "ERROR: $1"
+  exit 1
+}
+
+# ----------------------------------------------------------------------------
+# networking functions
 
 can_ping() {
   ping -c1 $1 > /dev/null 2>&1
@@ -46,18 +84,17 @@ can_ssh() {
   ssh -q $1 exit > /dev/null 2>&1
 }
 
-raise() {
-  echo "ERROR: $1"
-  exit 1
-}
-
 local_ip_address() {
   [ -n $network_interface ] || raise "network_interface not defined"
   ifconfig $network_interface | grep 'inet addr' | awk '{print $2}' | sed -s 's/addr://' | grep .
 }
 
-remove_blank_lines() {
-  echo -e $1 | sed '/^$/d'
+# ----------------------------------------------------------------------------
+# file utilities
+
+backup_file() {
+  ts=`timestamp`
+  sudo cp $1 $1.backup_$ts
 }
 
 stop_ondeck_backup() {
@@ -74,5 +111,9 @@ create_ondeck_backup() {
   sudo nohup cp -a $erpi_master_root $erpi_ondeck_root > /dev/null 2>&1 &  
 }
 
+# ----------------------------------------------------------------------------
+# execution
+
+cd `base_path`
 load_environment_variables
 print_header

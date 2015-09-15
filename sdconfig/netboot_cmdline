@@ -3,7 +3,7 @@
 # This script updates the file $sd_boot/cmdline.txt with instructions that
 # cause the RPi to boot from a NFS drive.
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 CMDLINE_FILE=$sd_boot/cmdline.txt
 LOCAL_IP=`local_ip_address`

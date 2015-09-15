@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 msg "Powercycle the RPi"
 msg "CI_USER[$USER] CI_HOST[`hostname`] RPi_HOST[$rpi_hostname]"

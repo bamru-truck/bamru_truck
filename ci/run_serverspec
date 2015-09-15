@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 pwd=$(pwd)
 cd $pwd/serverspec

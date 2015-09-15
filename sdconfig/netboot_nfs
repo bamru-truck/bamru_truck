@@ -3,7 +3,7 @@
 # This script assumes that the SD card is mounted at /media.  It copies the
 # contents of the SD card on /media to the NFS drives at /export/raspbian.
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 [ -n $erpi    ] || raise '$erpi variable is not set'
 [ -n $sd_root ] || raise "no SD root directory"

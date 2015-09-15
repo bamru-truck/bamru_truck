@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 [ -n "$sd_root"     ] || raise '$sd_root not defined'
 [ -d "$sd_root/etc" ] || raise "no directory $sd_root/etc"

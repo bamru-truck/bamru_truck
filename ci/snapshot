@@ -4,7 +4,7 @@
 #
 # Use `snapshot revert` to revert to clean root
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 if [ "$1" == "revert" ]; then
   msg "Reverting snapshot"

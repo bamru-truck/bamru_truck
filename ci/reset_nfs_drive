@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 stop_ondeck_backup
 
