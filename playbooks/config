@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="Usage: config [-n|--nopass] [-i|--inventory <inventoryFile>] [-b|--branch <branchName>] [-d|--deploy_only] [-p|--playbook] [-h|--help]"
+USAGE="Usage: config [-n|--nopass] [-i|--inventory <inventoryFile>] [-b|--branch <branchName>] [-f|--focus <only|skip>] [-p|--playbook <playbookName>] [-h|--help]"
 
 # Use the 'nopass' option if ssh-keys have been configured and you want to skip
 # the ssh password.
@@ -34,8 +34,9 @@ do
       PLAYBOOK="-$2"
       shift
       ;;
-    -d|--deploy_only)
-      TAGS="--tags deploy"
+    -f|--focus)
+      FOCUS_ARG=$2
+      shift
       ;;
     *)
       echo $USAGE
@@ -45,6 +46,16 @@ do
   esac
   shift
 done
+
+# -------------------------------------------------------------------------------
+case $FOCUS_ARG in
+  only)
+    TAGS='--tags focus'
+    ;;
+  skip)
+    TAGS='--skip-tags focus'
+    ;;
+esac
 
 # -------------------------------------------------------------------------------
 # You can have a user-specific host file.  This option is provided so different
@@ -67,9 +78,9 @@ echo using host file $hosts
 # required.  The 'nopass' command line option skips the password prompt.
 
 [[ "$NOPASS" != "true" ]] && echo "Hint: use 'config --nopass' to authenticate with SSH keys"
-[[ "$NOPASS" == "true" ]] && arg="" || arg="--ask-pass"
+[[ "$NOPASS" == "true" ]] && arg="" || arg=" --ask-pass"
 
-cmd="ansible-playbook -i $hosts -e git_branch=$BRANCH $TAGS rpi$PLAYBOOK.yml $arg"
+cmd="ansible-playbook -i $hosts -c ssh $TAGS rpi$PLAYBOOK.yml$arg"
 
 echo running \"$cmd\"
 

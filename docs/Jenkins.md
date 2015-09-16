@@ -92,3 +92,4 @@ server {
 
 ## GitHub Pull request builder.
 https://github.com/janinko/ghprb
+

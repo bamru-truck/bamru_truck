@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# This script assumes that the SD card is mounted at /media.  It copies the
+# contents of the SD card on /media to the NFS drives at /export/raspbian.
+
+source `dirname $0`/../bin/util
+
+[ -n $erpi    ] || raise '$erpi variable is not set'
+[ -n $sd_root ] || raise "no SD root directory"
+[ -d $sd_base ] || raise "sd SD base directory $sd_base not found" 
+[ -d $sd_boot ] || raise "sd SD boot directory $sd_boot not found"
+
+stop_ondeck_backup
+
+msg  "Removing old $erpi directory"
+sudo rm -rf $erpi
+
+msg  "Creating new $erpi directories"
+sudo mkdir -p $erpi/active
+sudo mkdir -p $erpi/master
+sudo mkdir -p $erpi/ondeck
+
+msg  "Copying master boot directory (runs fast!)"
+sudo cp -a $sd_boot $erpi_master_boot
+
+msg  "Copying master root directory (runs slow!)"
+sudo cp -a $sd_root $erpi_master_root
+
+msg  "Creating active root directory (runs slow!)"
+sudo cp -a $erpi_master_root $erpi_active_root
+
+create_ondeck_backup
+
+msg  "DONE"
