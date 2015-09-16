@@ -22,10 +22,33 @@ The `build_snapshot` script performs the following actions:
     - runs all of the 'non-focus' roles in the ansible playbook
     - creates a snapshot which holds your ansible configurations
 
-NOTE: first run you may have to type 'yes' to verify known-hosts settings.
-
 ## Execute CI run
 
     > ./ci/all
 
 The CI run only executes the 'focus' roles in your ansible playbook
+
+## Disabling SSH known-host verification
+
+Sometimes you get SSH prompts like:
+
+    The authenticity of host 'tbd (tbd)' can't be established.
+    RSA key fingerprint is f3:cf:58:ae:71:0b:c8:04:6f:34:a3:b2:e4:1e:0c:8b.
+    Are you sure you want to continue connecting (yes/no)? 
+
+These prompts can interfere with your script execution.
+
+To disable the verification prompts, add the following lines to the beginning
+of `/etc/ssh/ssh_config`:
+
+
+    Host 192.168.0.*
+      StrictHostKeyChecking no
+      UserKnownHostsFile=/dev/null
+
+Options:
+  
+  - The Host subnet can be * to allow unrestricted access to all IPs.
+
+  - Edit `/etc/ssh/ssh_config` for global configuration or `~/.ssh/config` for
+    user-specific configuration.
