@@ -23,5 +23,6 @@ create_tmux_dashboard() {
   tmux select-window -t HGCI:1
 }
 
+killall ruby
 create_tmux_dashboard
 tmux attach -t HGCI
