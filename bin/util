@@ -32,19 +32,19 @@ script_name() {
 
 script_path() {
   cd `dirname $0`
-  pwd
+  echo ${script_path_var:-`pwd`}
 }
 
 bin_path() {
   cd `script_path` 
   cd ../bin 
-  pwd 
+  pwd
 }
 
 base_path() {
   cd `script_path`
   cd ..
-  pwd 
+  pwd
 }
 
 script_parent_dir() {
@@ -82,7 +82,12 @@ wrap_up() {
   status_code=$1
   [ `which alert` ] && alert
   [ -n "$status_code" ] || raise "no status code"
-  echo "`script_name` finished with status $status_code"
+  finish_seconds=$(date +"%s")
+  finish_date=$(date +"%T")
+  diff=$(($finish_seconds-$start_seconds))
+  time="$(($diff / 60))M-$(($diff % 60))S"
+  echo "`script_full_name` finished with status $status_code | elapsed time $time"
+  echo "started $start_date | finished $finish_date"
   exit $status_code
 }
 
@@ -129,4 +134,7 @@ create_ondeck_backup() {
 
 load_environment_variables
 print_header
+script_path_var=`script_path`
+start_seconds=$(date +"%s")
+start_date=$(date +"%T")
 cd `base_path`
