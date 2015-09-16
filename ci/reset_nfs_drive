@@ -1,0 +1,32 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+stop_ondeck_backup
+
+[ -d $erpi_master_root ] || raise "$erpi_master_root does not exist!"
+
+if [ -d $erpi_active_root ]; then
+  msg "Remove old $erpi_active_root"
+  sudo mv $erpi_active_root /export/kill$$  
+  sudo nohup rm -Rf /export/kill$$ > /dev/null 2>&1 &  
+  sync;sync;sync 
+fi
+
+sudo mkdir -p $erpi
+sudo mkdir -p $erpi_active
+if [ -d $erpi_ondeck_root ]; then
+  msg "Create new $erpi_active_root from ondeck"
+  sudo mv $erpi_ondeck_root $erpi_active_root      # rename the ondeck_root (fast!)
+else
+  msg "Create new $erpi_active_root from master"
+  sudo cp -a $erpi_master_root $erpi_active_root   # copy the master_root (slow)
+fi
+sync;sync;sync
+
+create_ondeck_backup
+
+msg "Export Directory Stats"
+sudo du -s --time /export/raspbian/*/*
+
+msg "DONE"

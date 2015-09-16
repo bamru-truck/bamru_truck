@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sudo apt-get install python-setuptools python-dev -y -q
+sudo easy_install ouimeaux
+
+echo "Ouimeaux is installed"
+echo "To get started, type 'wemo -h'"
+

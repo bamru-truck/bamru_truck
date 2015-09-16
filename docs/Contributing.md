@@ -24,7 +24,6 @@ pull request!
 Reference Docs for Git and GitHub
 ---------------------------------
 
-
 NVIE branching model
 
 - http://nvie.com/posts/a-successful-git-branching-model/

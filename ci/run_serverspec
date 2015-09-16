@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+pwd=$(pwd)
+cd $pwd/serverspec
+
+msg "Run serverspec for $rpi_hostname/$playboook"
+rake spec:$rpi_hostname:$playbook
+

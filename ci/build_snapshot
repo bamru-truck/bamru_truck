@@ -1,0 +1,13 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+./bin/show_env
+
+./ci/update_kernel           &&
+./ci/snapshot revert         && 
+./ci/powercycle              && 
+./ci/run_ansible focus_skip  &&
+./ci/snapshot
+
+wrap_up $?

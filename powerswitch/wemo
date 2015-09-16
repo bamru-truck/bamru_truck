@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+# Use this script to control Belkin Wemo switches.
+# Relies on 'ouimeaux' command-line executable.
+
+SWITCH_NAME = "RPi Switch"
+
+opts = %w(on off toggle status ls cycle)
+msg  = "Usage: set_wemo <#{opts.join('|')}>"
+
+abort(msg) if ARGV.length != 1
+arg = ARGV[0]
+abort("ERROR - Unrecognized option: #{arg}\n#{msg}") unless opts.include?(arg)
+
+def wemo(cmd)
+  `wemo switch '#{SWITCH_NAME}' #{cmd}`
+end
+
+case arg
+when "on", "off", "toggle" then wemo arg
+when "cycle"               then wemo 'off'; sleep 1; wemo 'on' 
+when "status", "ls"        then puts `wemo -v status`
+end
+

@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+
+# This script generates environment variables used by RPi continuous
+# integration scripts.  The YAML text at the bottom of the script allows
+# environment variables to be customized for specific user and hostnames.
+#
+# We turn the YAML data into a ruby hash, then merge the values together.  
+#
+# Note that _base values supply defaults that can be over-ridded for a specific
+# user or host.
+#
+# To set the variable to override the default: 
+#     sd_base=/mydir gen_env
+#     network_interface=wlan0 gen_env
+#     etc...
+#
+# To use this in a shell script: "eval `gen_env`"
+
+require 'yaml'
+require 'pp'
+
+def select_root(list)
+  list.select {|path| path.split('/').last != 'boot'}.first
+end
+
+ENV_FILE = File.dirname(File.expand_path(__FILE__)) + "/env.yml"
+
+hostname = `hostname`.chomp
+username = ENV['USER'] 
+sd_base  = ENV['sd_base'] || "/media/#{username}"
+sd_boot  = ENV['sd_boot'] || "#{sd_base}/boot"
+sd_root  = ENV['sd_root'] || select_root(Dir.glob("#{sd_base}/*")) 
+
+raw_data  = YAML::load(File.read(ENV_FILE))
+base = raw_data.fetch("_base"   , {})   # extract base values from raw_data
+user = raw_data.fetch(username  , {})   # extract user values from the raw_data
+user_base = user.fetch("_base"  , {})   # extract user_base values
+user_host = user.fetch(hostname , {})   # extract user host-specific values
+
+out_data = [base, user_base, user_host].reduce(&:merge)
+
+unless sd_root.nil?
+  out_data["sd_base"] = sd_base
+  out_data["sd_root"] = sd_root
+  out_data["sd_boot"] = sd_boot
+end
+
+out_data["env_hostname"] = hostname
+out_data["env_username"] = username
+
+puts out_data.sort.map {|key, value| "#{key}='#{ENV[key] || value}'"}.join("\n")
+

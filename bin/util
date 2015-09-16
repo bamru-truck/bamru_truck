@@ -1,0 +1,140 @@
+#!/bin/bash
+
+# ----------------------------------------------------------------------------
+# environment configuration
+
+load_environment_variables() {
+  binpath=`bin_path`
+  eval `$binpath/gen_env`
+}
+
+# ----------------------------------------------------------------------------
+# text utilities
+
+shopt -s expand_aliases       # expand aliases in non-interactive shell
+
+alias setblock="read -d ''"   # for multi-line text blocks
+
+remove_blank_lines() {
+  echo -e $1 | sed '/^$/d'
+}
+
+timestamp() {
+  date +"%y%m%d-%H%M%S"
+}
+
+# ----------------------------------------------------------------------------
+# script and path names 
+
+script_name() {
+  basename "$0"
+}
+
+script_path() {
+  cd `dirname $0`
+  echo ${script_path_var:-`pwd`}
+}
+
+bin_path() {
+  cd `script_path` 
+  cd ../bin 
+  pwd
+}
+
+base_path() {
+  cd `script_path`
+  cd ..
+  pwd
+}
+
+script_parent_dir() {
+  basename `script_path`
+}
+
+script_full_name() {
+  str=`script_parent_dir`/`script_name` 
+  echo $str
+}
+
+# ----------------------------------------------------------------------------
+# console output 
+
+print_divider() {
+  echo "---------------------------------------------------------------------"
+}
+
+print_header() {
+  print_divider
+  echo "`date` - `script_full_name`"
+}
+
+msg() {
+  echo "> $1..."
+}
+
+raise() {
+  echo "ERROR: $1"
+  exit 1
+}
+
+wrap_up() {
+  print_divider
+  status_code=$1
+  [ `which alert` ] && alert
+  [ -n "$status_code" ] || raise "no status code"
+  finish_seconds=$(date +"%s")
+  finish_date=$(date +"%T")
+  diff=$(($finish_seconds-$start_seconds))
+  time="$(($diff / 60))M-$(($diff % 60))S"
+  echo "`script_full_name` finished with status $status_code | elapsed time $time"
+  echo "started $start_date | finished $finish_date"
+  exit $status_code
+}
+
+# ----------------------------------------------------------------------------
+# networking functions
+
+can_ping() {
+  ping -c1 $1 > /dev/null 2>&1
+}
+
+can_ssh() {
+  ssh -q $1 exit > /dev/null 2>&1
+}
+
+local_ip_address() {
+  [ -n $network_interface ] || raise "network_interface not defined"
+  ifconfig $network_interface | grep 'inet addr' | awk '{print $2}' | sed -s 's/addr://' | grep .
+}
+
+# ----------------------------------------------------------------------------
+# file utilities
+
+backup_file() {
+  ts=`timestamp`
+  sudo cp $1 $1.backup_$ts
+}
+
+stop_ondeck_backup() {
+  if ps aux | grep -q '[o]ndeck' ; then
+    msg "Kill active ondeck backup process"
+    sudo kill $(ps aux | grep '[o]ndeck' | awk '{print $2}')
+  fi
+}
+
+create_ondeck_backup() {
+  msg "Start process to create new ondeck backup"
+  sudo rm -r $erpi_ondeck
+  sudo mkdir -p $erpi_ondeck
+  sudo nohup cp -a $erpi_master_root $erpi_ondeck_root > /dev/null 2>&1 &  
+}
+
+# ----------------------------------------------------------------------------
+# execution
+
+load_environment_variables
+print_header
+script_path_var=`script_path`
+start_seconds=$(date +"%s")
+start_date=$(date +"%T")
+cd `base_path`

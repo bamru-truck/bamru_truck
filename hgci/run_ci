@@ -1,0 +1,29 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+sha=$1
+base_dir=/export/hgci
+
+[ -n "$sha" ] || raise "no sha - USAGE: `script_name` <sha>"
+
+msg "SHA IS $sha"
+msg "base_dir is $base_dir"
+
+./bin/show_env
+
+msg "Remove old data"
+sudo mkdir -p $base_dir
+sudo rm -Rf $base_dir/bamru_truck
+sudo chown $env_username $base_dir
+sudo chgrp $env_username $base_dir
+cd $base_dir
+
+msg "Clone repository"
+git clone https://github.com/cinchcircuits/bamru_truck 
+cd bamru_truck
+git checkout $sha
+
+msg "Start CI run"
+./ci/all
+
