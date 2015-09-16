@@ -21,11 +21,7 @@ HGCI runs end-to-end:
 
 - install the dependencies (`bundle install`)
 
-- start the server (`hgci/server`)
-
-- start the worker (`hgci/worker`)
-
-- start port forwarding (`bin/portfwd 9292 9292`)
+- start the server dashboard (`./hgci/dashboard`)
 
 - add a webhook to your repo (see citest repo for example)
 
