@@ -29,7 +29,7 @@ hostname = `hostname`.chomp
 username = ENV['USER'] 
 sd_base  = ENV['sd_base'] || "/media/#{username}"
 sd_boot  = ENV['sd_boot'] || "#{sd_base}/boot"
-sd_root  = ENV['sd_root'] || select_root(Dir.glob("#{sd_base}/*")) if Dir.exist?(sd_base)
+sd_root  = ENV['sd_root'] || select_root(Dir.glob("#{sd_base}/*")) 
 
 raw_data  = YAML::load(File.read(ENV_FILE))
 base = raw_data.fetch("_base"   , {})   # extract base values from raw_data
@@ -39,7 +39,7 @@ user_host = user.fetch(hostname , {})   # extract user host-specific values
 
 out_data = [base, user_base, user_host].reduce(&:merge)
 
-if Dir.exist?(sd_base)
+unless sd_root.nil?
   out_data["sd_base"] = sd_base
   out_data["sd_root"] = sd_root
   out_data["sd_boot"] = sd_boot
