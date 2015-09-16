@@ -1,9 +1,13 @@
 #!/bin/bash
 
+source `dirname $0`/../bin/util
+
 ./bin/show_env
 
 ./ci/reset_nfs_drive                                          && 
 ./ci/powercycle                                               &&
 (./ci/run_ansible focus_only || ./ci/run_ansible focus_only)  &&
 ./ci/run_serverspec
+
+wrap_up $?
 

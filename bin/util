@@ -59,8 +59,12 @@ script_full_name() {
 # ----------------------------------------------------------------------------
 # console output 
 
+print_divider() {
+  echo "---------------------------------------------------------------------"
+}
+
 print_header() {
-  echo "-------------------------------------------------------------"
+  print_divider
   echo "`date` - `script_full_name`"
 }
 
@@ -71,6 +75,15 @@ msg() {
 raise() {
   echo "ERROR: $1"
   exit 1
+}
+
+wrap_up() {
+  print_divider
+  status_code=$1
+  [ `which alert` ] && alert
+  [ -n "$status_code" ] || raise "no status code"
+  echo "`script_name` finished with status $status_code"
+  exit $status_code
 }
 
 # ----------------------------------------------------------------------------
