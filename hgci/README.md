@@ -1,7 +1,8 @@
 # Home Grown CI Server
 
-An experiment to test the feasability of a custom-built CI server to use in
-place of Jenkins.  HGCI is not ready for production.
+A custom-built CI server - potential alternative to use in place of Jenkins.
+HGCI can be integrated with GitHub to run automatically on any PR, or can be
+run manually.
 
 Inspired by: https://developer.github.com/guides/building-a-ci-server/
 
@@ -11,6 +12,11 @@ HGCI runs end-to-end:
 - takes webhooks from GitHub on checkins and PR's
 - runs the CI suite and reports status
 - displays the console text in a web app, linked from github
+
+HGCI can also be used from the command-line to execute test runs for a
+particular sha.
+
+    ./hgci/run_ci <sha>
 
 ## Running HGCI
 
@@ -60,4 +66,5 @@ How to handle multiple test slaves?
 - Add some sort of monitoring/restart ability to HGCI
 - Add a cron process to periodically clean up history files
 - Better documentation for how to setup the webhooks in GitHub
+- A script to launch HGCI upon machine boot
 - etc.

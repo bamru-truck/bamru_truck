@@ -4,22 +4,20 @@ source `dirname $0`/../bin/util
 
 create_tmux_dashboard() {
 
-  TGT_DIR=`script_path`
-
   # ----- Server Processes -----
   tmux new-session  -s HGCI -n "PROCESSES" -d
-  tmux split-window -v -t HGCI:1                                    # vertical split  
-  tmux send-keys    -t HGCI:1.1 "cls ; cd $TGT_DIR ; ./server" C-m # web server - takes webhooks from github
-  tmux send-keys    -t HGCI:1.2 "cls ; cd $TGT_DIR ; ./worker" C-m # worker process
+  tmux split-window -v -t HGCI:1                               # vertical split  
+  tmux send-keys    -t HGCI:1.1 "cls ; cd hgci ; ./server" C-m # web server - takes webhooks from github
+  tmux send-keys    -t HGCI:1.2 "cls ; cd hgci ; ./worker" C-m # worker process
 
   # ----- Tunnel Window -----
   tmux new-window -n "TUNNEL"
-  tmux split-window -v -p 70 -t HGCI:2                                             # vertical split - SSH on top, BASH on bottom
-  tmux send-keys -t HGCI:2.1 "cls ; cd `base_path` ; ./bin/portfwd 9292 9292"  C-m  # port forwarding
+  tmux split-window -v -p 70 -t HGCI:2                             # vertical split - SSH on top, BASH on bottom
+  tmux send-keys -t HGCI:2.1 "cls ; ./bin/portfwd 9292 9292"  C-m  # port forwarding
 
   # ----- Support Window -----
   tmux new-window -n "SUPPORT"
-  tmux split-window -v -p 70 -t HGCI:3   # vertical split   - two bash consoles
+  tmux split-window -v -p 70 -t HGCI:3   # vertical split - two bash consoles
 
   # ----- Open With PROCESS Window -----
   tmux select-window -t HGCI:1
