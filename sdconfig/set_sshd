@@ -3,7 +3,7 @@
 # This script enableds ssh on startup.  It takes the place of running
 # `update-rc.d ssh enable` on the RPi.
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 [[ -n $sd_root && -d $sd_root/etc ]] || raise "missing sd_root"
 

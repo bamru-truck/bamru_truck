@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 pubfile="/home/$env_username/.ssh/id_rsa.pub"
 pihome="$sd_root/home/pi"

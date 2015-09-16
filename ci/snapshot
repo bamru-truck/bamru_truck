@@ -4,9 +4,11 @@
 #
 # Use `snapshot revert` to revert to clean root
 
-source ./bin/util
+source `dirname $0`/../bin/util
 
 if [ "$1" == "revert" ]; then
+  msg  "Remove previous know_host settings for $rpi_hostname"
+  ssh-keygen -f "/home/$env_username/.ssh/known_hosts" -R $rpi_hostname
   msg "Reverting snapshot"
   if [ ! -d $erpi_master_clean ]; then
     msg "Missing $erpi_master_clean - nothing to revert"

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+remote_port=9292
+
+case $USER in
+  aleak) 
+    remote_port=9292
+    ;;
+  mgregg)
+    remote_port=9293
+    ;;
+esac
+
+mkdir -p ./hgci/log ./hgci/history ./hgci/queue
+
+# start port forwarding in the background
+# ./bin/portfwd $remote_port 9292 >> ./hgci/log/portfwd.log &
+# ssh -R -N -f $remote_port:localhost:9292 45.79.82.37 >> ./hgci/log/portfwd.log
+
+# start worker in the background
+# ./hgci/worker >> ./hgci/log/worker.log &
+
+# start web server
+cd hgci
+rackup -o 0.0.0.0
+
