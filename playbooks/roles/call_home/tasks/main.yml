@@ -18,7 +18,7 @@
 
 - name: set postfix install options
   sudo: true
-  shell: echo 'postfix postfix/mailname string {{rpi_name}}' | debconf-set-selections
+  shell: echo 'postfix postfix/mailname string {{ansible_nodename}}' | debconf-set-selections
 
 - name: set postfix install options 2
   sudo: true
@@ -28,7 +28,7 @@
   sudo: true
   shell: echo 'postfix postfix/main_mailer_type        select  Internet with smarthost' | debconf-set-selections
 
-- name: install support packages
+- name: install Postfix 
   sudo: true
   apt:  pkg={{item}} state=latest install_recommends=yes
   with_items:
@@ -61,50 +61,40 @@
     dest: /etc/cron.d/call-home
     mode: "a+rx"
 
-- name: Test sasl auth in postfix config
-  shell: grep "^smtp_sasl_auth_enable = yes" /etc/postfix/main.cf
-  register: test_grep
+- name: Comment out smtp_sasl lines form postfix cfg
+  shell: sed -i s/^smtp_sasl_auth_enable/#smtp_sasl_auth_enable/g /etc/postfix/main.cf
 
 - name: add sasl auth
   sudo: true
   lineinfile: dest=/etc/postfix/main.cf line="smtp_sasl_auth_enable = yes"
-  when: test_grep.stdout != ""
 
 - name: Test for password map in postfix config
-  shell: grep "^smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd" /etc/postfix/main.cf
-  register: test_grep
+  shell: sed -i s/^smtp_sasl_password_maps/#smtp_sasl_password_maps/g /etc/postfix/main.cf
 
 - name: add password map
   sudo: true
   lineinfile: dest=/etc/postfix/main.cf line="smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd"
-  when: test_grep.stdout != ""
 
 - name: Test noanon in postfix config
-  shell: grep "^smtp_sasl_security_options = noanonymous" /etc/postfix/main.cf
-  register: test_grep
+  shell: sed -i s/^smtp_sasl_security_options/#smtp_sasl_security_options/g /etc/postfix/main.cf
 
 - name: add noanon to postfix conf 
   sudo: true
-  lineinfile: dest=/etc/postfix/main.cf line=""
-  when: test_grep.stdout != "smtp_sasl_security_options = noanonymous"
+  lineinfile: dest=/etc/postfix/main.cf line="smtp_sasl_security_options = noanonymous"
 
 - name: Testtls cafile  in postfix config
-  shell: grep "^smtp_tls_CAfile = /etc/postfix/cacert.pem" /etc/postfix/main.cf
-  register: test_grep
+  shell: sed -i s/^smtp_tls_CAfile/#smtp_tls_CAfile/g /etc/postfix/main.cf
 
 - name: add to postfix conf 
   sudo: true
   lineinfile: dest=/etc/postfix/main.cf line="smtp_tls_CAfile = /etc/postfix/cacert.pem"
-  when: test_grep.stdout != ""
 
 - name: Test smtp_use_tls in postfix config
-  shell: grep "^smtp_use_tls = yes" /etc/postfix/main.cf
-  register: test_grep
+  shell: sed -i s/^smtp_use_tls/#smtp_use_tls/g /etc/postfix/main.cf
 
 - name: add smtp_use_tls to postfix conf 
   sudo: true
   lineinfile: dest=/etc/postfix/main.cf line="smtp_use_tls = yes"
-  when: test_grep.stdout != "smtp_use_tls = yes"
 
 - name: install sasl password file
   sudo: true

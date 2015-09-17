@@ -6,13 +6,15 @@
   sudo: true
   apt:  pkg={{item}} state=latest install_recommends=yes
   with_items:
-    - usbutils     # Utilities to examine usb devices
-    - gpsd         # Main gpsd server
-    - gpsd-clients # Supporting client packages
-    - minicom      # Tool useful to diagnose what is going on with a tty device
-    - libgps-dev   # Buildtool for direwolf
+    - usbutils        # Utilities to examine usb devices
+    - gpsd            # Main gpsd server
+    - gpsd-clients    # Supporting client packages
+    - minicom         # Tool useful to diagnose what is going on with a tty device
+    - libgps-dev      # Buildtool for direwolf
     - build-essential # Build tools for direwolf
-    - screen       # Useful to run applications without a head
+    - screen          # Useful to run applications without a head
+    - libasound2-dev
+    - libgps-dev
   
 - name: install shell script to alter ttyUSBGPS link
   sudo: true
@@ -27,7 +29,7 @@
     line:    "{{ item.line }}" 
     regexp:  "{{ item.reg }}"
   with_items:
-    - {reg: "^DEVICES=\"\""                 , line: "DEVICES=\"/dev/ttyUSBGPS\""      }
+    - {reg: "^DEVICES=\"\""                 , line: "DEVICES=\"/dev/ttyUSB0\""      }
 
 - name: auto-start gpsd point on Boot
   sudo:  true
@@ -60,9 +62,9 @@
     dest: /etc/direwolf.conf
     mode: "a+rx"
 
-- replace: dest=/etc/hosts regexp='KF6WRW-10' replace='{{callsign}}' backup=yes
+- replace: dest=/etc/direwolf.conf regexp='KF6WRW-10' replace='{{callsign}}' backup=yes
 
-- replace: dest=/etc/hosts regexp='23716' replace='{{aprs_is_pw}}' backup=yes
+- replace: dest=/etc/direwolf.conf regexp='23716' replace='{{aprs_is_pw}}' backup=yes
 
 - name: Install direwolf execute script
   sudo: true
@@ -75,7 +77,7 @@
   sudo: true
   shell: sed -i s=^/bin/direwolf-execute.bash=#/bin/direwolf-execute.bash=g /etc/rc.local
 
-name: add direwolf execute to rc.local 
+- name: add direwolf execute to rc.local 
   sudo: true
   lineinfile: dest=/etc/rc.local line="/bin/direwolf-execute.bash&"
 

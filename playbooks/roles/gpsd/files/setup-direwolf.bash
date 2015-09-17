@@ -22,12 +22,13 @@ fi
 
 cd /opt/direwolf-1.2;
 
-make -f Makefile.linux clean
-if [ $? -ne 0 ] ; then
-	echo "Error! make clean failed";
-	exit 1;
-fi
-make -f Makefile.linux
+#make -f Makefile.linux clean
+#if [ $? -ne 0 ] ; then
+#	echo "Error! make clean failed";
+#	exit 1;
+#fi
+
+make -f Makefile.linux -j4
 if [ $? -ne 0 ]; then
 	echo "Error! Make failed";
 	exit 1;
