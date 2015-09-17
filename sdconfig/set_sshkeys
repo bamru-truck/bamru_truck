@@ -24,10 +24,12 @@ if [ -f $authfile ] && grep -q $env_hostname $authfile; then
 fi
 
 msg "Remove previous known_host settings for $rpi_hostname"
-ssh-keygen -f "/home/$env_username/.ssh/known_hosts" -R $rpi_hostname
+scrub_ssh_known_hosts
 
 # add public ssh key to authfile
 msg "Adding new key"
 cat $pubfile >> $authfile
+
+display_ssh_config_tip
 
 msg "DONE"

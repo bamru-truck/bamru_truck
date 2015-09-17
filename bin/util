@@ -110,6 +110,24 @@ local_ip_address() {
 }
 
 # ----------------------------------------------------------------------------
+# ssh management
+
+scrub_ssh_known_hosts() {
+  ssh-keygen -f "/home/$env_username/.ssh/known_hosts" -R $rpi_hostname > /dev/null 2>&1
+}
+
+display_ssh_config_tip() {
+  if [ ! `grep $rpi_hostname /home/$env_username/.ssh/config` ]; then
+    echo "-------------------------------------------------------------"
+    echo "ProTip: get rid of ssh 'known_host' validation warnings."
+    echo "Add these lines into /home/$env_username/.ssh/config..."
+    echo "    Host: $rpi_hostname"
+    echo "      StringHostKeyChecking=no"
+    echo "-------------------------------------------------------------"
+  fi
+}
+
+# ----------------------------------------------------------------------------
 # file utilities
 
 backup_file() {
