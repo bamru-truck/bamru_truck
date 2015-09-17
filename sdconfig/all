@@ -10,4 +10,4 @@ source `dirname $0`/../bin/util
 ./sdconfig/netboot_fstab   &&
 ./sdconfig/netboot_nfs     
 
-wrap_up $?
+wrap_up $? "insert SD card into RPi, boot, then run ci/build_snapshot"

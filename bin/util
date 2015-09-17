@@ -88,6 +88,8 @@ wrap_up() {
   time="$(($diff / 60))M.$(($diff % 60))S"
   echo "`script_full_name` finished with status $status_code | elapsed time $time"
   echo "started $start_date | finished $finish_date"
+  sudo sync
+  [ "$status_code" == "0" ] && [ -n "$2" ] && echo "NEXT STEP: $2"
   exit $status_code
 }
 
