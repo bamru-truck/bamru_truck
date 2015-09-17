@@ -61,6 +61,13 @@
   sudo: true
   file: src=/lib/udev/gobi_loader dest=/bin/gobi_loader owner=root group=root state=link
 
+- name: install sakis3g
+  sudo: true
+  copy: 
+    src: sakis3g
+    dest: /bin/sakis3g
+    mode: "a+rx"
+
 - name: install gobi udev rules
   sudo: true
   file: src=/lib/udev/rules.d/60-gobi-loader.rules dest=/etc/udev/rules.d/60-gobi.rules owner=root group=root state=link
