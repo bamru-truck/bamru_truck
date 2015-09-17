@@ -16,7 +16,7 @@ tgt_file=$sd_root/etc/apt/apt.conf.d/02apt-cacher
 host_ip=`dig +short $aptcacher_host`
 cfg_string="Acquire::http { Proxy 'http://$host_ip:3142'; };"
 
-sudo echo "$cft_string" > /tmp/aptcacher
+sudo echo "$cfg_string" > /tmp/aptcacher
 sudo mv /tmp/aptcacher $tgt_file
 
 msg "apt-cacher-ng host   | $aptcacher_host"
