@@ -38,17 +38,9 @@ Sometimes you get SSH prompts like:
 
 These prompts can interfere with your script execution.
 
-To disable the verification prompts, add the following lines to the beginning
-of `/etc/ssh/ssh_config`:
+To disable the verification prompts, add the following lines to your
+`~/.ssh/config`:
 
+    Host <tgt_hostname>
+      StrictHostKeyChecking=no
 
-    Host 192.168.0.*
-      StrictHostKeyChecking no
-      UserKnownHostsFile=/dev/null
-
-Options:
-  
-  - The Host subnet can be * to allow unrestricted access to all IPs.
-
-  - Edit `/etc/ssh/ssh_config` for global configuration or `~/.ssh/config` for
-    user-specific configuration.
