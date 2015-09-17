@@ -31,4 +31,6 @@ sudo cp -a $erpi_master_root $erpi_active_root
 
 create_ondeck_backup
 
+sudo sync
+
 msg  "DONE"
