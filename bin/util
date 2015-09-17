@@ -85,7 +85,7 @@ wrap_up() {
   finish_seconds=$(date +"%s")
   finish_date=$(date +"%T")
   diff=$(($finish_seconds-$start_seconds))
-  time="$(($diff / 60))M-$(($diff % 60))S"
+  time="$(($diff / 60))M.$(($diff % 60))S"
   echo "`script_full_name` finished with status $status_code | elapsed time $time"
   echo "started $start_date | finished $finish_date"
   exit $status_code
