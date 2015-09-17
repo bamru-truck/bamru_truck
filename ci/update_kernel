@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+msg "Update password of pi@$rpi_hostname"
+ssh pi@$rpi_hostname 'echo -e "pi\npi" | (sudo passwd pi)'
+
+msg "Run rpi-update on $rpi_hostname to update kernel"
+ssh pi@$rpi_hostname sudo rpi-update
+
+msg "DONE"

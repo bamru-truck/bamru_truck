@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+[ -n "$sd_root"     ] || raise '$sd_root not defined'
+[ -d "$sd_root/etc" ] || raise "no directory $sd_root/etc"
+
+tgt_file=$sd_root/etc/hostname
+
+backup_file $tgt_file
+
+sudo echo "$rpi_hostname" > /tmp/hostname
+sudo mv /tmp/hostname $tgt_file
+
+msg "SD hostname set to $rpi_hostname"
+
+msg "DONE"

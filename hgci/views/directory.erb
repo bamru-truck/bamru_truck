@@ -1,0 +1,8 @@
+<table>
+  <% @files.each do |file| %>
+    <tr>
+      <td><%= File.ctime(file) %></td>
+      <td><a href="/sha/<%= File.basename(file, ".txt") %>"><%= File.basename(file, ".txt") %></td>
+    </tr>
+  <% end %>
+</table>

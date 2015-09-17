@@ -1,6 +1,5 @@
 require 'rake'
 require 'rspec/core/rake_task'
-require 'colored'
 
 HR    = "\n#{'*'*60}"
 
@@ -30,8 +29,8 @@ namespace :spec do
         RSpec::Core::RakeTask.new(playbook) do |t|
           ENV['TARGET_HOST']  = host
           ENV['TARGET_PHASE'] = playbook 
-          puts HR.yellow
-          puts "TEST TARGET: #{host}/#{playbook}".yellow
+          puts HR
+          puts "TEST TARGET: #{host}/#{playbook}"
           t.verbose = false
           t.pattern = "spec/#{playbook}/*_spec.rb"
         end
