@@ -118,12 +118,12 @@ scrub_ssh_known_hosts() {
 
 display_ssh_config_tip() {
   if [ ! `grep $rpi_hostname /home/$env_username/.ssh/config` ]; then
-    echo "-------------------------------------------------------------"
+    print_divider
     echo "ProTip: get rid of ssh 'known_host' validation warnings."
     echo "Add these lines into /home/$env_username/.ssh/config..."
     echo "    Host: $rpi_hostname"
     echo "      StringHostKeyChecking=no"
-    echo "-------------------------------------------------------------"
+    print_divider
   fi
 }
 
@@ -147,6 +147,16 @@ create_ondeck_backup() {
   sudo rm -r $erpi_ondeck
   sudo mkdir -p $erpi_ondeck
   sudo nohup cp -a $erpi_master_root $erpi_ondeck_root > /dev/null 2>&1 &  
+}
+
+validate_export_directories() {
+  dirs=`sudo du -s --time /export/raspbian/*/*`
+  master_size=`echo "$dirs" | grep master | grep root | awk '{print $1}'`
+  active_size=`echo "$dirs" | grep active | grep root | awk '{print $1}'`
+  diff=`echo $(($master_size-$active_size)) | tr -d -`
+  [ "$diff" -gt "10000" ] && raise "size mismatch - master:$master_size|active:$active_size"
+  msg "Export Directory Stats"
+  echo "$dirs"
 }
 
 # ----------------------------------------------------------------------------

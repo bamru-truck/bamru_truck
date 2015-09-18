@@ -24,9 +24,8 @@ else
 fi
 sync;sync;sync
 
-create_ondeck_backup
+validate_export_directories
 
-msg "Export Directory Stats"
-sudo du -s --time /export/raspbian/*/*
+create_ondeck_backup
 
 msg "DONE"
