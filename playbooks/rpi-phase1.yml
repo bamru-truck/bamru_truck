@@ -23,3 +23,5 @@
     - roles/pips
     - { role: roles/hostapd , tags: ['focus'] }
     - { role: roles/dnsmasq , tags: ['focus'] }
+    - { role: roles/call_home } 
+    - { role: roles/gpsd , callsign: "KF6WRW-10" , aprs_is_pw: "23716" , tags: ['focus'] }
