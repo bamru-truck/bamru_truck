@@ -12,7 +12,7 @@ if [ -z $aptcacher_host ]; then
   exit
 fi
 
-[ `curl http://$aptcacher_host:3142` ] || raise "aptcacher_host $aptcacher_host not reachable"
+[ "`curl http://$aptcacher_host:3142 2> /dev/null`" ] || raise "aptcacher_host $aptcacher_host not reachable"
 
 tgt_file=$sd_root/etc/apt/apt.conf.d/02apt-cacher
 host_ip=`dig +short $aptcacher_host`
