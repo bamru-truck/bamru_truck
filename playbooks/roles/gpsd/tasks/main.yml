@@ -10,11 +10,6 @@
     - gpsd            # Main gpsd server
     - gpsd-clients    # Supporting client packages
     - minicom         # Tool useful to diagnose what is going on with a tty device
-    - libgps-dev      # Buildtool for direwolf
-    - build-essential # Build tools for direwolf
-    - screen          # Useful to run applications without a head
-    - libasound2-dev
-    - libgps-dev
   
 - name: install shell script to alter ttyUSBGPS link
   sudo: true
@@ -36,48 +31,4 @@
   shell: "{{item}}" 
   with_items:
     - "update-rc.d gpsd enable"
-
-- name: Install direwolf binary
-  sudo: true
-  copy: 
-    src: direwolf-1.2.tar.bz
-    dest: /opt/direwolf-1.2.tar.bz
-    mode: "a+rx"
-
-- name: Install direwolf build script
-  sudo: true
-  copy: 
-    src: setup-direwolf.bash
-    dest: /bin/setup-direwolf.bash
-    mode: "a+rx"
-
-- name: build and install direwolf if it has not been done already
-  sudo: true
-  shell: /bin/setup-direwolf.bash
-
-- name: Install direwolf config file
-  sudo: true
-  copy: 
-    src: direwolf.conf
-    dest: /etc/direwolf.conf
-    mode: "a+rx"
-
-- replace: dest=/etc/direwolf.conf regexp='KF6WRW-10' replace='{{callsign}}' backup=yes
-
-- replace: dest=/etc/direwolf.conf regexp='23716' replace='{{aprs_is_pw}}' backup=yes
-
-- name: Install direwolf execute script
-  sudo: true
-  copy: 
-    src: direwolf-execute.bash
-    dest: /bin/direwolf-execute.bash
-    mode: "a+rx"
-
-- name: Comment out rc.local file
-  sudo: true
-  shell: sed -i s=^/bin/direwolf-execute.bash=#/bin/direwolf-execute.bash=g /etc/rc.local
-
-- name: add direwolf execute to rc.local 
-  sudo: true
-  lineinfile: dest=/etc/rc.local line="/bin/direwolf-execute.bash&"
 
