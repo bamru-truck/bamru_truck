@@ -24,7 +24,11 @@ class CiServer < Sinatra::Base
   # Display a directory of CI runs from /history
   get '/' do
     @files = hist_files
-    erb :directory
+    if @files.empty?
+      "Current Time: #{Time.now} - NO CONTENT"
+    else
+      erb :directory
+    end
   end
 
   # Display a single CI run from /history

@@ -8,7 +8,7 @@ source `dirname $0`/../bin/util
 
 if [ "$1" == "revert" ]; then
   msg  "Remove previous know_host settings for $rpi_hostname"
-  ssh-keygen -f "/home/$env_username/.ssh/known_hosts" -R $rpi_hostname
+  scrub_ssh_known_hosts
   msg "Reverting snapshot"
   if [ ! -d $erpi_master_clean ]; then
     msg "Missing $erpi_master_clean - nothing to revert"
@@ -23,6 +23,7 @@ if [ "$1" == "revert" ]; then
   msg  "Restoring $erpi_ondeck"
   sudo mkdir -p $erpi_ondeck 
   sudo cp -a $erpi_master_clean $erpi_ondeck_root
+  ./ci/powercycle
   exit
 fi
 

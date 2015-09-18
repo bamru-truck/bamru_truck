@@ -85,9 +85,11 @@ wrap_up() {
   finish_seconds=$(date +"%s")
   finish_date=$(date +"%T")
   diff=$(($finish_seconds-$start_seconds))
-  time="$(($diff / 60))M-$(($diff % 60))S"
+  time="$(($diff / 60))M.$(($diff % 60))S"
   echo "`script_full_name` finished with status $status_code | elapsed time $time"
   echo "started $start_date | finished $finish_date"
+  sudo sync
+  [ "$status_code" == "0" ] && [ -n "$2" ] && echo "NEXT STEP: $2"
   exit $status_code
 }
 
@@ -105,6 +107,24 @@ can_ssh() {
 local_ip_address() {
   [ -n $network_interface ] || raise "network_interface not defined"
   ifconfig $network_interface | grep 'inet addr' | awk '{print $2}' | sed -s 's/addr://' | grep .
+}
+
+# ----------------------------------------------------------------------------
+# ssh management
+
+scrub_ssh_known_hosts() {
+  ssh-keygen -f "/home/$env_username/.ssh/known_hosts" -R $rpi_hostname > /dev/null 2>&1
+}
+
+display_ssh_config_tip() {
+  if [ ! `grep $rpi_hostname /home/$env_username/.ssh/config` ]; then
+    print_divider
+    echo "ProTip: get rid of ssh 'known_host' validation warnings."
+    echo "Add these lines into /home/$env_username/.ssh/config..."
+    echo "    Host: $rpi_hostname"
+    echo "      StringHostKeyChecking=no"
+    print_divider
+  fi
 }
 
 # ----------------------------------------------------------------------------
@@ -127,6 +147,17 @@ create_ondeck_backup() {
   sudo rm -r $erpi_ondeck
   sudo mkdir -p $erpi_ondeck
   sudo nohup cp -a $erpi_master_root $erpi_ondeck_root > /dev/null 2>&1 &  
+}
+
+validate_export_directories() {
+  dirs=`sudo du -s --time /export/raspbian/*/*`
+  msg "Export Directory Stats"
+  echo "$dirs"
+  master_size=`echo "$dirs" | grep master | grep root | awk '{print $1}'`
+  active_size=`echo "$dirs" | grep active | grep root | awk '{print $1}'`
+  diff=`echo $(($master_size-$active_size)) | tr -d -`
+  errmsg="size mismatch - master:$master_size | active:$active_size - rerun cmd"
+  [ "$diff" -gt "10000" ] && raise "$errmsg"
 }
 
 # ----------------------------------------------------------------------------

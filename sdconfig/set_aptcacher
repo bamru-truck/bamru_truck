@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# this script configures the raspi client to use apt-cacher-ng 
+
+source `dirname $0`/../bin/util
+
+[ -n "$sd_root"     ] || raise '$sd_root not defined'
+[ -d "$sd_root/etc" ] || raise "no directory $sd_root/etc"
+
+if [ -z $aptcacher_host ]; then
+  msg "No host defined for apt-cacher-ng"
+  exit
+fi
+
+[ "`curl http://$aptcacher_host:3142 2> /dev/null`" ] || raise "aptcacher_host $aptcacher_host not reachable"
+
+tgt_file=$sd_root/etc/apt/apt.conf.d/02apt-cacher
+host_ip=`dig +short $aptcacher_host`
+cfg_string="Acquire::http { Proxy \"http://$host_ip:3142\"; };"
+
+sudo echo "$cfg_string" > /tmp/aptcacher
+sudo mv /tmp/aptcacher $tgt_file
+
+msg "apt-cacher-ng host    | $aptcacher_host"
+msg "apt-cacher-ng config  | $cfg_string"
+msg "apt-cacher-ng URL     | http://$aptcacher_host:3142"
+msg "apt-cacher-ng reports | http://$aptcacher_host:3142/acng-report.html"
+msg "$tgt_file"
+
+msg "DONE"
