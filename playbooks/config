@@ -87,6 +87,7 @@ echo running \"$cmd\"
 # -------------------------------------------------------------------------------
 # This causes Ansible to dump to STDOUT immediately, instead of buffering all
 # output text.  Immediate text output is useful when monitoring live CI runs.
+# see https://groups.google.com/d/msg/ansible-project/aXutTmXAbR0/bpVaZwqIhhYJ
 export PYTHONUNBUFFERED=1
 
 # -------------------------------------------------------------------------------
