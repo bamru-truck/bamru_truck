@@ -85,5 +85,11 @@ cmd="ansible-playbook -i $hosts -c ssh $TAGS rpi$PLAYBOOK.yml$arg"
 echo running \"$cmd\"
 
 # -------------------------------------------------------------------------------
+# This causes Ansible to dump to STDOUT immediately, instead of buffering all
+# output text.  Immediate text output is useful when monitoring live CI runs.
+export PYTHONUNBUFFERED=1
+
+# -------------------------------------------------------------------------------
+# Finally - run the ansible command!!
 $cmd
 
