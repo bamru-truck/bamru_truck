@@ -151,12 +151,13 @@ create_ondeck_backup() {
 
 validate_export_directories() {
   dirs=`sudo du -s --time /export/raspbian/*/*`
+  msg "Export Directory Stats"
+  echo "$dirs"
   master_size=`echo "$dirs" | grep master | grep root | awk '{print $1}'`
   active_size=`echo "$dirs" | grep active | grep root | awk '{print $1}'`
   diff=`echo $(($master_size-$active_size)) | tr -d -`
-  [ "$diff" -gt "10000" ] && raise "size mismatch - master:$master_size|active:$active_size"
-  msg "Export Directory Stats"
-  echo "$dirs"
+  errmsg="size mismatch - master:$master_size | active:$active_size - rerun cmd"
+  [ "$diff" -gt "10000" ] && raise "$errmsg"
 }
 
 # ----------------------------------------------------------------------------
