@@ -1,4 +1,4 @@
-# Bamru Truck Wifi Hotspot
+# Bamru Truck Wifi Hotspot and Microserver
 
 This guide assumes you've got an Ubuntu laptop with an SD card reader/writer,
 and a RPi2 with a USB-WIFI device that runs in master mode.
