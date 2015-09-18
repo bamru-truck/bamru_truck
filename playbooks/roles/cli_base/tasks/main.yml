@@ -54,6 +54,18 @@
     - vim-gnome                  # vim!
     - ruby                       # system ruby
     - ruby-dev                   # compile tools
+    - mailutils                  # Support packages for postfix
+    - libsasl2-2 
+    - ca-certificates 
+    - libsasl2-modules           # End support packages for postfix
+    - usbutils                   # Utilities to examine usb devices
+    - gpsd                       # Main gpsd server
+    - gpsd-clients               # Supporting client packages
+    - minicom                    # Tool useful to diagnose what is going on with a tty device
+    - libgps-dev                 # Buildtool for direwolf
+    - screen                     # Useful to run applications without a head
+    - libasound2-dev             # Lib for gpsd
+    - libgps-dev                 # Lib for gpsd
 
 - name: remove packages
   sudo: true

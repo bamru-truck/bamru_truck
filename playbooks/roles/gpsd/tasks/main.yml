@@ -6,10 +6,10 @@
   sudo: true
   apt:  pkg={{item}} state=latest install_recommends=yes
   with_items:
-    - usbutils     # Utilities to examine usb devices
-    - gpsd         # Main gpsd server
-    - gpsd-clients # Supporting client packages
-    - minicom      # Tool useful to diagnose what is going on with a tty device
+    - usbutils        # Utilities to examine usb devices
+    - gpsd            # Main gpsd server
+    - gpsd-clients    # Supporting client packages
+    - minicom         # Tool useful to diagnose what is going on with a tty device
   
 - name: install shell script to alter ttyUSBGPS link
   sudo: true
@@ -24,7 +24,7 @@
     line:    "{{ item.line }}" 
     regexp:  "{{ item.reg }}"
   with_items:
-    - {reg: "^DEVICES=\"\""                 , line: "DEVICES=\"/dev/ttyUSBGPS\""      }
+    - {reg: "^DEVICES=\"\""                 , line: "DEVICES=\"/dev/ttyUSB0\""      }
 
 - name: auto-start gpsd point on Boot
   sudo:  true

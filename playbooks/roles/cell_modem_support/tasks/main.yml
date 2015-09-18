@@ -9,7 +9,7 @@
     - usbutils      # Utilities to examine usb devices
     - minicom       # Tool useful to diagnose what is going on with a tty device
     - python-serial # Python serial lib
-    - gobi-loader   # For loading firmware onto Gobi modems
+#    - gobi-loader   # For loading firmware onto Gobi modems
     - build-essential 
     - gcc
   
