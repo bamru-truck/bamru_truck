@@ -128,6 +128,49 @@ display_ssh_config_tip() {
 }
 
 # ----------------------------------------------------------------------------
+# tmux
+
+is_live_dashboard() {
+  dashboard=$1
+  tmux ls | grep $dashboard > /dev/null
+}
+
+create_tmux_dashboard() {
+  dashboard=$1
+  tmux new-session   -s $dashboard -d
+  tmux split-window  -t $dashboard:1   -v                            # vertical split
+  tmux split-window  -t $dashboard:1.2 -v                            # vertical split
+  tmux select-layout -t $dashboard:1 even-vertical                   # even layout
+}
+
+tmux_send_keys() {
+  dashboard=$1
+  pane=$2
+  cmd=$3
+  tmux send-keys -t $dashboard:1.$pane "$cmd" C-m
+}
+
+# ----------------------------------------------------------------------------
+# process management
+
+kill_pidfile() {
+  pidfile=$1
+  [ -f $pidfile ] && kill `cat $pidfile` > /dev/null 2>&1 && sleep 1
+}
+
+set_pidfile() {
+  pidfile=$1
+  pid=$2
+  echo $pid > $pidfile
+}
+
+use_pidfile() {
+  pidfile=$1
+  kill_pidfile $pidfile
+  set_pidfile  $pidfile $$
+}
+
+# ----------------------------------------------------------------------------
 # file utilities
 
 backup_file() {
