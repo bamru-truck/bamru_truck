@@ -2,27 +2,20 @@
 
 source `dirname $0`/../bin/util
 
-create_tmux_dashboard() {
+DASHBOARD="HGCI"
 
-  # ----- Server Processes -----
-  tmux new-session  -s HGCI -n "PROCESSES" -d
-  tmux split-window -v -t HGCI:1                               # vertical split  
-  tmux send-keys    -t HGCI:1.1 "cls ; cd hgci ; ./server" C-m # web server - takes webhooks from github
-  tmux send-keys    -t HGCI:1.2 "cls ; cd hgci ; ./worker" C-m # worker process
-
-  # ----- Tunnel Window -----
-  tmux new-window -n "TUNNEL"
-  tmux split-window -v -p 70 -t HGCI:2                             # vertical split - SSH on top, BASH on bottom
-  tmux send-keys -t HGCI:2.1 "cls ; ./bin/portfwd 9292 9292"  C-m  # port forwarding
-
-  # ----- Support Window -----
-  tmux new-window -n "SUPPORT"
-  tmux split-window -v -p 70 -t HGCI:3   # vertical split - two bash consoles
-
-  # ----- Open With PROCESS Window -----
-  tmux select-window -t HGCI:1
+setup_tmux_dashboard() {
+  dashboard=$1
+  create_tmux_dashboard $dashboard
+  tmux_send_keys $dashboard 1 "./hgci/start_server"
+  tmux_send_keys $dashboard 2 "./hgci/start_worker"
+  tmux_send_keys $dashboard 3 "./bin/portfwd 9292 9292"
 }
 
-killall ruby
-create_tmux_dashboard
-tmux attach -t HGCI
+if is_live_dashboard $DASHBOARD; then
+  msg "Attaching to existing dashboard"
+else
+  msg "Creating a new dashboard"
+  setup_tmux_dashboard $DASHBOARD
+fi
+tmux attach -t $DASHBOARD
