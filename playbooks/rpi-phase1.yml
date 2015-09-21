@@ -20,6 +20,7 @@
     - { role: roles/cli_user  , rem_user:  "aleak"         }
     - { role: roles/cli_user  , rem_user:  "mgregg"        }
     - { role: roles/tmux      , host_list: "aleak mgregg"  }
+    - roles/jq
     - roles/pips
     - { role: roles/hostapd , tags: ['focus'] }
     - { role: roles/dnsmasq , tags: ['focus'] }
