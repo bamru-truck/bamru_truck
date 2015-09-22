@@ -73,6 +73,11 @@ class TrServer < Sinatra::Base
       (free.to_f / all.to_f * 100).round.to_s + "% free"
     end
 
+    def has_gps(input)
+      return 'true' if input != false
+      input
+    end
+
     def maplink(data)
       "<a href='http://maps.google.com?q=#{data['lat']},#{data['lon']}'>map</a>"
     end

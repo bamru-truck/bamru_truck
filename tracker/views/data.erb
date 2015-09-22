@@ -9,8 +9,9 @@
       <th>Lat</th>
       <th>Lon</th>
       <th>Speed</th>
-      <th>Uptime</th>
-      <th>Freemem</th>
+      <th>UpTime</th>
+      <th>FreeMem</th>
+      <th>HasGPS</th>
       <th>Actions</th>
     </tr>
     <% all_hosts.each do |host, data| %>
@@ -22,6 +23,7 @@
         <td><%= data["speed"] %></td>
         <td><%= data["uptime"] %></td>
         <td><%= freemem data["freemem"] %></td>
+        <td><%= has_gps data["hasGps"] %></td>
         <td><%= maplink(data) %></td>
       </tr>
     <% end %>
