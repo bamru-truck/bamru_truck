@@ -1,5 +1,7 @@
 #!/bin/bash
 
+called=$_
+
 # ----------------------------------------------------------------------------
 # environment configuration
 
@@ -36,13 +38,12 @@ script_path() {
 }
 
 bin_path() {
-  cd `script_path` 
-  cd ../bin 
-  pwd
+  cd `dirname $BASH_SOURCE`
+  echo ${bin_path_var:-`pwd`}
 }
 
 base_path() {
-  cd `script_path`
+  cd `bin_path`
   cd ..
   pwd
 }
@@ -101,9 +102,17 @@ can_ping() {
   ping -c1 $host > /dev/null 2>&1
 }
 
+can_not_ping() {
+  ! can_ping $1
+}
+
 can_ssh() {
   host=$1
   ssh -q $host exit > /dev/null 2>&1
+}
+
+can_not_ssh() {
+  ! can_ssh $1
 }
 
 is_listening_on() {
@@ -217,6 +226,7 @@ validate_export_directories() {
 load_environment_variables
 print_header
 script_path_var=`script_path`
+bin_path_var=`bin_path`
 start_seconds=$(date +"%s")
 start_date=$(date +"%T")
 cd `base_path`

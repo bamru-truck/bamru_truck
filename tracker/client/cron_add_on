@@ -1,0 +1,22 @@
+#!/bin/bash
+
+source `dirname $0`/../../bin/util
+
+host=$1
+
+[ -z $host ]      && raise "must specify a hostname"
+can_not_ssh $host && raise "can not ssh $host"
+
+setblock CRON_TEXT << EOF
+# run client reporter every minute
+* * * * * /usr/local/bin/reporter
+EOF
+
+msg "Setting up Tracker cron on $host"
+echo -e $CRON_TEXT > /tmp/cron_text
+scp /tmp/cron_text $host:/tmp/cron_text
+ssh $host sudo mv /tmp/cron_text /etc/cron.d/tracker
+ssh $host sudo chmod a+r /etc/cron.d/tracker
+ssh $host sudo /etc/init.d/cron restart
+
+msg "DONE"
