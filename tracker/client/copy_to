@@ -6,18 +6,21 @@ source `dirname $0`/../../bin/util
 
 host=$1
 
-[ -z $host ]      && raise "must specify a hostname"
+usage="USAGE: `basename $0` <hostname>"
+
+[ -z $host ]      && raise "must specify a hostname\n$usage"
 can_not_ssh $host && raise "can not ssh $host"
 
 if [ -n "$default_lat" ]; then
+  tgt=/usr/local/share/tracker
   msg "Setting up default GPS coordinates on $host"
   msg "Default Lat: $default_lat"
   msg "Default Lon: $default_lon"
   echo -e "$default_lat\n$default_lon" > /tmp/gpsdef
   scp /tmp/gpsdef $host:/tmp/default_latlon > /dev/null 2>&1
-  ssh $host sudo mkdir -p /usr/local/share/tracker
-  ssh $host sudo mv /tmp/default_latlon /usr/local/share/tracker
-  ssh $host sudo chmod a+rx /tmp/default_latlon 
+  ssh $host sudo mkdir -p $tgt
+  ssh $host sudo mv /tmp/default_latlon $tgt
+  ssh $host sudo chmod a+r $tgt
 fi
 
 destination=/usr/local/bin/reporter

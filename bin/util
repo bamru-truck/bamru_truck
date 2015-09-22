@@ -74,7 +74,7 @@ msg() {
 }
 
 raise() {
-  echo "ERROR: $1"
+  echo -e "ERROR: $1"
   exit 1
 }
 
