@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <style>
+      .logo {
+        font-weight: bold;
+        padding-right: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <span class='logo'>TRACKER</span>
+    <%= linkto "/data"  , "Data" %> |
+    <%= linkto "/alerts", "Alerts" %>
+    <hr/>
+    <%= yield %>
+    <hr/>
+    <%= Time.now.strftime("%m-%d %H:%M:%S") %>
+  </body>
+</html>

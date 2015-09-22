@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+use_pidfile "/tmp/tracker_worker.pid"
+
+cd hgci
+
+ruby -r./lib/ci_worker.rb -e'CiWorker.new.start'
+

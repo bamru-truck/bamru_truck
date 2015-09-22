@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+host=$1
+last_heartbeat=$2
+
+msg "HOST IS $host"
+msg "LAST HEARTBEAT IS $last_heartbeat"
+
+msg "TBD: ADD EMAIL ALERT CODE HERE !!!"

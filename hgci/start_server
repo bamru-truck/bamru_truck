@@ -1,0 +1,22 @@
+#!/bin/bash
+
+source `dirname $0`/../bin/util
+
+serverpid="/tmp/hgci_server.pid"
+rackpid="/tmp/hgci_rack.pid"
+
+use_pidfile "/tmp/hgci_server.pid"
+
+mkdir -p ./hgci/log ./hgci/history ./hgci/queue
+
+cd hgci
+
+kill_pidfile $rackpid
+
+if [ "$RACK_ENV" == "production" ]; then
+  rackup -o 0.0.0.0
+else
+  shotgun -o 0.0.0.0
+fi
+
+set_pidfile $rackpid $!

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+called=$_
+
 # ----------------------------------------------------------------------------
 # environment configuration
 
@@ -36,13 +38,12 @@ script_path() {
 }
 
 bin_path() {
-  cd `script_path` 
-  cd ../bin 
-  pwd
+  cd `dirname $BASH_SOURCE`
+  echo ${bin_path_var:-`pwd`}
 }
 
 base_path() {
-  cd `script_path`
+  cd `bin_path`
   cd ..
   pwd
 }
@@ -85,9 +86,11 @@ wrap_up() {
   finish_seconds=$(date +"%s")
   finish_date=$(date +"%T")
   diff=$(($finish_seconds-$start_seconds))
-  time="$(($diff / 60))M-$(($diff % 60))S"
+  time="$(($diff / 60))M.$(($diff % 60))S"
   echo "`script_full_name` finished with status $status_code | elapsed time $time"
   echo "started $start_date | finished $finish_date"
+  sudo sync
+  [ "$status_code" == "0" ] && [ -n "$2" ] && echo "NEXT STEP: $2"
   exit $status_code
 }
 
@@ -95,16 +98,93 @@ wrap_up() {
 # networking functions
 
 can_ping() {
-  ping -c1 $1 > /dev/null 2>&1
+  host=$1
+  ping -c1 $host > /dev/null 2>&1
+}
+
+can_not_ping() {
+  ! can_ping $1
 }
 
 can_ssh() {
-  ssh -q $1 exit > /dev/null 2>&1
+  host=$1
+  ssh -q $host exit > /dev/null 2>&1
+}
+
+can_not_ssh() {
+  ! can_ssh $1
+}
+
+is_listening_on() {
+  host=$1
+  port=$2
+  nc -z $host $port
 }
 
 local_ip_address() {
   [ -n $network_interface ] || raise "network_interface not defined"
   ifconfig $network_interface | grep 'inet addr' | awk '{print $2}' | sed -s 's/addr://' | grep .
+}
+
+# ----------------------------------------------------------------------------
+# ssh management
+
+scrub_ssh_known_hosts() {
+  ssh-keygen -f "/home/$env_username/.ssh/known_hosts" -R $rpi_hostname > /dev/null 2>&1
+}
+
+display_ssh_config_tip() {
+  if [ ! `grep $rpi_hostname /home/$env_username/.ssh/config` ]; then
+    print_divider
+    echo "ProTip: get rid of ssh 'known_host' validation warnings."
+    echo "Add these lines into /home/$env_username/.ssh/config..."
+    echo "    Host: $rpi_hostname"
+    echo "      StringHostKeyChecking=no"
+    print_divider
+  fi
+}
+
+# ----------------------------------------------------------------------------
+# tmux
+
+is_live_dashboard() {
+  dashboard=$1
+  tmux ls | grep $dashboard > /dev/null
+}
+
+create_tmux_dashboard() {
+  dashboard=$1
+  tmux new-session   -s $dashboard -d
+  tmux split-window  -t $dashboard:1   -v                            # vertical split
+  tmux split-window  -t $dashboard:1.2 -v                            # vertical split
+  tmux select-layout -t $dashboard:1 even-vertical                   # even layout
+}
+
+tmux_send_keys() {
+  dashboard=$1
+  pane=$2
+  cmd=$3
+  tmux send-keys -t $dashboard:1.$pane "$cmd" C-m
+}
+
+# ----------------------------------------------------------------------------
+# process management
+
+kill_pidfile() {
+  pidfile=$1
+  [ -f $pidfile ] && kill `cat $pidfile` > /dev/null 2>&1 && sleep 1
+}
+
+set_pidfile() {
+  pidfile=$1
+  pid=$2
+  echo $pid > $pidfile
+}
+
+use_pidfile() {
+  pidfile=$1
+  kill_pidfile $pidfile
+  set_pidfile  $pidfile $$
 }
 
 # ----------------------------------------------------------------------------
@@ -129,12 +209,24 @@ create_ondeck_backup() {
   sudo nohup cp -a $erpi_master_root $erpi_ondeck_root > /dev/null 2>&1 &  
 }
 
+validate_export_directories() {
+  dirs=`sudo du -s --time /export/raspbian/*/*`
+  msg "Export Directory Stats"
+  echo "$dirs"
+  master_size=`echo "$dirs" | grep master | grep root | awk '{print $1}'`
+  active_size=`echo "$dirs" | grep active | grep root | awk '{print $1}'`
+  diff=`echo $(($master_size-$active_size)) | tr -d -`
+  errmsg="size mismatch - master:$master_size | active:$active_size - rerun cmd"
+  [ "$diff" -gt "10000" ] && raise "$errmsg"
+}
+
 # ----------------------------------------------------------------------------
 # execution
 
 load_environment_variables
 print_header
 script_path_var=`script_path`
+bin_path_var=`bin_path`
 start_seconds=$(date +"%s")
 start_date=$(date +"%T")
 cd `base_path`
