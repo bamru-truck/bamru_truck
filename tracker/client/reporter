@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Collects statistics on the RPi host and sends them to the central tracker
 # webapp.  To use, copy this script to the RPi host, then execute.  In production:

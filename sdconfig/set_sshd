@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # This script enableds ssh on startup.  It takes the place of running
 # `update-rc.d ssh enable` on the RPi.

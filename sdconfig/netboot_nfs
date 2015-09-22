@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # This script assumes that the SD card is mounted at /media.  It copies the
 # contents of the SD card on /media to the NFS drives at /export/raspbian.
