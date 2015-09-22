@@ -27,10 +27,8 @@ class TrServer < Sinatra::Base
   end
 
   post '/heartbeat/:hostname' do
-    pp params
     host = params[:hostname]
     data = JSON.parse(params[:data])
-    pp data
     save_host(host, data)
     "OK\n"
   end
@@ -60,13 +58,14 @@ class TrServer < Sinatra::Base
     end
 
     def save_host(host, data)
+      data["time"] ||= Time.now.utc
       host_store.transaction do
         host_store[host] = data
       end
     end
 
     def pst(string)
-      (Time.parse(string) + Time.zone_offset("PDT")).strftime("%m-%d %H:%M")
+      (Time.parse(string.to_s) + Time.zone_offset("PDT")).strftime("%m-%d %H:%M")
     end
 
     def freemem(input)
