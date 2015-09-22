@@ -64,13 +64,41 @@ class TrServer < Sinatra::Base
       end
     end
 
+    def colorbox(color)
+      "<span style='color: #{color}; background: #{color};'>[]</span>"
+    end
+
+    def pst_color(time)
+      now   = Time.parse(Time.now.strftime("%m-%d %H:%M"))
+      old   = Time.parse(time)
+      delta = now - old
+      case delta  # seconds
+      when proc {|n| n < 270} then "green"
+      when proc {|n| n < 600} then "yellow"
+      else "red"
+      end
+    end
+
     def pst(string)
-      (Time.parse(string.to_s) + Time.zone_offset("PDT")).strftime("%m-%d %H:%M")
+      time  = Time.parse(string.to_s) + Time.zone_offset("PDT")
+      time_str = time.strftime("%m-%d %H:%M")
+      color = pst_color(time_str)
+      time.strftime("%m-%d %H:%M #{colorbox(color)}")
+    end
+
+    def freemem_color(pct)
+      case pct
+      when proc {|n| n > 50} then "green"
+      when proc {|n| n > 25} then "yellow"
+      else "red"
+      end
     end
 
     def freemem(input)
       all, _used, free = input.split('-')
-      (free.to_f / all.to_f * 100).round.to_s + "% free"
+      pct   = (free.to_f / all.to_f * 100).round
+      color = freemem_color(pct)
+      val   = pct.to_s + "% free #{colorbox(color)}"
     end
 
     def has_gps(input)
