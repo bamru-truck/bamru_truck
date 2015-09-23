@@ -7,7 +7,7 @@ source `dirname $0`/../bin/util
 
 TAB_FILE=$sd_root/etc/fstab
 
-setblock TAB_TEXT << EOF
+textblock TAB_TEXT << EOF
 proc            /proc           proc    defaults        0  0
 /dev/mmcblk0p1  /boot           vfat    defaults        0  2
 /dev/nfs        /               rootfs  defaults,rw  

@@ -15,7 +15,7 @@ load_environment_variables() {
 
 shopt -s expand_aliases       # expand aliases in non-interactive shell
 
-alias setblock="read -d ''"   # for multi-line text blocks
+alias textblock="read -d ''"   # for multi-line text blocks
 
 remove_blank_lines() {
   echo -e $1 | sed '/^$/d'

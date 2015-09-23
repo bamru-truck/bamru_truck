@@ -9,7 +9,7 @@ usage="USAGE: `basename $0` <hostname>"
 [ -z $host ]      && raise "must specify a hostname\n$usage"
 can_not_ssh $host && raise "can not ssh $host"
 
-setblock CRON_TEXT << EOT
+textblock CRON_TEXT << EOT
 * * * * * root command /usr/local/bin/reporter
 EOT
 
