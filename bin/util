@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-called=$_
+# Utility functions used by all of the BASH scripts in this repo.
 
 # ----------------------------------------------------------------------------
 # environment configuration
