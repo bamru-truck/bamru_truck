@@ -35,5 +35,7 @@ puts "Press Ctrl-C to exit..."
 begin
   system lcmd
 rescue Exception
-  puts "\nExiting..."
+  puts "\nException"
 end
+
+puts "Exiting at #{Time.now}"
