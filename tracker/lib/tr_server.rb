@@ -69,8 +69,8 @@ class TrServer < Sinatra::Base
     end
 
     def pst_color(time)
-      now   = Time.parse(Time.now.strftime("%m-%d %H:%M"))
-      old   = Time.parse(time)
+      now   = Time.parse(Time.now.strftime("%y-%m-%d %H:%M"))
+      old   = Time.parse("#{Time.now.year}-#{time}")
       delta = now - old
       case delta  # seconds
       when proc {|n| n < 270} then "green"
