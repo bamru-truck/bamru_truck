@@ -7,12 +7,14 @@
 # NOTE ON GPS DATA:
 # - if GPS(BU-353S4) is present and configured, report live GPS data
 # - otherwise, pull lat/lon from 
-#     - /usr/local/share/tracker/default_latlon
-#     - ~/.default_latlon
+#     - /usr/local/share/tracker/default_latlon  ($DEFAULT_SYS_LL)
+#     - ~/.default_latlon                        ($DEFAULT_USR_LL)
 # - otherwise, report alcatraz as the lat/lon
 
 TRACKER_HOST=45.79.82.37
 TRACKER_PORT=9191
+
+# Environment Checks 
 
 tracker_is_listening() {
   timeout 1 nc -z $TRACKER_HOST $TRACKER_PORT
@@ -30,22 +32,33 @@ has_no_gps () {
   ! ( has_gps )
 }
 
+# Default LAT/LON values if there is not GPS device
+
+DEFAULT_SYS_LL=/usr/local/share/tracker/default_latlon
+DEFAULT_USR_LL=~/.default_latlon
+
 default_lat () {
   lat="37.8267"
-  tgt1=/usr/local/share/tracker/default_latlon
-  tgt2=~/.default_latlon
-  [ -f $tgt1 ] && lat=`cat $tgt1 | sed -n '1p'`
-  [ -f $tgt2 ] && lat=`cat $tgt2 | sed -n '1p'`
+  [ -f $DEFAULT_SYS_LL ] && lat=$(cat $DEFAULT_SYS_LL | sed -n '1p')
+  [ -f $DEFAULT_USR_LL ] && lat=$(cat $DEFAULT_USR_LL | sed -n '1p')
   echo $lat
 }
 
 default_lon () {
   lon="-122.4233"
-  tgt1=/usr/share/tracker/default_latlon
-  tgt2=~/.default_latlon
-  [ -f $tgt1 ] && lon=`cat $tgt1 | sed -n '2p'`
-  [ -f $tgt2 ] && lon=`cat $tgt2 | sed -n '2p'`
+  [ -f $DEFAULT_SYS_LL ] && lon=$(cat $DEFAULT_SYS_LL | sed -n '2p')
+  [ -f $DEFAULT_USR_LL ] && lon=$(cat $DEFAULT_SYS_LL | sed -n '2p')
   echo $lon
+}
+
+# Utilities
+
+tld_hostname () {
+  hostname | tr '.' ' ' | awk '{print $1}'
+}
+
+syslog () {
+  /usr/bin/logger -t gps-logger "$1"
 }
 
 uptime=$( uptime | tr -d ',' | awk '{print $3}' )
@@ -63,10 +76,9 @@ if tracker_is_not_listening; then
   err="ERROR: TRACKER APP IS NOT LISTENING"
   echo $err
   echo "http://$TRACKER_HOST:$TRACKER_PORT"
-  /usr/bin/logger -t gps-logger "'$err'"
+  syslog "$err"
   exit 1
 fi
 
-curl --data-urlencode "data=$gpsdata" http://$TRACKER_HOST:9191/heartbeat/`hostname`
-/usr/bin/logger -t gps-logger 'Log complete'
-echo " "
+curl --data-urlencode "data=$gpsdata" http://$TRACKER_HOST:9191/heartbeat/`tld_hostname`
+syslog "Log complete"
