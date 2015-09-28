@@ -47,7 +47,7 @@ default_lat () {
 default_lon () {
   lon="-122.4233"
   [ -f $DEFAULT_SYS_LL ] && lon=$(cat $DEFAULT_SYS_LL | sed -n '2p')
-  [ -f $DEFAULT_USR_LL ] && lon=$(cat $DEFAULT_SYS_LL | sed -n '2p')
+  [ -f $DEFAULT_USR_LL ] && lon=$(cat $DEFAULT_USR_LL | sed -n '2p')
   echo $lon
 }
 
