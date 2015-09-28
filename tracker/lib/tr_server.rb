@@ -28,6 +28,9 @@ class TrServer < Sinatra::Base
 
   post '/heartbeat/:hostname' do
     host = params[:hostname]
+    msg = "Error: no data (#{host})"
+    xdata = params[:data]
+    (puts msg; pp params; return msg; ) if xdata.nil? || xdata.empty?
     data = JSON.parse(params[:data])
     save_host(host, data)
     "OK\n"
