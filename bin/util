@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# Utility functions used by all of the BASH scripts in this repo.
 
 # ----------------------------------------------------------------------------
 # environment configuration
@@ -13,7 +15,7 @@ load_environment_variables() {
 
 shopt -s expand_aliases       # expand aliases in non-interactive shell
 
-alias setblock="read -d ''"   # for multi-line text blocks
+alias textblock="read -d ''"   # for multi-line text blocks
 
 remove_blank_lines() {
   echo -e $1 | sed '/^$/d'
@@ -36,13 +38,12 @@ script_path() {
 }
 
 bin_path() {
-  cd `script_path` 
-  cd ../bin 
-  pwd
+  cd `dirname $BASH_SOURCE`
+  echo ${bin_path_var:-`pwd`}
 }
 
 base_path() {
-  cd `script_path`
+  cd `bin_path`
   cd ..
   pwd
 }
@@ -73,7 +74,7 @@ msg() {
 }
 
 raise() {
-  echo "ERROR: $1"
+  echo -e "ERROR: $1"
   exit 1
 }
 
@@ -97,11 +98,27 @@ wrap_up() {
 # networking functions
 
 can_ping() {
-  ping -c1 $1 > /dev/null 2>&1
+  host=$1
+  ping -c1 $host > /dev/null 2>&1
+}
+
+can_not_ping() {
+  ! can_ping $1
 }
 
 can_ssh() {
-  ssh -q $1 exit > /dev/null 2>&1
+  host=$1
+  ssh -q $host exit > /dev/null 2>&1
+}
+
+can_not_ssh() {
+  ! can_ssh $1
+}
+
+is_listening_on() {
+  host=$1
+  port=$2
+  nc -z $host $port
 }
 
 local_ip_address() {
@@ -125,6 +142,49 @@ display_ssh_config_tip() {
     echo "      StringHostKeyChecking=no"
     print_divider
   fi
+}
+
+# ----------------------------------------------------------------------------
+# tmux
+
+is_live_dashboard() {
+  dashboard=$1
+  tmux ls | grep $dashboard > /dev/null
+}
+
+create_tmux_dashboard() {
+  dashboard=$1
+  tmux new-session   -s $dashboard -d
+  tmux split-window  -t $dashboard:1   -v                            # vertical split
+  tmux split-window  -t $dashboard:1.2 -v                            # vertical split
+  tmux select-layout -t $dashboard:1 even-vertical                   # even layout
+}
+
+tmux_send_keys() {
+  dashboard=$1
+  pane=$2
+  cmd=$3
+  tmux send-keys -t $dashboard:1.$pane "$cmd" C-m
+}
+
+# ----------------------------------------------------------------------------
+# process management
+
+kill_pidfile() {
+  pidfile=$1
+  [ -f $pidfile ] && kill `cat $pidfile` > /dev/null 2>&1 && sleep 1
+}
+
+set_pidfile() {
+  pidfile=$1
+  pid=$2
+  echo $pid > $pidfile
+}
+
+use_pidfile() {
+  pidfile=$1
+  kill_pidfile $pidfile
+  set_pidfile  $pidfile $$
 }
 
 # ----------------------------------------------------------------------------
@@ -166,6 +226,7 @@ validate_export_directories() {
 load_environment_variables
 print_header
 script_path_var=`script_path`
+bin_path_var=`bin_path`
 start_seconds=$(date +"%s")
 start_date=$(date +"%T")
 cd `base_path`

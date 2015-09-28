@@ -15,12 +15,17 @@ rport = ARGV[0]
 lport = ARGV[1]
 lhost = ENV['SYSNAME']
 
+basefile = "/tmp/portfwd#{rport}"
+pidfile  = "#{basefile}.pid"
+logfile  = "#{basefile}.log"
+system "[ -f #{pidfile} ] && sudo kill `cat #{pidfile}`"
+File.open(pidfile, 'w') {|f| f.puts Process.pid}
+
 banner = "<#{exe}> #{rhost}:#{rport}@#{lhost}:#{lport}"
 
-lcmd      = "ssh -R #{rport}:localhost:#{lport} #{rhost} 'cat > /tmp/zzz'"
+lcmd      = "ssh -R #{rport}:localhost:#{lport} #{rhost} 'cat > #{logfile}'"
 
 puts lcmd
-
 puts "Started #{Time.now}"
 
 puts banner
@@ -30,5 +35,7 @@ puts "Press Ctrl-C to exit..."
 begin
   system lcmd
 rescue Exception
-  puts "\nExiting..."
+  puts "\nException"
 end
+
+puts "Exiting at #{Time.now}"

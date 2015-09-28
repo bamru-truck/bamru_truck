@@ -3,3 +3,5 @@ playbooks/inventory/hosts_ci.ini
 hgci/log/
 hgci/history/
 hgci/queue/
+tracker/log/
+tracker/data/

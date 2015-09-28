@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+source `dirname $0`/../bin/util
+
+DASHBOARD="TRACKER"
+
+setup_tmux_dashboard() {
+  dashboard=$1
+  create_tmux_dashboard $dashboard
+  tmux_send_keys $dashboard 1 "./tracker/start_server"
+  tmux_send_keys $dashboard 2 "./tracker/start_worker"
+  tmux_send_keys $dashboard 3 "./bin/portfwd 9191 9191"
+}
+
+
+if is_live_dashboard $DASHBOARD; then
+  msg "Attaching to existing dashboard"
+else
+  msg "Creating a new dashboard"
+  setup_tmux_dashboard $DASHBOARD
+fi
+tmux attach -t $DASHBOARD

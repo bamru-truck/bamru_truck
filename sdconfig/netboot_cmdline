@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # This script updates the file $sd_boot/cmdline.txt with instructions that
 # cause the RPi to boot from a NFS drive.
