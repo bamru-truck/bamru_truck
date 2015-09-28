@@ -22,8 +22,9 @@
     - { role: roles/tmux      , host_list: "aleak mgregg"  }
     - roles/jq
     - roles/pips
-    - { role: roles/hostapd  , tags: ['focus'] }
-    - { role: roles/dnsmasq  , tags: ['focus'] }
-    - { role: roles/gpsd     , tags: ['focus'] }
-    - { role: roles/ntpd     , tags: ['focus'] }
-    - { role: roles/tracker  , tags: ['focus'] }
+    - { role: roles/hostapd       , tags: ['focus'] }
+    - { role: roles/dnsmasq       , tags: ['focus'] }
+    - { role: roles/gpsd          , tags: ['focus'] }
+    - { role: roles/ntpd          , tags: ['focus'] }
+    - { role: roles/tracker       , tags: ['focus'] }
+    - { role: roles/port_forward  , tags: ['focus'] }

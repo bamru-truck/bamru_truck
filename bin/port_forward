@@ -3,9 +3,6 @@
 # remote port forwarding
 #
 # to use this, you'll need a userid on the PROXY_SERVER
-#
-# TODO: check to see if the remote port is in use
-# TODO: install the script with ansible
 
 DEFAULT_PROXY="45.79.82.37"
 
