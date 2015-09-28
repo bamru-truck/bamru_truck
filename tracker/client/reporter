@@ -60,10 +60,13 @@ else
 fi
 
 if tracker_is_not_listening; then
-  echo "ERROR: TRACKER APP IS NOT LISTENING"
+  err="ERROR: TRACKER APP IS NOT LISTENING"
+  echo $err
   echo "http://$TRACKER_HOST:$TRACKER_PORT"
+  /usr/bin/logger -t gps-logger "'$err'"
   exit 1
 fi
 
 curl --data-urlencode "data=$gpsdata" http://$TRACKER_HOST:9191/heartbeat/`hostname`
+/usr/bin/logger -t gps-logger 'Log complete'
 echo " "
