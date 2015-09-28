@@ -1,13 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+# This test script is run in the CI process.  It runs server-side tests, builds
+# a RPi and runs specs against the RPi.
+ 
 source `dirname $0`/../bin/util
 
 ./bin/show_env
 
+./bin/tests/all                                               &&
+./tracker/tests/all                                           &&
 ./ci/reset_nfs_drive                                          && 
 ./ci/powercycle                                               &&
 (./ci/run_ansible focus_only || ./ci/run_ansible focus_only)  &&
-./ci/run_serverspec
+./ci/run_serverspec                              
 
 wrap_up $?
-

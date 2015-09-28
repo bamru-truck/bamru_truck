@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 source `dirname $0`/../bin/util
 
@@ -10,4 +10,4 @@ source `dirname $0`/../bin/util
 ./ci/run_ansible focus_skip  &&
 ./ci/snapshot
 
-wrap_up $?
+wrap_up $? "run ci/all"

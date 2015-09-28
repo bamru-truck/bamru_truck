@@ -84,3 +84,8 @@
   sudo: true
   copy: src=rpi/jq dest=/usr/local/bin/jq mode="a+rx"
   when: is_rpi
+
+- name: Enable syntax highlighting on vi and vim 
+  sudo: true
+  shell: sed -i s/^syntax\ enable/#syntax\ enable/g /etc/vim/vimrc; echo "syntax enable" >> /etc/vim/vimrc
+

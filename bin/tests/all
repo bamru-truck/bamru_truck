@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+source `dirname $0`/../util
+
+msg "Run BATS in bin/tests"
+
+bats bin/tests

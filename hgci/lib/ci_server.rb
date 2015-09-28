@@ -2,10 +2,14 @@ require 'sinatra/base'
 require 'json'
 require 'pp'
 
+$PROGRAM_NAME = "HGCI_SERVER"
+
 class CiServer < Sinatra::Base
 
-  BASE_DIR  = File.dirname(File.expand_path(__FILE__))
-  HIST_GLOB = BASE_DIR + "/history/*"
+  ROOT_DIR  = File.expand_path("#{File.dirname(__FILE__)}/../")
+  HIST_GLOB = ROOT_DIR + "/history/*"
+
+  set :root, ROOT_DIR
 
   # Accept Webhook posts for github, write contents to log/<sha>.json
   post '/event_handler' do
@@ -24,7 +28,11 @@ class CiServer < Sinatra::Base
   # Display a directory of CI runs from /history
   get '/' do
     @files = hist_files
-    erb :directory
+    if @files.empty?
+      "Current Time: #{Time.now} - NO CONTENT"
+    else
+      erb :directory
+    end
   end
 
   # Display a single CI run from /history
@@ -41,8 +49,8 @@ class CiServer < Sinatra::Base
   helpers do
     def queue_pull_request(pull_request)
       sha = pull_request['head']['sha']
-      system "mkdir -p #{BASE_DIR}/queue"
-      File.open("#{BASE_DIR}/queue/#{sha}.json", 'w') do |f|
+      system "mkdir -p #{ROOT_DIR}/queue"
+      File.open("#{ROOT_DIR}/queue/#{sha}.json", 'w') do |f|
         f.puts @json_pl
       end
     end

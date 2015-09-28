@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# copy the 'reporter' script to the client machine
+
+source `dirname $0`/../../bin/util
+
+host=$1
+
+usage="USAGE: `basename $0` <hostname>"
+
+[ -z $host ]      && raise "must specify a hostname\n$usage"
+can_not_ssh $host && raise "can not ssh $host"
+
+if [ -n "$default_lat" ]; then
+  tgt=/usr/local/share/tracker
+  msg "Setting up default GPS coordinates on $host"
+  msg "Default Lat: $default_lat"
+  msg "Default Lon: $default_lon"
+  echo -e "$default_lat\n$default_lon" > /tmp/gpsdef
+  scp /tmp/gpsdef $host:/tmp/default_latlon > /dev/null 2>&1
+  ssh $host sudo mkdir -p $tgt
+  ssh $host sudo mv /tmp/default_latlon $tgt
+  ssh $host sudo chmod a+r $tgt
+fi
+
+destination=/usr/local/bin/reporter
+
+msg "Copy tracker/client/reporter to $host:$destination"
+scp tracker/client/reporter $host:/tmp/reporter > /dev/null 2>&1
+ssh $host sudo mv /tmp/reporter $destination
+ssh $host sudo chmod a+rx $destination
+
+msg "DONE"

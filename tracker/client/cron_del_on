@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+source `dirname $0`/../../bin/util
+
+host=$1
+
+usage="USAGE: `basename $0` <hostname>"
+
+[ -z $host ]      && raise "must specify a hostname\n$usage"
+can_not_ssh $host && raise "can not ssh $host"
+
+msg "Removing Tracker cron on $host"
+ssh $host sudo rm -f /etc/cron.d/tracker
+ssh $host sudo /etc/init.d/cron restart
+
+msg "DONE"

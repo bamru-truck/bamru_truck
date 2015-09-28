@@ -1,11 +1,34 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+source `dirname $0`/util
 
 # use this script to install the development dependencies 
 # on the development/nfs server
 
-sudo apt-get install tmux
-sudo apt-get remove ruby -y -q
+print_divider
+msg "install tmux and curl"
+sudo apt-get install tmux curl
+
+print_divider
+msg "remove ruby1.8, install ruby1.9.1 and bundler"
 sudo apt-get install ruby1.9.1 -y -q
 sudo gem install bundler
-cd serverspec
-bundle
+
+print_divider
+msg "install serverspec dependencies"
+cd serverspec; bundle ; cd ..
+
+print_divider
+msg "install hgci dependencies"
+cd hgci; bundle; cd ..
+
+print_divider
+msg "install tracker dependencies"
+cd tracker; bundle; cd ..
+
+print_divider
+msg "install bats (bash testing system) to /usr/local"
+cd /tmp
+git clone https://github.com/sstephenson/bats.git
+cd bats
+sudo ./install.sh /usr/local

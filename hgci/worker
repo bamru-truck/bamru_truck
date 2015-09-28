@@ -1,8 +1,0 @@
-#!/bin/bash
-
-source `dirname $0`/../bin/util
-
-cd hgci
-
-ruby -r./ci_worker.rb -e'CiWorker.new.start'
-
