@@ -9,7 +9,7 @@ setup_tmux_dashboard() {
   create_tmux_dashboard $dashboard
   tmux_send_keys $dashboard 1 "./hgci/start_server"
   tmux_send_keys $dashboard 2 "./hgci/start_worker"
-  tmux_send_keys $dashboard 3 "./bin/portfwd 9292 9292"
+  tmux_send_keys $dashboard 3 "./bin/port_forward 9292 9292"
 }
 
 if is_live_dashboard $DASHBOARD; then
