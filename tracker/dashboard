@@ -9,7 +9,7 @@ setup_tmux_dashboard() {
   create_tmux_dashboard $dashboard
   tmux_send_keys $dashboard 1 "./tracker/start_server"
   tmux_send_keys $dashboard 2 "./tracker/start_worker"
-  tmux_send_keys $dashboard 3 "./bin/portfwd 9191 9191"
+  tmux_send_keys $dashboard 3 "./bin/port_forward 9191 9191"
 }
 
 
