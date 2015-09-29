@@ -6290,6 +6290,59 @@ type 0309, grid 2.5 mm</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="needed-parts">
+<packages>
+<package name="TO-220-8L">
+<wire x1="-5.85" y1="-1.17" x2="3.51" y2="-1.17" width="0.127" layer="21"/>
+<wire x1="3.51" y1="-1.17" x2="3.51" y2="1.17" width="0.127" layer="21"/>
+<wire x1="3.51" y1="1.17" x2="2.34" y2="1.17" width="0.127" layer="21"/>
+<wire x1="2.34" y1="1.17" x2="2.34" y2="4.68" width="0.127" layer="21"/>
+<wire x1="-5.85" y1="-1.17" x2="-5.85" y2="1.17" width="0.127" layer="21"/>
+<wire x1="-5.85" y1="1.17" x2="-4.68" y2="1.17" width="0.127" layer="21"/>
+<wire x1="-4.68" y1="1.17" x2="-4.68" y2="4.68" width="0.127" layer="21"/>
+<pad name="P$2" x="2.34" y="5.85" drill="0.6"/>
+<pad name="P$3" x="1.17" y="0" drill="0.6"/>
+<pad name="P$4" x="0" y="5.85" drill="0.6"/>
+<pad name="P$5" x="-1.17" y="0" drill="0.6"/>
+<pad name="P$6" x="-2.34" y="5.85" drill="0.6"/>
+<pad name="P$7" x="-3.51" y="0" drill="0.6"/>
+</package>
+</packages>
+<symbols>
+<symbol name="MPM8X">
+<pin name="VIN" x="-10.16" y="10.16" length="middle"/>
+<pin name="PGND" x="-10.16" y="7.62" length="middle"/>
+<pin name="SGND" x="-10.16" y="5.08" length="middle"/>
+<pin name="FB" x="-10.16" y="2.54" length="middle"/>
+<pin name="VO" x="-10.16" y="0" length="middle"/>
+<wire x1="-5.08" y1="12.7" x2="-5.08" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="-2.54" x2="7.62" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-2.54" x2="7.62" y2="12.7" width="0.254" layer="94"/>
+<wire x1="7.62" y1="12.7" x2="-5.08" y2="12.7" width="0.254" layer="94"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="MPM80">
+<gates>
+<gate name="G$1" symbol="MPM8X" x="-2.54" y="-5.08"/>
+</gates>
+<devices>
+<device name="" package="TO-220-8L">
+<connects>
+<connect gate="G$1" pin="FB" pad="P$7"/>
+<connect gate="G$1" pin="PGND" pad="P$4"/>
+<connect gate="G$1" pin="SGND" pad="P$5"/>
+<connect gate="G$1" pin="VIN" pad="P$3"/>
+<connect gate="G$1" pin="VO" pad="P$6"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -6324,6 +6377,9 @@ type 0309, grid 2.5 mm</description>
 <part name="U$14" library="mgregg" deviceset="MICRO-SWITCH" device=""/>
 <part name="R6" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="C5" library="resistor" deviceset="C-US" device="C0603" value=".1uf"/>
+<part name="U$1" library="needed-parts" deviceset="MPM80" device=""/>
+<part name="R7" library="resistor" deviceset="R-US_" device="R0603"/>
+<part name="R8" library="resistor" deviceset="R-US_" device="R0603"/>
 </parts>
 <sheets>
 <sheet>
@@ -6358,6 +6414,9 @@ type 0309, grid 2.5 mm</description>
 <instance part="U$14" gate="G$1" x="-63.5" y="5.08"/>
 <instance part="R6" gate="G$1" x="-66.04" y="20.32"/>
 <instance part="C5" gate="G$1" x="-68.58" y="15.24" rot="R90"/>
+<instance part="U$1" gate="G$1" x="96.52" y="-38.1"/>
+<instance part="R7" gate="G$1" x="48.26" y="-20.32" rot="R90"/>
+<instance part="R8" gate="G$1" x="48.26" y="-35.56" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -6504,6 +6563,21 @@ type 0309, grid 2.5 mm</description>
 <wire x1="-78.74" y1="15.24" x2="-78.74" y2="7.62" width="0.1524" layer="91"/>
 <junction x="-78.74" y="7.62"/>
 <junction x="-71.12" y="15.24"/>
+</segment>
+<segment>
+<pinref part="R8" gate="G$1" pin="1"/>
+<wire x1="48.26" y1="-40.64" x2="35.56" y2="-40.64" width="0.1524" layer="91"/>
+<label x="38.1" y="-40.64" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="PGND"/>
+<wire x1="86.36" y1="-30.48" x2="71.12" y2="-30.48" width="0.1524" layer="91"/>
+<label x="73.66" y="-30.48" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="SGND"/>
+<wire x1="86.36" y1="-33.02" x2="71.12" y2="-33.02" width="0.1524" layer="91"/>
+<label x="73.66" y="-33.02" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="3V3" class="0">
@@ -6736,6 +6810,11 @@ type 0309, grid 2.5 mm</description>
 <wire x1="154.94" y1="157.48" x2="127" y2="157.48" width="0.1524" layer="91"/>
 <label x="129.54" y="157.48" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="VIN"/>
+<wire x1="86.36" y1="-27.94" x2="71.12" y2="-27.94" width="0.1524" layer="91"/>
+<label x="73.66" y="-27.94" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="N$8" class="0">
 <segment>
@@ -6829,6 +6908,33 @@ type 0309, grid 2.5 mm</description>
 <wire x1="-50.8" y1="15.24" x2="-50.8" y2="7.62" width="0.1524" layer="91"/>
 <junction x="-60.96" y="15.24"/>
 <junction x="-50.8" y="7.62"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="R7" gate="G$1" pin="1"/>
+<pinref part="R8" gate="G$1" pin="2"/>
+<wire x1="48.26" y1="-25.4" x2="48.26" y2="-27.94" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="FB"/>
+<wire x1="48.26" y1="-27.94" x2="48.26" y2="-30.48" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="-35.56" x2="53.34" y2="-35.56" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="-35.56" x2="53.34" y2="-27.94" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="-27.94" x2="48.26" y2="-27.94" width="0.1524" layer="91"/>
+<junction x="48.26" y="-27.94"/>
+</segment>
+</net>
+<net name="N$15" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="VO"/>
+<wire x1="86.36" y1="-38.1" x2="71.12" y2="-38.1" width="0.1524" layer="91"/>
+<label x="73.66" y="-38.1" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="BATT" class="0">
+<segment>
+<pinref part="R7" gate="G$1" pin="2"/>
+<wire x1="48.26" y1="-15.24" x2="35.56" y2="-15.24" width="0.1524" layer="91"/>
+<label x="38.1" y="-15.24" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
