@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.1.0">
+<eagle version="7.2.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -73,6 +73,7 @@
 <layer number="110" name="fp0" color="7" fill="1" visible="no" active="yes"/>
 <layer number="111" name="tGTest" color="7" fill="1" visible="no" active="yes"/>
 <layer number="112" name="bGTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="113" name="IDFDebug" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="116" name="Patch_BOT" color="9" fill="4" visible="no" active="yes"/>
 <layer number="117" name="mPads" color="7" fill="1" visible="no" active="yes"/>
 <layer number="118" name="mVias" color="7" fill="1" visible="no" active="yes"/>
@@ -201,15 +202,6 @@
 <smd name="GND" x="-2" y="0.4" dx="6.2" dy="2.5" layer="1"/>
 <pad name="P$1" x="3.8" y="1.1" drill="0.381"/>
 <pad name="P$2" x="3.8" y="-0.3" drill="0.381"/>
-</package>
-<package name="POWERPOLE-DUAL">
-<pad name="POS" x="-7.9" y="0" drill="2"/>
-<pad name="NEG" x="-7.9" y="7.9" drill="2"/>
-<wire x1="-6" y1="8" x2="26" y2="8" width="1.27" layer="21"/>
-<wire x1="26" y1="0" x2="-6" y2="0" width="1.27" layer="21"/>
-<wire x1="-8" y1="-4" x2="28" y2="-4" width="0.6096" layer="21"/>
-<wire x1="28" y1="-4" x2="28" y2="12" width="0.6096" layer="21"/>
-<wire x1="28" y1="12" x2="-8" y2="12" width="0.6096" layer="21"/>
 </package>
 <package name="CAP-100UF-SMD">
 <description>http://www.mouser.com/Search/ProductDetail.aspx?R=VEJ-101M1ETR-0607virtualkey14000000virtualkey140-VEJ101M1ETR0607</description>
@@ -396,22 +388,6 @@
 <connect gate="G$1" pin="GND" pad="GND"/>
 <connect gate="G$1" pin="X1" pad="X1"/>
 <connect gate="G$1" pin="X2" pad="X2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="ANDERSON-DUAL">
-<gates>
-<gate name="G$1" symbol="CAP" x="0" y="2.54"/>
-</gates>
-<devices>
-<device name="" package="POWERPOLE-DUAL">
-<connects>
-<connect gate="G$1" pin="NEG" pad="NEG"/>
-<connect gate="G$1" pin="POS" pad="POS"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -6000,6 +5976,20 @@ type 0309, grid 2.5 mm</description>
 <smd name="OUT+" x="22.86" y="11.43" dx="5" dy="5" layer="1"/>
 <smd name="GND" x="15.24" y="-10.16" dx="5" dy="5" layer="1"/>
 </package>
+<package name="POWERPOLE-3">
+<pad name="NEG" x="-0.28" y="3.81" drill="2"/>
+<pad name="POS" x="-0.28" y="11.71" drill="2"/>
+<wire x1="1.62" y1="11.81" x2="33.62" y2="11.81" width="1.27" layer="21"/>
+<wire x1="33.62" y1="3.81" x2="1.62" y2="3.81" width="1.27" layer="21"/>
+<wire x1="-0.38" y1="-7.81" x2="35.62" y2="-7.81" width="0.6096" layer="21"/>
+<wire x1="35.62" y1="-7.81" x2="35.62" y2="15.81" width="0.6096" layer="21"/>
+<wire x1="35.62" y1="15.81" x2="-0.38" y2="15.81" width="0.6096" layer="21"/>
+<pad name="SENSE" x="-0.28" y="-4.09" drill="2" rot="R90"/>
+<wire x1="33.62" y1="-3.81" x2="1.62" y2="-3.81" width="1.27" layer="21"/>
+<text x="-2.54" y="13.97" size="1.778" layer="21" ratio="10">+</text>
+<text x="-3.81" y="3.81" size="1.778" layer="21" ratio="10">-</text>
+<text x="2.54" y="-6.35" size="1.6764" layer="21" ratio="15">Sense</text>
+</package>
 </packages>
 <symbols>
 <symbol name="MPM8X">
@@ -6022,6 +6012,15 @@ type 0309, grid 2.5 mm</description>
 <wire x1="-7.62" y1="-7.62" x2="15.24" y2="-7.62" width="0.254" layer="94"/>
 <wire x1="15.24" y1="-7.62" x2="15.24" y2="10.16" width="0.254" layer="94"/>
 <wire x1="15.24" y1="10.16" x2="-7.62" y2="10.16" width="0.254" layer="94"/>
+</symbol>
+<symbol name="BAT+SENSE">
+<pin name="POS" x="-7.62" y="2.54" length="middle"/>
+<pin name="NEG" x="-7.62" y="0" length="middle"/>
+<pin name="SENSE" x="-7.62" y="-2.54" length="middle"/>
+<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="-2.54" y1="-5.08" x2="10.16" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-5.08" x2="10.16" y2="5.08" width="0.254" layer="94"/>
+<wire x1="10.16" y1="5.08" x2="-2.54" y2="5.08" width="0.254" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -6055,6 +6054,23 @@ type 0309, grid 2.5 mm</description>
 <connect gate="G$1" pin="IN-" pad="IN-"/>
 <connect gate="G$1" pin="OUT+" pad="OUT+"/>
 <connect gate="G$1" pin="OUT-" pad="GND OUT-"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="POWERPOLE-WITH-SENSE">
+<gates>
+<gate name="G$1" symbol="BAT+SENSE" x="-5.08" y="0"/>
+</gates>
+<devices>
+<device name="" package="POWERPOLE-3">
+<connects>
+<connect gate="G$1" pin="NEG" pad="NEG"/>
+<connect gate="G$1" pin="POS" pad="POS"/>
+<connect gate="G$1" pin="SENSE" pad="SENSE"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -6169,7 +6185,6 @@ type 0309, grid 2.5 mm</description>
 <part name="U$5" library="mgregg" deviceset="BATTERY-MS518SE" device=""/>
 <part name="U$6" library="mgregg" deviceset="AB26T-CRYSTAL" device=""/>
 <part name="C1" library="resistor" deviceset="C-US" device="C0805K"/>
-<part name="U$8" library="mgregg" deviceset="ANDERSON-DUAL" device=""/>
 <part name="R1" library="resistor" deviceset="R-US_" device="R0603" value="270"/>
 <part name="R2" library="resistor" deviceset="R-US_" device="R0603" value="43k"/>
 <part name="U$11" library="mgregg" deviceset="CAP-SMD-100U" device=""/>
@@ -6188,6 +6203,7 @@ type 0309, grid 2.5 mm</description>
 <part name="R8" library="resistor" deviceset="R-US_" device="R0603"/>
 <part name="U$3" library="needed-parts" deviceset="STEP-UP-FROM-AMAZON" device=""/>
 <part name="BATT" library="pinhead" deviceset="PINHD-1X2" device=""/>
+<part name="U$7" library="needed-parts" deviceset="POWERPOLE-WITH-SENSE" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6202,7 +6218,6 @@ type 0309, grid 2.5 mm</description>
 <instance part="U$5" gate="G$1" x="-101.6" y="157.48"/>
 <instance part="U$6" gate="G$1" x="-43.18" y="167.64"/>
 <instance part="C1" gate="G$1" x="-10.16" y="165.1"/>
-<instance part="U$8" gate="G$1" x="-58.42" y="38.1"/>
 <instance part="R1" gate="G$1" x="48.26" y="193.04"/>
 <instance part="R2" gate="G$1" x="48.26" y="185.42"/>
 <instance part="U$11" gate="G$1" x="-17.78" y="50.8"/>
@@ -6221,6 +6236,7 @@ type 0309, grid 2.5 mm</description>
 <instance part="R8" gate="G$1" x="48.26" y="-35.56" rot="R90"/>
 <instance part="U$3" gate="G$1" x="60.96" y="33.02"/>
 <instance part="BATT" gate="G$1" x="-45.72" y="91.44"/>
+<instance part="U$7" gate="G$1" x="-63.5" y="38.1"/>
 </instances>
 <busses>
 </busses>
@@ -6275,11 +6291,6 @@ type 0309, grid 2.5 mm</description>
 <label x="-20.32" y="170.18" size="1.778" layer="95"/>
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="-10.16" y1="167.64" x2="-10.16" y2="170.18" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="U$8" gate="G$1" pin="NEG"/>
-<wire x1="-66.04" y1="33.02" x2="-83.82" y2="33.02" width="0.1524" layer="91"/>
-<label x="-81.28" y="33.02" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
@@ -6373,6 +6384,11 @@ type 0309, grid 2.5 mm</description>
 <pinref part="BATT" gate="G$1" pin="2"/>
 <wire x1="-48.26" y1="91.44" x2="-71.12" y2="91.44" width="0.1524" layer="91"/>
 <label x="-66.04" y="91.44" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$7" gate="G$1" pin="NEG"/>
+<wire x1="-71.12" y1="38.1" x2="-86.36" y2="38.1" width="0.1524" layer="91"/>
+<label x="-83.82" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="3V3" class="0">
@@ -6561,11 +6577,6 @@ type 0309, grid 2.5 mm</description>
 </net>
 <net name="VIN" class="0">
 <segment>
-<pinref part="U$8" gate="G$1" pin="POS"/>
-<wire x1="-66.04" y1="38.1" x2="-83.82" y2="38.1" width="0.1524" layer="91"/>
-<label x="-81.28" y="38.1" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="U$11" gate="G$1" pin="POS"/>
 <wire x1="-25.4" y1="50.8" x2="-40.64" y2="50.8" width="0.1524" layer="91"/>
 <label x="-40.64" y="50.8" size="1.778" layer="95"/>
@@ -6574,6 +6585,11 @@ type 0309, grid 2.5 mm</description>
 <pinref part="U$1" gate="G$1" pin="VIN"/>
 <wire x1="86.36" y1="-27.94" x2="71.12" y2="-27.94" width="0.1524" layer="91"/>
 <label x="73.66" y="-27.94" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U$7" gate="G$1" pin="POS"/>
+<wire x1="-71.12" y1="40.64" x2="-86.36" y2="40.64" width="0.1524" layer="91"/>
+<label x="-83.82" y="40.64" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="TRIM" class="0">
@@ -6672,6 +6688,13 @@ type 0309, grid 2.5 mm</description>
 <pinref part="U$1" gate="G$1" pin="VO"/>
 <wire x1="86.36" y1="-38.1" x2="71.12" y2="-38.1" width="0.1524" layer="91"/>
 <label x="73.66" y="-38.1" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="IGNITION" class="0">
+<segment>
+<pinref part="U$7" gate="G$1" pin="SENSE"/>
+<wire x1="-71.12" y1="35.56" x2="-86.36" y2="35.56" width="0.1524" layer="91"/>
+<label x="-83.82" y="35.56" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
