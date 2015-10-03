@@ -46,7 +46,7 @@ switch_bin()
 	if [ $? -eq 0 ]; then
 		AR9271=1
 	fi
-	lsusb | grep RT3...; 
+	lsusb | grep RT3...;
 	if [ $? -eq 0 ] || [ $AR9271 -eq 1 ]; then
 		echo "Found Ralink wifi card."
 		found=1;
