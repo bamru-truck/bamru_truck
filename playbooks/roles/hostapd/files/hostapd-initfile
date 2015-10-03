@@ -41,8 +41,13 @@ switch_bin()
 		echo "ERROR - /usr/sbin/hostapd.stock does not exist! Exiting";
 		exit 1;
 	fi
-	lsusb | grep RT3...; 
+	AR9271=0
+	lsusb | grep AR9271;
 	if [ $? -eq 0 ]; then
+		AR9271=1
+	fi
+	lsusb | grep RT3...; 
+	if [ $? -eq 0 ] || [ $AR9271 -eq 1 ]; then
 		echo "Found Ralink wifi card."
 		found=1;
 		rm -f /usr/sbin/hostapd; 
