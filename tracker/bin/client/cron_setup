@@ -19,19 +19,21 @@ textblock CRON_TEXT << EOT
 * * * * * root command /usr/local/bin/reporter
 EOT
 
+cronfile=/etc/cron.d/tracker
+
 if [ "$action" == "on" ]; then
   msg "Adding Tracker cron to $host"
   echo -e "$CRON_TEXT" > /tmp/cron_text
   cat /tmp/cron_text
   scp /tmp/cron_text $host:/tmp/cron_text > /dev/null 2>&1
-  ssh $host sudo mv /tmp/cron_text /etc/cron.d/tracker
-  ssh $host sudo chmod a+r  /etc/cron.d/tracker
-  ssh $host sudo chmod a-wx /etc/cron.d/tracker
-  ssh $host sudo chown root:root /etc/cron.d/tracker
+  ssh $host sudo mv /tmp/cron_text $cronfile
+  ssh $host sudo chmod a+r  $cronfile
+  ssh $host sudo chmod a-wx $cronfile
+  ssh $host sudo chown root:root $cronfile
   ssh $host sudo /etc/init.d/cron restart > /dev/null 
 else
   msg "Removing Tracker cron from $host"
-  ssh $host sudo rm -f /etc/cron.d/tracker
+  ssh $host sudo rm -f $cronfile
   ssh $host sudo /etc/init.d/cron restart
 fi
 

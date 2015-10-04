@@ -11,14 +11,16 @@ excludes_item "$valid_arg" $action && raise "unrecognized option ($action)\n$usa
 
 cd tracker
 
+pid_status() {
+  local pidfile=$1
+  pid_is_live $pidfile && echo 'running' || echo 'not_running'
+}
+
 status() {
-  pid_is_live $server_pid && svr_stat='running' || svr_stat='not_running'
-  pid_is_live $worker_pid && wkr_stat='running' || wkr_stat='not_running'
-  pid_is_live $tunnel_pid && tun_stat='running' || tun_stat='not_running'
   ( 
-    echo "SERVER $svr_stat pid:`cat $server_pid`"
-    echo "WORKER $wkr_stat pid:`cat $worker_pid`"
-    echo "TUNNEL $tun_stat pid:`cat $tunnel_pid`"
+  echo "SERVER $(pid_status $server_pid) pid:`cat $server_pid`"
+  echo "WORKER $(pid_status $worker_pid) pid:`cat $worker_pid`"
+  echo "TUNNEL $(pid_status $tunnel_pid) pid:`cat $tunnel_pid`"
   ) | column -t
 }
 
