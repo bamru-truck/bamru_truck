@@ -4,6 +4,8 @@ require 'json'
 require 'pp'
 require './lib/alert_settings'
 
+STDOUT.sync = true
+
 class TrServer < Sinatra::Base
 
   ROOT_DIR    = File.expand_path("#{File.dirname(__FILE__)}/../")
