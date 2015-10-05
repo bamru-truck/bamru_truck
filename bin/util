@@ -10,9 +10,10 @@ load_environment_variables() {
   eval `$binpath/gen_env`
 }
 
-load_local_util() {
-  local lcl_util=`script_path`/util
-  [ -f $lcl_util ] && source $lcl_util
+load_util_local() {
+  local util_local=`script_path`/util_local
+  [ -f $util_local ] && source $util_local
+  return 0
 }
 
 # ----------------------------------------------------------------------------
@@ -100,6 +101,7 @@ print_header() {
 msg() {
   echo "> $1..."
   [ -n "$2" ] && [ -f "$2" ] && echo "> $1" >> $2
+  return 0
 }
 
 batlog() {
@@ -274,7 +276,7 @@ bin_path_var=$(bin_path)
 start_seconds=$(date +"%s")
 start_date=$(date +"%T")
 
-load_local_util
+load_util_local
 load_environment_variables
 print_header
 

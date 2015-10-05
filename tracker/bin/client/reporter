@@ -84,5 +84,5 @@ fi
 
 [ "$arg" == "-v" ] && echo "DATA: $gpsdata"
 
-curl --data-urlencode "data=$gpsdata" http://$TRACKER_HOST:9191/heartbeat/`tld_hostname` > /dev/null 2>&1
+curl --data-urlencode "data=$gpsdata" http://$TRACKER_HOST:9191/heartbeat/`tld_hostname` > /dev/null 
 syslog "Log complete"
