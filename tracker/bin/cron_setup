@@ -13,6 +13,9 @@ excludes_item "$valid_actions" $action && raise "invalid option ($action)\n$usag
 
 textblock CRON_TEXT << EOT
 * * * * * root command $(script_path)/check all
+* * * * 0 root command echo SERVER ROTATE $(date) > $server_log
+* * * * 0 root command echo WORKER ROTATE $(date) > $worker_log
+* * * * 0 root command echo TUNNEL ROTATE $(date) > $tunnel_log
 EOT
 
 cronfile=/etc/cron.d/tracker_monitor
