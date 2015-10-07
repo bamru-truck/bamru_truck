@@ -6,7 +6,7 @@
 SWITCH_NAME = "RPi Switch"
 
 opts = %w(on off toggle status ls cycle)
-msg  = "Usage: set_wemo <#{opts.join('|')}>"
+msg  = "Usage: wemo <#{opts.join('|')}>"
 
 abort(msg) if ARGV.length != 1
 arg = ARGV[0]
