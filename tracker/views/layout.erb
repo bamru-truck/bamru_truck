@@ -4,17 +4,15 @@
     <style>
       .logo {
         font-weight: bold;
-        padding-right: 200px;
+        padding-right: 300px;
       }
     </style>
   </head>
   <body>
     <span class='logo'>TRACKER</span>
-    <%= linkto "/data"  , "Data" %> |
-    <%= linkto "/alerts", "Alerts" %>
+    <%= Time.now.strftime("%m-%d %H:%M:%S") %>
     <hr/>
     <%= yield %>
     <hr/>
-    <%= Time.now.strftime("%m-%d %H:%M:%S") %>
   </body>
 </html>

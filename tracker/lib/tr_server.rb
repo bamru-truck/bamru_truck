@@ -15,12 +15,22 @@ class TrServer < Sinatra::Base
 
   set :root, ROOT_DIR
 
+  get '/tbd' do
+    erb :tbd
+  end
+
   get '/' do
     redirect to('/data')
   end
 
   get '/data' do
     erb :data
+  end
+
+  get '/data/:hostname' do
+    @hostname = params[:hostname]
+    @hostdata = get_host(@hostname)
+    erb :host
   end
 
   get '/alerts' do
@@ -111,8 +121,20 @@ class TrServer < Sinatra::Base
       input
     end
 
+    def hostlink(host)
+      "<a href='/data/#{host}'>map</a>"
+    end
+
     def maplink(data)
-      "<a href='http://maps.google.com?q=#{data['lat']},#{data['lon']}'>map</a>"
+      "<a href='#{mapurl(data)}' target='_blank'>gmap</a>"
+    end
+
+    def aprslink(data)
+      "<a href='/tbd' target='_blank'>aprs</a>"
+    end
+
+    def mapurl(data)
+      "http://maps.google.com?q=#{data['lat']},#{data['lon']}"
     end
 
     def linkto(path, label)
