@@ -6334,6 +6334,11 @@ type 0309, grid 2.5 mm</description>
 <text x="-7.62" y="66.04" size="1.778" layer="94">5V cap</text>
 <text x="-10.16" y="48.26" size="1.778" layer="94">Vin cap</text>
 <text x="-60.96" y="27.94" size="1.778" layer="94">Powerpole</text>
+<text x="-20.32" y="15.24" size="1.778" layer="91">Resistor Dividor for VIN and Ignition set max int to 15V</text>
+<text x="25.4" y="-5.08" size="1.778" layer="91">Resistor dividor measuring the LI+ battery puts max int at 4.4V</text>
+<text x="-71.12" y="-60.96" size="1.778" layer="91">ADC Has VIN on AIN0</text>
+<text x="-71.12" y="-63.5" size="1.778" layer="91">Ignition on AIN3</text>
+<text x="-71.12" y="-66.04" size="1.778" layer="91">LI+ on AIN4</text>
 </plain>
 <instances>
 <instance part="U$2" gate="G$1" x="76.2" y="104.14"/>
