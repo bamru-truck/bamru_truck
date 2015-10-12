@@ -6312,19 +6312,19 @@ type 0309, grid 2.5 mm</description>
 <part name="R6" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="C5" library="resistor" deviceset="C-US" device="C0603" value=".1uf"/>
 <part name="U$1" library="needed-parts" deviceset="MPM80" device=""/>
-<part name="R7" library="resistor" deviceset="R-US_" device="R0603"/>
-<part name="R8" library="resistor" deviceset="R-US_" device="R0603"/>
+<part name="R7" library="resistor" deviceset="R-US_" device="R0603" value="5250"/>
+<part name="R8" library="resistor" deviceset="R-US_" device="R0603" value="1000"/>
 <part name="U$3" library="needed-parts" deviceset="STEP-UP-FROM-AMAZON" device=""/>
 <part name="BATT" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="U$7" library="needed-parts" deviceset="POWERPOLE-WITH-SENSE" device=""/>
 <part name="U$8" library="needed-parts" deviceset="PTC" device=""/>
 <part name="U$10" library="needed-parts" deviceset="ADS1013" device=""/>
-<part name="R5" library="resistor" deviceset="R-US_" device="R0603"/>
-<part name="R9" library="resistor" deviceset="R-US_" device="R0603"/>
-<part name="R10" library="resistor" deviceset="R-US_" device="R0603"/>
-<part name="R11" library="resistor" deviceset="R-US_" device="R0603"/>
-<part name="R12" library="resistor" deviceset="R-US_" device="R0603"/>
-<part name="R13" library="resistor" deviceset="R-US_" device="R0603"/>
+<part name="R5" library="resistor" deviceset="R-US_" device="R0603" value="20k"/>
+<part name="R9" library="resistor" deviceset="R-US_" device="R0603" value="5.5k"/>
+<part name="R10" library="resistor" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="R11" library="resistor" deviceset="R-US_" device="R0603" value="30000"/>
+<part name="R12" library="resistor" deviceset="R-US_" device="R0603" value="20k"/>
+<part name="R13" library="resistor" deviceset="R-US_" device="R0603" value="5.5k"/>
 <part name="C2" library="resistor" deviceset="C-US" device="C0603" value=".1uf"/>
 <part name="U$15" library="needed-parts" deviceset="DIODE-403" device=""/>
 </parts>

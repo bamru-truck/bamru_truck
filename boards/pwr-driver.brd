@@ -7385,19 +7385,19 @@ design rules under a new name.</description>
 <element name="R6" library="resistor" package="R0603" value="10k" x="87.8" y="5.2" rot="R180"/>
 <element name="C5" library="resistor" package="C0603" value=".1uf" x="87.8" y="3.1" rot="R180"/>
 <element name="U$1" library="needed-parts" package="TO-220-8L" value="MPM80" x="71.8" y="26.6" rot="R90"/>
-<element name="R7" library="resistor" package="R0603" value="" x="66.1" y="20" rot="R180"/>
-<element name="R8" library="resistor" package="R0603" value="" x="70" y="20" rot="R180"/>
+<element name="R7" library="resistor" package="R0603" value="5250" x="66.1" y="20" rot="R180"/>
+<element name="R8" library="resistor" package="R0603" value="1000" x="70" y="20" rot="R180"/>
 <element name="U$3" library="needed-parts" package="STEP-UP-FROM-AMAZON" value="STEP-UP-FROM-AMAZON" x="30" y="21.7"/>
 <element name="BATT" library="pinhead" package="1X02" value="" x="68.4" y="14.8"/>
 <element name="U$7" library="needed-parts" package="POWERPOLE-3" value="POWERPOLE-WITH-SENSE" x="80.8" y="35.9"/>
 <element name="U$8" library="needed-parts" package="PTC-0ZRM0100FF1E" value="PTC" x="76.2" y="50.5" rot="R180"/>
 <element name="U$10" library="needed-parts" package="MSOP-10" value="ADS1013" x="76.8" y="13.5" rot="R90"/>
-<element name="R5" library="resistor" package="R0603" value="" x="74.6" y="24.6" rot="R90"/>
-<element name="R9" library="resistor" package="R0603" value="" x="74.6" y="19.3" rot="R90"/>
-<element name="R10" library="resistor" package="R0603" value="" x="67.4" y="9.7" rot="R180"/>
-<element name="R11" library="resistor" package="R0603" value="" x="71.2" y="9.6" rot="R180"/>
-<element name="R12" library="resistor" package="R0603" value="" x="78" y="24.4" rot="R90"/>
-<element name="R13" library="resistor" package="R0603" value="" x="78.1" y="19.3" rot="R90"/>
+<element name="R5" library="resistor" package="R0603" value="20k" x="74.6" y="24.6" rot="R90"/>
+<element name="R9" library="resistor" package="R0603" value="5.5k" x="74.6" y="19.3" rot="R90"/>
+<element name="R10" library="resistor" package="R0603" value="10k" x="67.4" y="9.7" rot="R180"/>
+<element name="R11" library="resistor" package="R0603" value="30000" x="71.2" y="9.6" rot="R180"/>
+<element name="R12" library="resistor" package="R0603" value="20k" x="78" y="24.4" rot="R90"/>
+<element name="R13" library="resistor" package="R0603" value="5.5k" x="78.1" y="19.3" rot="R90"/>
 <element name="C2" library="resistor" package="C0603" value=".1uf" x="77.7" y="9.7" rot="R180"/>
 <element name="U$15" library="needed-parts" package="403" value="DIODE-403" x="74.8" y="41.4"/>
 <element name="U$16" library="NBitWonder" package="OSHW2" value="" x="49.5" y="0.8"/>
