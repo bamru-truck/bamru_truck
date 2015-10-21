@@ -1,5 +1,6 @@
 <html>
   <head>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
     <meta http-equiv="refresh" content="60">
     <style>
       .logo {
@@ -10,9 +11,9 @@
   </head>
   <body>
     <span class='logo'>TRACKER</span>
-    <%= Time.now.strftime("%m-%d %H:%M:%S") %>
     <hr/>
     <%= yield %>
     <hr/>
+    <%= Time.now.strftime("%m-%d %H:%M:%S") %>
   </body>
 </html>
