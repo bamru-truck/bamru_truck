@@ -35,9 +35,7 @@ class Track
     head = "<gpx><trk><name>#{@name}</name><trkseg>"
     tail = "</trkseg></trk></gpx>"
     pnts = points.map {|p| gtx_point(p)}.join
-    result = head + pnts + tail
-    puts result
-    result
+    head + pnts + tail
   end
 
   private

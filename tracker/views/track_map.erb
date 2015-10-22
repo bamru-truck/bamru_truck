@@ -1,6 +1,6 @@
 <style>
   #tracks { float: left;  text-align: left; width: 200px; }
-  #map    { height: 400px; border: 1px solid black; }
+  #map    { height: 500px; border: 1px solid black; }
 </style>
 
 Tracks for <%= @hostname %>
@@ -19,7 +19,14 @@ Tracks for <%= @hostname %>
   var map = L.map('map');
   var gpx = "<%= @gpx %>";
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
-  new L.GPX(gpx, {async: true}).on('loaded', function(e) {
+  var opts = {
+    async: true,
+    marker_options: {
+      startIconUrl: '/pin-icon-start.png',
+      endIconUrl:   '/pin-icon-end.png',
+      shadowUrl:   '/pin-icon-end.png'
+    }}
+  new L.GPX(gpx, opts).on('loaded', function(e) {
     map.fitBounds(e.target.getBounds());
   }).addTo(map);
 <% else %>
