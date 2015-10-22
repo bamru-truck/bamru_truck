@@ -1,0 +1,13 @@
+<style>
+#map { height: 500px; border: 1px solid black; }
+</style>
+
+Location of <%= @hostname %>
+
+<div id="map"></div>
+
+<script>
+  var map = L.map('map').setView(<%= @coords %>, 13);
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+  L.marker(<%= @coords %>).addTo(map).openPopup();
+</script>
