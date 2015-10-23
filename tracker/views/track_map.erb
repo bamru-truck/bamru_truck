@@ -3,12 +3,13 @@
   #map    { height: 500px; border: 1px solid black; }
 </style>
 
-Tracks for <%= @hostname %>
+<%= linkto "/tracks/#{@hostname}", "Tracks for #{@hostname}" %>
 
 <div>
   <div id="tracks">
-    <% @tracks.each do |track| %>
-      <a href="/tracks/<%= @hostname %>/<%= track %>"><%= track %></a><br/>
+    <hr/>
+    <% @tracks.sort.reverse.each do |track| %>
+      <%= linkto "/tracks/#{@hostname}/#{track}", track %><br/>
     <% end %>
   </div>
   <div id="map"></div>
