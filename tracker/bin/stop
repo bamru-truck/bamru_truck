@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+source `dirname $0`/../../bin/util
+
+usage="USAGE: `basename $0` <all|server|tunnel|worker>"
+valid_arg="all server tunnel worker"
+action=$1
+
+[ "$#" -ne 1 ] && raise "needs type\n$usage"
+excludes_item "$valid_arg" $action && raise "unrecognized option ($action)\n$usage"
+
+cd tracker
+
+stop_server() {
+  if pid_is_live $server_pid; then
+    msg $divider                     >> $server_log
+    msg "STOPPING SERVER - `date`"   >> $server_log
+    kill_pidfile $server_pid         >> $server_log
+  fi
+}
+
+stop_tunnel() {
+  if pid_is_live $tunnel_pid; then
+    msg $divider                     >> $tunnel_log
+    msg "STOPPING TUNNEL - `date`"   >> $tunnel_log
+    kill_pidfile $tunnel_pid         >> $tunnel_log
+  fi
+}
+
+stop_worker() {
+if pid_is_live $worker_pid; then
+  msg $divider                       >> $worker_log
+  msg "STOPPING WORKER - `date`"     >> $worker_log
+  kill_pidfile $worker_pid           >> $worker_log
+fi
+}
+
+case $action in
+  server)
+    stop_server
+    ;;
+  worker)
+    stop_worker
+    ;;
+  tunnel)
+    stop_tunnel
+    ;;
+  all)
+    stop_server
+    stop_worker
+    stop_tunnel
+    ;;
+esac
+
+msg "DONE"
