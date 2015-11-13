@@ -7385,7 +7385,7 @@ design rules under a new name.</description>
 <element name="R6" library="resistor" package="R0603" value="10k" x="87.8" y="5.2" rot="R180"/>
 <element name="C5" library="resistor" package="C0603" value=".1uf" x="87.8" y="3.1" rot="R180"/>
 <element name="U$1" library="needed-parts" package="TO-220-8L" value="MPM80" x="71.8" y="26.6" rot="R90"/>
-<element name="R7" library="resistor" package="R0603" value="5250" x="66.1" y="20" rot="R180"/>
+<element name="R7" library="resistor" package="R0603" value="4125" x="66.1" y="20" rot="R180"/>
 <element name="R8" library="resistor" package="R0603" value="1000" x="70" y="20" rot="R180"/>
 <element name="U$3" library="needed-parts" package="STEP-UP-FROM-AMAZON" value="STEP-UP-FROM-AMAZON" x="30" y="21.7"/>
 <element name="BATT" library="pinhead" package="1X02" value="" x="68.4" y="14.8"/>
