@@ -1,0 +1,49 @@
+---
+
+# Setup hardware on power board.
+# This will include setting up the RTC
+# Then, the temperature sensor needs to be set up
+# Finally, the ADC is to be enabled
+
+- name: install support packages
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - i2c-tools # Tools to interact with i2c bus
+    - ntpdate   # Used to set time from upstream server
+
+# Add lines to boot config to enable i2c
+- lineinfile: dest=/boot/config.txt line="dtparam=i2c_arm=on"
+- lineinfile: dest=/boot/config.txt line="dtparam=i2s=on"
+- lineinfile: dest=/boot/config.txt line="dtparam=i2c1=on"
+- lineinfile: dest=/boot/config.txt line="dtparam=i2c_arm=on"
+
+- name: Enable the correct hardware modules on startup
+  sudo: true
+  copy: 
+    backup: yes
+    src: modules
+    dest: /etc/modules
+    mode: "a+rx"
+
+- name: load i2c modules to enable getting to sensors
+  sudo: true
+  shell: /sbin/modprobe i2c-dev; /bin/modprobe i2c-bcm2708;
+
+- name: install Real time clock init script
+  sudo: true
+  copy: 
+    src: rtc
+    dest: /etc/init.d/rtc
+    mode: "a+rx"
+
+# Enable RTC service
+- service: name=rtc enabled=yes
+
+- name: install script for reading from temp sensor
+  sudo: true
+  copy: 
+    src: lm75b-read.py
+    dest: /bin
+    mode: "a+rx"
+

@@ -28,3 +28,4 @@
     - { role: roles/ntpd          , tags: ['focus'] }
     - { role: roles/tracker       , tags: ['focus'] }
     - { role: roles/port_forward  , tags: ['focus'] }
+    - { role: roles/pwr_board     , tags: ['focus'] }

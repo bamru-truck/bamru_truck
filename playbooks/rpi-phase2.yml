@@ -27,3 +27,4 @@
     - { role: roles/ntpd    , tags: ['focus'] }
     - { role: roles/call_home }
     - { role: roles/direwolf , callsign: "KF6WRW-10" , aprs_is_pw: "23716" }
+    - { role: roles/pwr_board     , tags: ['focus'] }

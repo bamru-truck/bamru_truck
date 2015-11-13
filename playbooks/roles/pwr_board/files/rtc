@@ -1,0 +1,30 @@
+#!/bin/sh
+
+case $1 in
+	start)
+		log_daemon_msg "Set the bits on the RTC to charge the CAP" "rtc"
+		# Set the charge current on the DS1340 to 2k
+		/usr/sbin/i2cset -y 1 0x68 0x08 0xAA
+
+		log_daemon_msg "Set the RTC as a hardware RTC" "rtc"
+		# Set up the RTC as a system device.
+		echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device
+
+		log_daemon_msg "Set the system time from the RTC hardware" "rtc"
+		# Set the system clock from the RTC address
+		hwclock -s
+
+		status=$?
+		log_end_msg $status
+  		;;
+	stop)
+		echo "Nothing to do, exiting"
+  		;;
+	restart|force-reload)
+		$0 stop && sleep 2 && $0 start
+  		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 2
+		;;
+esac
