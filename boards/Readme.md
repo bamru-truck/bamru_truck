@@ -43,7 +43,7 @@ R12 | 20k 0603 | none
 R13 | 5.5k 0604 | none
 RTC | DS1340 | http://www.digikey.com/product-detail/en/DS1340Z-33%2BT%26R/DS1340Z-33%2BT%26RCT-ND/3647911
 TEMP | LM75b | http://www.digikey.com/product-detail/en/LM75BD,118/568-4688-1-ND/1993025
-ADC | 12-bit ADC | http://www.digikey.com/scripts/DkSearch/dksus.dll?Detail&itemSeq=181553819
+ADC | 12-bit ADC | https://www.digikey.com/product-detail/en/ADS1015IDGST/296-25227-1-ND/2174997
 PTC | Input protection PTC | http://www.digikey.com/scripts/DkSearch/dksus.dll?Detail&itemSeq=181553660
 step-down | 5-15 to 4.2 V | http://www.digikey.com/scripts/DkSearch/dksus.dll?Detail&itemSeq=181553821
 Diode | Input diode | http://www.digikey.com/scripts/DkSearch/dksus.dll?Detail&itemSeq=181553817
