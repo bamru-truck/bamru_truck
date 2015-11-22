@@ -1,0 +1,9 @@
+echo "mysql-server-5.5 mysql-server/root_password password pi" | debconf-set-selections
+echo "mysql-server-5.5 mysql-server/root_password_again password pi" | debconf-set-selections
+echo "cacti cacti/mysql/admin-pass password pi" | debconf-set-selections
+echo "cacti cacti/password-confirm password pi" | debconf-set-selections
+echo "cacti cacti/mysql/app-pass password pi" | debconf-set-selections
+echo "cacti cacti/app-password-confirm password pi" | debconf-set-selections
+echo "cacti cacti/app-password-confirm password pi" | debconf-set-selections
+echo "cacti cacti/webserver select apache2" | debconf-set-selections
+echo "cacti cacti/dbconfig-install  boolean true" | debconf-set-selections

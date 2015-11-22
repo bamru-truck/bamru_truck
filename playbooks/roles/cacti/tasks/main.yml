@@ -1,0 +1,148 @@
+---
+
+# cacti
+
+- name: supress not in libphp-adodb install
+  sudo: true
+  shell: echo "libphp-adodb    libphp-adodb/pathmove   note" | debconf-set-selections
+
+- name: install support libphp-adodb
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - libphp-adodb
+
+- name: install mysql-client-5.5 to suppress warning messages later
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - mysql-client-5.5
+
+- name: install support packages 
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - apache2      # Apache web server
+    - php5
+    - snmp
+    - snmpd
+
+- name: set mysql root password
+  sudo: true
+  shell: echo "mysql-server-5.5 mysql-server/root_password password {{db_pw}}" | debconf-set-selections
+
+- name: set mysql root password again
+  sudo: true
+  shell: echo "mysql-server-5.5 mysql-server/root_password_again password {{db_pw}}" | debconf-set-selections
+
+- name: install mysql
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - mysql-server # Mysql server 
+
+- name: set cacti root password
+  sudo: true
+  shell: echo "cacti cacti/mysql/admin-pass password {{db_pw}}" | debconf-set-selections
+
+- name: set cacti root password confirmation
+  sudo: true
+  shell: echo "cacti cacti/password-confirm password {{db_pw}}" | debconf-set-selections
+
+- name: set cacti app password confirmation
+  sudo: true
+  shell: echo "cacti cacti/mysql/app-pass password {{db_pw}}" | debconf-set-selections
+
+- name: set cacti app password confirmation
+  sudo: true
+  shell: echo "cacti cacti/app-password-confirm password {{db_pw}}" | debconf-set-selections
+
+- name: set cacti server type confirmation
+  sudo: true
+  shell: echo "cacti cacti/webserver select apache2" | debconf-set-selections
+
+- name: let cacti setup the database
+  sudo: true
+  shell: echo "cacti cacti/dbconfig-install  boolean true" | debconf-set-selections
+
+- name: install cacti
+  sudo: true
+  apt:  pkg={{item}} state=latest install_recommends=yes
+  with_items:
+    - cacti # cacti server 
+    - cacti-spine
+    - snmp
+    - snmpd
+
+- name: Install snmp config file
+  sudo: true
+  copy: 
+    src: snmp.conf
+    dest: /etc/snmp/snmp.conf
+    mode: "a+rx"
+
+- name: Install snmpd config file
+  sudo: true
+  copy: 
+    src: snmpd.conf
+    dest: /etc/snmp/snmpd.conf
+    mode: "u+rw"
+
+- name: Install read motor state python script
+  sudo: true
+  copy: 
+    src: get_motor_state.py
+    dest: /bin/get_motor_state.py
+    mode: "a+rx"
+
+- name: Install read motor state bash script
+  sudo: true
+  copy: 
+    src: get_motor_state.bash
+    dest: /bin/get_motor_state.bash
+    mode: "a+rx"
+
+- name: Restart snmpd
+  sudo: true
+  shell: /etc/init.d/snmpd restart
+
+- name: Copy over DB base file
+  sudo: true
+  copy:
+    src: cacti-db-basic.db
+    dest: /etc/cacti-db-basic.db
+
+- name: Restore DB if it hasn't already been restored
+  sudo: true
+  shell: if [ ! -f /etc/catci-db-setup.txt ]; then mysql -u "root" "-p{{db_pw}}" "cacti" < /etc/cacti-db-basic.db; touch /etc/catci-db-setup.txt; fi
+
+- name: Copy over rrd files
+  sudo: true
+  copy:
+    src: cacti-rrd-files.tar.gz
+    dest: /etc/cacti-rrd-files.tar.gz
+    mode: "a+rx"
+
+- name: Extract rrd files to /dev/shm
+  sudo: false
+  shell: cd /dev/shm; rm -f /dev/shm/*.xml; tar xvfz /etc/cacti-rrd-files.tar.gz
+
+- name: Restore rrd files
+  sudo: true
+  shell:  cd /var/lib/cacti/rra; if [ ! -f /etc/catci-db-setup.txt ]; then ls /dev/shm | grep .xml | while read xf; do rf=$(echo $xf | sed s/.xml//g); rrdtool restore /dev/shm/$xf $rf; done; fi
+
+- name: chown rrd files
+  sudo: true
+  shell: chown -Rf www-data:www-data /var/lib/cacti/rra
+
+- name: Install Cacti cron file
+  sudo: true
+  copy:
+    src: cacti-cron
+    dest: /etc/cron.d/cacti
+    mode: "a+rx"
+    
+- name: Restart cron
+  sudo: true
+  shell: /etc/init.d/cron restart
+

@@ -30,7 +30,7 @@ debug = 1
 
 bus = smbus.SMBus(1)
 
-address = 0x48
+address = 0x49
 
 # Invert int 
 def invert_int(n):
