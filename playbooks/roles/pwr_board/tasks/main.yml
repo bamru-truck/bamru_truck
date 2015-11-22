@@ -9,8 +9,9 @@
   sudo: true
   apt:  pkg={{item}} state=latest install_recommends=yes
   with_items:
-    - i2c-tools # Tools to interact with i2c bus
-    - ntpdate   # Used to set time from upstream server
+    - i2c-tools  # Tools to interact with i2c bus
+    - ntpdate    # Used to set time from upstream server
+    - lm-sensors # Tool for reaing some ensors from the I2C bus
 
 # Add lines to boot config to enable i2c
 - lineinfile: dest=/boot/config.txt line="dtparam=i2c_arm=on"
