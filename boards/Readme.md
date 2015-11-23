@@ -29,7 +29,7 @@ The board has the following features
 
 
 Parts list:
-Part | MPN | link
+| Part | MPN | link
 R3 | 2.2k 0603 | none
 R4 | 2.2k 0603 | none
 R5 | 20k 0603 | none
@@ -49,4 +49,17 @@ step-down | 5-15 to 4.2 V | http://www.digikey.com/scripts/DkSearch/dksus.dll?De
 Diode | Input diode | http://www.digikey.com/scripts/DkSearch/dksus.dll?Detail&itemSeq=181553817
 crystal | RTC crystal | http://www.digikey.com/product-detail/en/AB38T-32.768KHZ/535-9034-ND/675229
 RTC cap | supercap for RTC | http://www.digikey.com/product-detail/en/DCK-3R3E224U-E/604-1007-ND/970168
+
+-- I needed to build new modules for this board. 
+
+To do this I did the following steps:
+ - upgrade gcc https://somewideopenspace.wordpress.com/2014/02/28/gcc-4-8-on-raspberry-pi-wheezy/
+ - did a yum update
+ - yum upgrade
+ - reboot
+ - rpi-update
+ - reboot
+ - Pulled current kernel source with https://github.com/notro/rpi-source/wiki
+ - Specifically: sudo wget https://raw.githubusercontent.com/notro/rpi-source/master/rpi-source -O /usr/bin/rpi-source && sudo chmod +x /usr/bin/rpi-source && /usr/bin/rpi-source -q --tag-update
+ 
 
