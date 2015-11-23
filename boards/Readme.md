@@ -61,5 +61,13 @@ To do this I did the following steps:
  - reboot
  - Pulled current kernel source with https://github.com/notro/rpi-source/wiki
  - Specifically: sudo wget https://raw.githubusercontent.com/notro/rpi-source/master/rpi-source -O /usr/bin/rpi-source && sudo chmod +x /usr/bin/rpi-source && /usr/bin/rpi-source -q --tag-update
+ - sudo modprobe configs
+ - cd to downloaded source folder
+ - cp /proc/config.gz .
+ - gzip -d config.gz 
+ - cat ./config.gz > ./.config
+ - make menuconfig
+ - enable modules
+ - build.. blah blah blah
  
 
