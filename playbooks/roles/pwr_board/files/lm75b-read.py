@@ -26,7 +26,7 @@
 import smbus
 import time
 
-debug = 1
+debug = 0
 
 bus = smbus.SMBus(1)
 
