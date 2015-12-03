@@ -45,6 +45,31 @@
   sudo: true
   copy: 
     src: lm75b-read.py
-    dest: /bin
+    dest: /bin/lm75b-read.py
     mode: "a+rx"
+
+# Copy over all support files for Voltage sensor
+- name: Create needed sub dir
+  sudo: true
+  shell: mkdir /usr/bin/Adafruit_ADS1x15
+
+- name: Copy voltage support file 1
+  sudo: true
+  copy: src=Adafruit_I2C.py dest=/usr/bin/Adafruit_I2C.py mode=755
+
+- name: Copy voltage support file 2
+  sudo: true
+  copy: src=Adafruit_I2C.py dest=/usr/bin/Adafruit_ADS1x15/Adafruit_I2C.py mode=755
+
+- name: Copy voltage support file 3
+  sudo: true
+  copy: src=Adafruit_ADS1x15.py dest=/usr/bin/Adafruit_ADS1x15.py mode=755
+
+- name: Copy voltage support file 4
+  sudo: true
+  copy: src=Adafruit_ADS1x15.py dest=/usr/bin/Adafruit_ADS1x15/Adafruit_ADS1x15.py mode=755
+
+- name: Copy voltage support file 5
+  sudo: true
+  copy: src=ads1x15_read_all.py dest=/usr/bin/ads1x15_read_all.py mode=755
 
