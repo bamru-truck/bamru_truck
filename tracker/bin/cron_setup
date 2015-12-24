@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+source `dirname $0`/../../bin/util
+
+prog=`basename $0`
+action=$1
+valid_actions="on off"
+
+usage="USAGE: `basename $0` <on|off>"
+
+[ "$#" -ne 1 ]   && raise "missing option\n$usage"
+excludes_item "$valid_actions" $action && raise "invalid option ($action)\n$usage"
+
+textblock CRON_TEXT << EOT
+* * * * * root command $(script_path)/check all
+* * * * 0 root command echo "SERVER LOG ROTATE" > $server_log
+* * * * 0 root command echo "WORKER LOG ROTATE" > $worker_log
+* * * * 0 root command echo "TUNNEL LOG ROTATE" > $tunnel_log
+EOT
+
+cronfile=/etc/cron.d/tracker_monitor
+
+if [ "$action" == "on" ]; then
+  msg "Adding Tracker Monitor cron"
+  echo -e "$CRON_TEXT" > /tmp/cron_text
+  cat /tmp/cron_text
+  sudo mv /tmp/cron_text $cronfile
+  sudo chmod a+r  $cronfile
+  sudo chmod a-wx $cronfile
+  sudo chown root:root $cronfile
+  sudo /etc/init.d/cron restart 
+else
+  msg "Removing Tracker Monitor cron"
+  sudo rm -f $cronfile
+  sudo /etc/init.d/cron restart
+fi
+
+msg "DONE"

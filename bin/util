@@ -6,8 +6,14 @@
 # environment configuration
 
 load_environment_variables() {
-  binpath=`bin_path`
+  local binpath=`bin_path`
   eval `$binpath/gen_env`
+}
+
+load_util_local() {
+  local util_local=`script_path`/util_local
+  [ -f $util_local ] && source $util_local
+  return 0
 }
 
 # ----------------------------------------------------------------------------
@@ -23,6 +29,25 @@ remove_blank_lines() {
 
 timestamp() {
   date +"%y%m%d-%H%M%S"
+}
+
+is_array() {
+  local variable_name=$1
+  [[ "$(declare -p $variable_name)" =~ "declare -a" ]]
+}
+
+includes_item() {
+  local list=$1                      # space-separated list of keywords
+  local tgt=$2                       # single target keyword
+  for item in $list; do
+    [[ $item == $tgt ]] && return 0  # return 0 if target is found
+  done
+  return 1                           # return 1 if target is not found
+}
+
+excludes_item() {
+  includes_item "$1" $2
+  [ "$?" -eq 0 ] && return 1 || return 0
 }
 
 # ----------------------------------------------------------------------------
@@ -53,12 +78,16 @@ script_parent_dir() {
 }
 
 script_full_name() {
-  str=`script_parent_dir`/`script_name` 
+  local str=`script_parent_dir`/`script_name` 
   echo $str
 }
 
 # ----------------------------------------------------------------------------
 # console output 
+
+play_alert_sound() {
+  [ `which alert` ] && alert
+}
 
 print_divider() {
   echo "---------------------------------------------------------------------"
@@ -71,6 +100,12 @@ print_header() {
 
 msg() {
   echo "> $1..."
+  [ -n "$2" ] && [ -f "$2" ] && echo "> $1" >> $2
+  return 0
+}
+
+batlog() {
+  echo "> $1" >> /tmp/bat.log
 }
 
 raise() {
@@ -80,13 +115,13 @@ raise() {
 
 wrap_up() {
   print_divider
-  status_code=$1
-  [ `which alert` ] && alert
+  play_alert_sound
+  local finish_seconds=$(date +"%s")
+  local finish_date=$(date +"%T")
+  local diff=$(($finish_seconds-$start_seconds))
+  local time="$(($diff / 60))M.$(($diff % 60))S"
+  local status_code=$1
   [ -n "$status_code" ] || raise "no status code"
-  finish_seconds=$(date +"%s")
-  finish_date=$(date +"%T")
-  diff=$(($finish_seconds-$start_seconds))
-  time="$(($diff / 60))M.$(($diff % 60))S"
   echo "`script_full_name` finished with status $status_code | elapsed time $time"
   echo "started $start_date | finished $finish_date"
   sudo sync
@@ -98,7 +133,7 @@ wrap_up() {
 # networking functions
 
 can_ping() {
-  host=$1
+  local host=$1
   ping -c1 $host > /dev/null 2>&1
 }
 
@@ -107,7 +142,7 @@ can_not_ping() {
 }
 
 can_ssh() {
-  host=$1
+  local host=$1
   ssh -q $host exit > /dev/null 2>&1
 }
 
@@ -116,8 +151,8 @@ can_not_ssh() {
 }
 
 is_listening_on() {
-  host=$1
-  port=$2
+  local host=$1
+  local port=$2
   nc -z $host $port
 }
 
@@ -152,6 +187,10 @@ is_live_dashboard() {
   tmux ls | grep $dashboard > /dev/null
 }
 
+is_no_live_dashboard() {
+  ! is_live_dashboard $1
+}
+
 create_tmux_dashboard() {
   dashboard=$1
   tmux new-session   -s $dashboard -d
@@ -170,19 +209,28 @@ tmux_send_keys() {
 # ----------------------------------------------------------------------------
 # process management
 
+pid_is_live() {
+  local pidfile=$1
+  ps aux | grep -v grep | grep `cat $pidfile` > /dev/null
+}
+
+pid_is_not_live() {
+  ! pid_is_live $1
+}
+
 kill_pidfile() {
-  pidfile=$1
+  local pidfile=$1
   [ -f $pidfile ] && kill `cat $pidfile` > /dev/null 2>&1 && sleep 1
 }
 
 set_pidfile() {
-  pidfile=$1
-  pid=$2
+  local pidfile=$1
+  local pid=$2
   echo $pid > $pidfile
 }
 
 use_pidfile() {
-  pidfile=$1
+  local pidfile=$1
   kill_pidfile $pidfile
   set_pidfile  $pidfile $$
 }
@@ -191,7 +239,7 @@ use_pidfile() {
 # file utilities
 
 backup_file() {
-  ts=`timestamp`
+  local ts=`timestamp`
   sudo cp $1 $1.backup_$ts
 }
 
@@ -210,12 +258,12 @@ create_ondeck_backup() {
 }
 
 validate_export_directories() {
-  dirs=`sudo du -s --time /export/raspbian/*/*`
+  local dirs=`sudo du -s --time /export/raspbian/*/*`
   msg "Export Directory Stats"
   echo "$dirs"
   master_size=`echo "$dirs" | grep master | grep root | awk '{print $1}'`
   active_size=`echo "$dirs" | grep active | grep root | awk '{print $1}'`
-  diff=`echo $(($master_size-$active_size)) | tr -d -`
+  local diff=`echo $(($master_size-$active_size)) | tr -d -`
   errmsg="size mismatch - master:$master_size | active:$active_size - rerun cmd"
   [ "$diff" -gt "10000" ] && raise "$errmsg"
 }
@@ -223,10 +271,13 @@ validate_export_directories() {
 # ----------------------------------------------------------------------------
 # execution
 
-load_environment_variables
-print_header
-script_path_var=`script_path`
-bin_path_var=`bin_path`
+script_path_var=$(script_path)
+bin_path_var=$(bin_path)
 start_seconds=$(date +"%s")
 start_date=$(date +"%T")
-cd `base_path`
+
+load_util_local
+load_environment_variables
+print_header
+
+cd $(base_path)

@@ -1,0 +1,35 @@
+<style>
+  td:not(.mapimg), th {
+    padding-left:  3px;
+    padding-right: 3px;
+  }
+</style>
+
+<% if all_hosts.length == 0 %>
+  NO HOST DATA
+<% else %>
+  <table border=1>
+    <tr>
+      <th>Host</th>
+      <th>Last<br/>Report</th>
+      <th>Has<br/>GPS</th>
+      <th>UpTime<br/>FreeMem</th>
+      <th>Lat<br/>Lon</th>
+      <th>Status</th>
+      <th>Tracks</th>
+      <th>Location</th>
+    </tr>
+    <% all_hosts.each do |host, data| %>
+      <tr>
+        <td><%= host %></td>
+        <td style='background: <%= pst_color(data["time"].strftime("%m-%d %H:%M"))%>;'><%= pst data["time"] %></td>
+        <td align=center><%= has_gps data["hasGps"] %></td>
+        <td align=center>up <%= uptime  data["uptime"] %><br/><%= freemem data["freemem"] %></td>
+        <td align=right><%= data["lat"].to_s[0..6] %><br/><%= data["lon"].to_s[0..8] %></td>
+        <td align=center <%= status_color(data)%>><%= status_box data %></td>
+        <td align=center><%= count_tracks(host) %></td>
+        <td class='mapimg'><%= maplink(host, data) %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

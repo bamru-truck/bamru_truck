@@ -21,7 +21,7 @@ fi
 
 # kill existing process, then rewrite pidfile
 [ -f $pidfile ] && sudo kill `cat $pidfile` > /dev/null 2>&1 
-echo $! > $pidfile                          
+echo $$ > $pidfile                          
 
 # define ssh_command 
 ssh_command="ssh -NR $rem_port:localhost:$lcl_port $rem_host"

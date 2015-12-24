@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+source `dirname $0`/../../bin/util
+
+usage="USAGE: `basename $0` <all|server|tunnel|worker>"
+valid_arg="all server tunnel worker"
+action=$1
+
+[ "$#" -ne 1 ] && raise "needs type\n$usage"
+excludes_item "$valid_arg" $action && raise "unrecognized option ($action)\n$usage"
+
+cd tracker ; mkdir -p log data ; 
+
+mock_server() {
+  while true; do
+    sleep 5
+    echo "TIME IS `date`"
+    sleep 10
+  done
+}
+
+start_server() {
+  kill_pidfile $server_pid
+  if [ "$RACK_ENV" == "production" ]; then
+    rackup  -o 0.0.0.0 -p 9191 >> $server_log 2>&1 &
+  else
+    shotgun -o 0.0.0.0 -p 9191 >> $server_log 2>&1 &
+  fi
+  set_pidfile $server_pid $!
+  touch $server_log
+  msg $divider                                                        $server_log
+  msg "Tracker Server started in background (PID: `cat $server_pid`)" $server_log
+  msg "Kill using 'kill -9 `cat $server_pid`'"                        $server_log
+  msg "SERVER PIDFILE: $server_pid"                                   $server_log
+  msg "Server log in $server_log"                                     
+  msg "View using 'tail -f $server_log'"                              
+}
+
+start_tunnel() {
+  kill_pidfile $tunnel_pid
+  ../bin/port_forward 9191 9191 >> $tunnel_log 2>&1 &
+  set_pidfile $tunnel_pid $!
+  touch $tunnel_log
+  msg $divider                                                        $tunnel_log
+  msg "Tracker Tunnel started in background (PID: `cat $tunnel_pid`)" $tunnel_log
+  msg "Kill using 'kill -9 `cat $tunnel_pid`'"                        $tunnel_log
+  msg "Tunnel PIDFILE: $tunnel_pid"                                   $tunnel_log
+  msg "Tunnel log in $tunnel_log"                                     
+  msg "View using 'tail -f $tunnel_log'"                             
+}
+
+start_worker() {
+  kill_pidfile $worker_pid
+  mock_server >> $worker_log 2>&1 &
+  set_pidfile $worker_pid $!
+  touch $worker_log
+  msg $divider                                                         $worker_log
+  msg "Tracker Worker started in background (PID: `cat $worker_pid`)"  $worker_log
+  msg "Kill using 'kill -9 `cat $worker_pid`'"                         $worker_log
+  msg "Worker PIDFILE: $worker_pid"                                    $worker_log
+  msg "Worker log in $worker_log"
+  msg "View using 'tail -f $worker_log'"
+}
+
+case $action in
+  server)
+    start_server
+    ;;
+  worker)
+    start_worker
+    ;;
+  tunnel)
+    start_tunnel
+    ;;
+  all)
+    start_server
+    start_worker
+    start_tunnel
+    ;;
+esac
+
+msg "DONE"

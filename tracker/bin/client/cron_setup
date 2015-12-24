@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+source `dirname $0`/../../../bin/util
+
+prog=`basename $0`
+host=$1
+action=$2
+valid_actions="on off"
+
+usage="USAGE: $prog <hostname> <on|off>"
+
+[ "$#" -ne 2 ]    && raise "$prog requires two options\n$usage"
+[ -z $host ]      && raise "must specify a hostname\n$usage"
+[ -z $action ]    && raise "must specify an action\n$usage"
+can_not_ssh $host && raise "can not ssh $host"
+excludes_item "$valid_actions" $action && raise "invalid option ($action)\n$usage"
+
+textblock CRON_TEXT << EOT
+* * * * * root command /usr/local/bin/reporter
+EOT
+
+cronfile=/etc/cron.d/tracker
+
+if [ "$action" == "on" ]; then
+  msg "Adding Tracker cron to $host"
+  echo -e "$CRON_TEXT" > /tmp/cron_text
+  cat /tmp/cron_text
+  scp /tmp/cron_text $host:/tmp/cron_text > /dev/null 2>&1
+  ssh $host sudo mv /tmp/cron_text $cronfile
+  ssh $host sudo chmod a+r  $cronfile
+  ssh $host sudo chmod a-wx $cronfile
+  ssh $host sudo chown root:root $cronfile
+  ssh $host sudo /etc/init.d/cron restart > /dev/null 
+else
+  msg "Removing Tracker cron from $host"
+  ssh $host sudo rm -f $cronfile
+  ssh $host sudo /etc/init.d/cron restart
+fi
+
+msg "DONE"

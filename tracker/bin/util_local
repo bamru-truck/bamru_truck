@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+divider="+++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
+server_pid="/tmp/tracker_server.pid"
+worker_pid="/tmp/tracker_worker.pid"
+tunnel_pid="/tmp/tracker_tunnel.pid"
+
+server_log="$(base_path)/tracker/log/server.log"
+worker_log="$(base_path)/tracker/log/worker.log"
+tunnel_log="$(base_path)/tracker/log/tunnel.log"
+

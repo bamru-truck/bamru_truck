@@ -1,2 +1,2 @@
-require "./ci_server"
+require "./lib/ci_server"
 run CiServer

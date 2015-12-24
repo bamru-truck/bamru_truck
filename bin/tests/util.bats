@@ -31,6 +31,26 @@ setup () {
   [ -n "$output" ]
 }
 
+@test "includes_item match" {
+  run includes_item "a b c d e" c
+  [ "$status" -eq 0 ]
+}
+
+@test "includes_item miss" {
+  run includes_item "a b c d e" z
+  [ "$status" -eq 1 ]
+}
+
+@test "excludes_item match" {
+  run excludes_item "a b c d e" c
+  [ "$status" -eq 1 ]
+}
+
+@test "excludes_item miss" {
+  run excludes_item "a b c d e" z
+  [ "$status" -eq 0 ]
+}
+
 # ----- script and path names -----
 
 # TBD 

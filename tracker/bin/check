@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+source `dirname $0`/../../bin/util > /dev/null
+
+usage="USAGE: `basename $0` <status|all|server|tunnel|worker>"
+valid_arg="status all server tunnel worker"
+action=$1
+
+[ "$#" -ne 1 ] && raise "needs type\n$usage"
+excludes_item "$valid_arg" $action && raise "unrecognized option ($action)\n$usage"
+
+cd tracker
+
+pid_status() {
+  local pidfile=$1
+  pid_is_live $pidfile && echo 'running' || echo 'not_running'
+}
+
+status() {
+  ( 
+  echo "SERVER $(pid_status $server_pid) pid:`cat $server_pid`"
+  echo "WORKER $(pid_status $worker_pid) pid:`cat $worker_pid`"
+  echo "TUNNEL $(pid_status $tunnel_pid) pid:`cat $tunnel_pid`"
+  ) | column -t
+}
+
+check_server() {
+  if pid_is_not_live $server_pid; then
+    msg $divider                       $server_log
+    msg "RESTARTING SERVER - `date`"   $server_log
+    ./bin/start server                               
+  fi
+}
+
+check_tunnel() {
+  if pid_is_not_live $tunnel_pid; then
+    msg $divider                       $tunnel_log
+    msg "RESTARTING TUNNEL - `date`"   $tunnel_log
+    ./bin/start tunnel                                
+  fi
+}
+
+check_worker() {
+  if pid_is_not_live $worker_pid; then
+    msg $divider                       $worker_log
+    msg "RESTARTING WORKER - `date`"   $worker_log
+    ./bin/start worker                               
+  fi
+}
+
+case $action in
+  status)
+    status
+    ;;
+  server)
+    check_server
+    ;;
+  worker)
+    check_worker
+    ;;
+  tunnel)
+    check_tunnel
+    ;;
+  all)
+    check_server
+    check_worker
+    check_tunnel
+    ;;
+esac
+
